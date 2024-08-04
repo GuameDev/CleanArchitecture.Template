@@ -11,8 +11,8 @@ namespace CleanArchitecture.Template.Application.WeatherForecast
     {
         public WeatherForecastSpecification(WeatherForecastGetListRequest request)
             : base(weatherForecast =>
-                (!request.StartDate.HasValue || weatherForecast.Date.Date >= request.StartDate.Value) &&
-                (!request.EndDate.HasValue || weatherForecast.Date.Date <= request.EndDate.Value) &&
+                (!request.StartDate.HasValue || weatherForecast.Date.Value >= request.StartDate.Value) &&
+                (!request.EndDate.HasValue || weatherForecast.Date.Value <= request.EndDate.Value) &&
                 (string.IsNullOrEmpty(request.Summary) || weatherForecast.Summary.ToString().Contains(request.Summary)))
         {
 
@@ -31,7 +31,8 @@ namespace CleanArchitecture.Template.Application.WeatherForecast
                     break;
             }
 
-            ApplyPaging((request.Page - 1) * request.PageSize, request.PageSize);
+            if (request.IsPaginated)
+                ApplyPaging((request.Page.Value - 1) * request.PageSize.Value, request.PageSize.Value);
         }
 
         private static Expression<Func<Domain.Entities.WeatherForecast, object>> GetOrderByExpression(WeatherForecastOrderBy? orderBy)

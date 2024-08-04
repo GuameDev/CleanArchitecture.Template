@@ -2,15 +2,16 @@
 {
     public class WeatherDate
     {
-        public DateOnly Date { get; private set; }
+        public DateOnly Value { get; private set; }
 
+        private WeatherDate() { }
 
         private WeatherDate(DateOnly date)
         {
-            Date = date;
+            Value = date;
         }
 
-        public WeatherDate Create(DateOnly date)
+        public static WeatherDate Create(DateOnly date)
         {
             //Perform validations
             return new WeatherDate(date);
@@ -21,12 +22,12 @@
                 return false;
 
             var other = (WeatherDate)obj;
-            return Date.Equals(other.Date);
+            return Value.Equals(other.Value);
         }
 
         public override int GetHashCode()
         {
-            return Date.GetHashCode();
+            return Value.GetHashCode();
         }
     }
 }

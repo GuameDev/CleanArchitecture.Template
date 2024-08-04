@@ -1,4 +1,4 @@
 ﻿namespace CleanArchitecture.Template.Application.WeatherForecast.DTOs.List
 {
-    public record WeatherForecastGetListItemResponse(DateOnly Date, double TemperatureC, double TemperatureF, string Summary);
+    public record WeatherForecastGetListItemResponse(Guid Id, DateOnly Date, string Summary, double TemperatureC, double TemperatureF);
 }

@@ -1,4 +1,5 @@
-﻿using CleanArchitecture.Template.Domain.Entities;
+﻿using CleanArchitecture.Template.Domain.Constants;
+using CleanArchitecture.Template.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -10,17 +11,20 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration
         {
             builder.HasKey(weatherForecast => weatherForecast.Id);
 
-            builder.Property(weatherForecast => weatherForecast.Summary);
+            builder.Property(weatherForecast => weatherForecast.Summary)
+                   .HasConversion(
+                       summary => summary.ToString(),
+                       summary => (Summary)Enum.Parse(typeof(Summary), summary));
 
             builder.OwnsOne(weatherForecast => weatherForecast.Temperature, temp =>
             {
-                temp.Property(weatherForecast => weatherForecast.Value).HasColumnName("TemperatureValue");
-                temp.Property(weatherForecast => weatherForecast.Type).HasColumnName("TemperatureType");
+                temp.Property(t => t.Value).HasColumnName("TemperatureValue");
+                temp.Property(t => t.Type).HasColumnName("TemperatureType");
             });
 
             builder.OwnsOne(weatherForecast => weatherForecast.Date, date =>
             {
-                date.Property(weatherForecast => weatherForecast.Date).HasColumnName("Date");
+                date.Property(d => d.Value).HasColumnName("Date");
             });
         }
     }
