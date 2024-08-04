@@ -5,11 +5,20 @@ using CleanArchitecture.Template.Application.WeatherForecast.DTOs.GetAll;
 using CleanArchitecture.Template.Application.WeatherForecast.DTOs.GetById;
 using CleanArchitecture.Template.Application.WeatherForecast.DTOs.List;
 using CleanArchitecture.Template.Domain.Entities;
+using CleanArchitecture.Template.Infrastructure.Persistence.Repositories.Base;
+using Microsoft.EntityFrameworkCore;
 
 namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories
 {
     internal class WeatherForecastRepository : IWeatherForecastRepository
     {
+        private readonly ApplicationDbContext _context;
+
+        public WeatherForecastRepository(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         public Task AddAsync(WeatherForecast weatherForecast)
         {
             throw new NotImplementedException();
@@ -20,21 +29,53 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<WeatherForecastGetAllListItemResponse>> GetAllAsync(WeatherForecastGetListRequest request)
+        public async Task<ListAllResponse<WeatherForecastGetAllListItemResponse>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            var entities = await _context.WeatherForecasts.ToListAsync();
+
+            return new ListAllResponse<WeatherForecastGetAllListItemResponse>()
+            {
+                Elements = entities.Select(x => new WeatherForecastGetAllListItemResponse(
+                 x.Id,
+                 x.Date.Value,
+                 x.Summary.ToString(),
+                 x.Temperature.ToCelsius(),
+                 x.Temperature.ToFahrenheit())),
+
+                TotalCount = entities.Count()
+            };
         }
 
-        public Task<WeatherForecast> GetByIdAsync(WeatherForecastGetByIdRequest request)
+        public Task<WeatherForecast?> GetByIdAsync(WeatherForecastGetByIdRequest request) => _context.WeatherForecasts
+            .FirstOrDefaultAsync(x => x.Id.Equals(request.Id));
+
+
+        public async Task<PageListResponse<WeatherForecastGetListItemResponse>> GetListAsync(ISpecification<WeatherForecast> request)
         {
-            SpecificationEvaluator
-            throw new NotImplementedException();
+            var query = ApplySpecification(request);
+
+            var totalItems = await query.CountAsync();
+
+            var items = await query.Skip(request.Skip)
+                                   .Take(request.Take)
+                                   .Select(x => new WeatherForecastGetListItemResponse(
+                                                 x.Id,
+                                                 x.Date.Value,
+                                                 x.Summary.ToString(),
+                                                 x.Temperature.ToCelsius(),
+                                                 x.Temperature.ToFahrenheit()
+                                                 ))
+                                   .ToListAsync();
+
+            return new PageListResponse<WeatherForecastGetListItemResponse>
+            {
+                Elements = items,
+                TotalCount = totalItems
+            };
         }
 
-        public Task<PageListResponse<WeatherForecastGetListItemResponse>> GetFilteredAsync(ISpecification<WeatherForecast> request)
-        {
-            throw new NotImplementedException();
-        }
+        private IQueryable<WeatherForecast> ApplySpecification(ISpecification<WeatherForecast> specification) => SpecificationEvaluator<WeatherForecast>
+            .GetQuery(_context.WeatherForecasts.AsQueryable(), specification);
 
         public Task UpdateAsync(WeatherForecast weatherForecast)
         {

@@ -11,7 +11,7 @@ namespace CleanArchitecture.Template.Api
 
             builder.Services
               //.AddApiServices()
-              //.AddApplicationServices()
+              .AddApplicationServices()
               .AddInfrastructureServices();
 
             builder.Services.AddControllers();
