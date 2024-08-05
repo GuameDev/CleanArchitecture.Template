@@ -60,8 +60,7 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories
                                        x.Date.Value,
                                        x.Summary.ToString(),
                                        x.Temperature.ToCelsius(),
-                                       x.Temperature.ToFahrenheit()
-                                   ))
+                                       x.Temperature.ToFahrenheit()))
                                    .ToListAsync();
 
             return new PageListResponse<WeatherForecastGetListItemResponse>

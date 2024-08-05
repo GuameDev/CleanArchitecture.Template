@@ -1,7 +1,7 @@
 ﻿using CleanArchitecture.Template.Application.WeatherForecast;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CleanArchitecture.Template.Infrastructure
+namespace CleanArchitecture.Template.Application
 {
     public static class DependencyInjectionExtensions
     {
