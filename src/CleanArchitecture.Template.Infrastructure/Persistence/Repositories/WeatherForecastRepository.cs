@@ -4,7 +4,6 @@ using CleanArchitecture.Template.Application.WeatherForecast.DTOs.GetById;
 using CleanArchitecture.Template.Application.WeatherForecast.DTOs.List;
 using CleanArchitecture.Template.Domain.Entities;
 using CleanArchitecture.Template.Infrastructure.Persistence.Repositories.Base;
-using CleanArchitecture.Template.SharedKernel.Responses.PageList;
 using CleanArchitecture.Template.SharedKernel.Specification;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,11 +28,11 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<ListAllResponse<WeatherForecastGetAllListItemResponse>> GetAllAsync()
+        public async Task<WeatherForecastGetAllListResponse> GetAllAsync()
         {
             var entities = await _context.WeatherForecasts.ToListAsync();
 
-            return new ListAllResponse<WeatherForecastGetAllListItemResponse>()
+            return new WeatherForecastGetAllListResponse()
             {
                 Elements = entities.Select(x => new WeatherForecastGetAllListItemResponse(
                  x.Id,
@@ -42,27 +41,18 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories
                  x.Temperature.ToCelsius(),
                  x.Temperature.ToFahrenheit())),
 
-                TotalCount = entities.Count()
+                TotalCount = entities.Count
             };
         }
 
         public Task<WeatherForecast?> GetByIdAsync(WeatherForecastGetByIdRequest request) => _context.WeatherForecasts
             .FirstOrDefaultAsync(x => x.Id.Equals(request.Id));
 
-        public async Task<PageListResponse<WeatherForecastGetListItemResponse>> GetListAsync(ISpecification<WeatherForecast> specification)
+        public async Task<WeatherForecastGetListResponse> GetListAsync(ISpecification<WeatherForecast> specification)
         {
             var query = ApplySpecification(specification).AsNoTracking();
 
-            try
-            {
-                var totalItems = await query.CountAsync();
-
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
+            var totalItems = await query.CountAsync();
 
             var items = await query.Select(x => new WeatherForecastGetListItemResponse(
                                        x.Id,
@@ -72,10 +62,10 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories
                                        x.Temperature.ToFahrenheit()))
                                    .ToListAsync();
 
-            return new PageListResponse<WeatherForecastGetListItemResponse>
+            return new WeatherForecastGetListResponse
             {
                 Elements = items,
-                TotalCount = 2,
+                TotalCount = totalItems,
                 Page = specification.IsPagingEnabled ? specification.Page : null,
                 PageSize = specification.IsPagingEnabled ? specification.PageSize : null,
             };

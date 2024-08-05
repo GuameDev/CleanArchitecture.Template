@@ -1,7 +1,6 @@
 using CleanArchitecture.Template.Application.WeatherForecast;
 using CleanArchitecture.Template.Application.WeatherForecast.DTOs.GetAll;
 using CleanArchitecture.Template.Application.WeatherForecast.DTOs.List;
-using CleanArchitecture.Template.SharedKernel.Responses.PageList;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitecture.Template.Api.Controllers
@@ -22,7 +21,7 @@ namespace CleanArchitecture.Template.Api.Controllers
 
         [HttpGet]
         [Route("all")]
-        public async Task<ActionResult<ListAllResponse<WeatherForecastGetAllListItemResponse>>> GetAll()
+        public async Task<ActionResult<WeatherForecastGetAllListResponse>> GetAll()
         {
             return Ok(await _weatherForecastService.GetAllAsync());
         }
@@ -33,7 +32,7 @@ namespace CleanArchitecture.Template.Api.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<PageListResponse<WeatherForecastGetListItemResponse>>> Get([FromQuery] WeatherForecastGetListRequest request)
+        public async Task<ActionResult<WeatherForecastGetListResponse>> Get([FromQuery] WeatherForecastGetListRequest request)
         {
             return Ok(await _weatherForecastService.GetListAsync(request));
         }

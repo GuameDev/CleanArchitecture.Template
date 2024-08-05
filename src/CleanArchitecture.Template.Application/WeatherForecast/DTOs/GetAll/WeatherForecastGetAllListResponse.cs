@@ -2,5 +2,8 @@
 
 namespace CleanArchitecture.Template.Application.WeatherForecast.DTOs.GetAll
 {
-    public record WeatherForecastGetAllListResponse(ListAllResponse<WeatherForecastGetAllListItemResponse> Response);
+    public class WeatherForecastGetAllListResponse : ListAllResponse<WeatherForecastGetAllListItemResponse>
+    {
+
+    }
 }
