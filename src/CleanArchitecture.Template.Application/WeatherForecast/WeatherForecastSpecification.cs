@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 
 namespace CleanArchitecture.Template.Application.WeatherForecast
 {
-    public class WeatherForecastSpecification : BaseSpecification<Domain.WeatherForecasts.WeatherForecast>
+    public class WeatherForecastSpecification : BaseSpecification<Domain.Entities.WeatherForecast>
     {
         public WeatherForecastSpecification(WeatherForecastGetListRequest request)
         {
@@ -47,13 +47,13 @@ namespace CleanArchitecture.Template.Application.WeatherForecast
                 ApplyPaging((request.Page.Value - 1) * request.PageSize.Value, request.PageSize.Value, request.Page.Value, request.PageSize.Value);
         }
 
-        private static Expression<Func<Domain.WeatherForecasts.WeatherForecast, object>> GetOrderByExpression(WeatherForecastOrderBy? orderBy)
+        private static Expression<Func<Domain.Entities.WeatherForecast, object>> GetOrderByExpression(WeatherForecastOrderBy? orderBy)
         {
             return orderBy switch
             {
+                WeatherForecastOrderBy.Summary => weatherForecast => weatherForecast.Summary,
                 WeatherForecastOrderBy.Date => weatherForecast => weatherForecast.Date.Value,
-                WeatherForecastOrderBy.TemperatureCelsius => weatherForecast => weatherForecast.Temperature.Type == TemperatureType.Celsius ? weatherForecast.Temperature.Value : weatherForecast.Temperature.ToCelsius(),
-                WeatherForecastOrderBy.TemperatureFahrenheit => weatherForecast => weatherForecast.Temperature.Type == TemperatureType.Fahrenheit ? weatherForecast.Temperature.Value : weatherForecast.Temperature.ToFahrenheit(),
+                WeatherForecastOrderBy.Temperature => weatherForecast => weatherForecast.Temperature.Value,
                 _ => weatherForecast => weatherForecast.Date.Value
             };
         }

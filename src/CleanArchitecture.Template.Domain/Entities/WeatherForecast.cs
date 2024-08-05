@@ -1,8 +1,9 @@
 ﻿using CleanArchitecture.Template.Domain.Base;
 using CleanArchitecture.Template.SharedKernel.CommonTypes.Enums;
 using CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects;
+using CleanArchitecture.Template.SharedKernel.Results;
 
-namespace CleanArchitecture.Template.Domain.WeatherForecasts
+namespace CleanArchitecture.Template.Domain.Entities
 {
 
     public class WeatherForecast : BaseEntity<Guid>
@@ -15,8 +16,8 @@ namespace CleanArchitecture.Template.Domain.WeatherForecasts
         //Constructors
         private WeatherForecast()
         {
-            Date = WeatherDate.Create(DateOnly.MinValue);
-            Temperature = Temperature.FromCelsius(0);
+            Date = WeatherDate.Create(DateOnly.MinValue).Value;
+            Temperature = Temperature.FromCelsius(0).Value;
             Summary = Summary.Unknown;
         }
         private WeatherForecast(Guid id, WeatherDate date, Temperature temperature, Summary summary)
@@ -35,9 +36,9 @@ namespace CleanArchitecture.Template.Domain.WeatherForecasts
         }
 
         //Factory methods
-        public static WeatherForecast Create(WeatherDate date, Temperature temperature, Summary summary)
+        public static Result<WeatherForecast> Create(WeatherDate date, Temperature temperature, Summary summary)
         {
-            return new WeatherForecast(date, temperature, summary) { Id = Guid.NewGuid() };
+            return Result.Success(new WeatherForecast(date, temperature, summary) { Id = Guid.NewGuid() });
         }
 
         //Methods

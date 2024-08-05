@@ -8,11 +8,11 @@ namespace CleanArchitecture.Template.Application.WeatherForecast
 {
     public interface IWeatherForecastRepository
     {
-        Task<Domain.WeatherForecasts.WeatherForecast?> GetByIdAsync(WeatherForecastGetByIdRequest request);
+        Task<Domain.Entities.WeatherForecast?> GetByIdAsync(WeatherForecastGetByIdRequest request);
         Task<ListAllResponse<WeatherForecastGetAllListItemResponse>> GetAllAsync();
-        Task<PageListResponse<WeatherForecastGetListItemResponse>> GetListAsync(ISpecification<Domain.WeatherForecasts.WeatherForecast> request);
-        Task AddAsync(Domain.WeatherForecasts.WeatherForecast weatherForecast);
-        Task UpdateAsync(Domain.WeatherForecasts.WeatherForecast weatherForecast);
+        Task<PageListResponse<WeatherForecastGetListItemResponse>> GetListAsync(ISpecification<Domain.Entities.WeatherForecast> request);
+        Task AddAsync(Domain.Entities.WeatherForecast weatherForecast);
+        Task UpdateAsync(Domain.Entities.WeatherForecast weatherForecast);
         Task DeleteAsync(Guid id);
     }
 }

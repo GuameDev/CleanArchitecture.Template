@@ -1,7 +1,6 @@
 ﻿using CleanArchitecture.Template.SharedKernel.CommonTypes.Enums;
-using CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects;
 
-namespace CleanArchitecture.Template.SharedKernel.Errors
+namespace CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects.Errors.Base
 {
     public sealed class Error : ValueObject
     {

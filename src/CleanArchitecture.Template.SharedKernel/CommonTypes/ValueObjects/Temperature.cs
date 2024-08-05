@@ -1,10 +1,13 @@
 ﻿using CleanArchitecture.Template.SharedKernel.CommonTypes.Enums;
+using CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects.Errors;
 using CleanArchitecture.Template.SharedKernel.Constants;
+using CleanArchitecture.Template.SharedKernel.Results;
+
 
 namespace CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects
 {
 
-    public class Temperature
+    public class Temperature : ValueObject
     {
         public double Value { get; }
         public TemperatureType Type { get; }
@@ -15,16 +18,22 @@ namespace CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects
             Type = type;
         }
 
-        public static Temperature FromCelsius(double temperatureC)
+        public static Result<Temperature> FromCelsius(double temperatureC)
         {
-            ValidateCelsius(temperatureC);
-            return new Temperature(temperatureC, TemperatureType.Celsius);
+            if (!EnsureIsValidCelsiusValue(temperatureC))
+                return Result.Failure<Temperature>(TemperatureErrors.UnderZeroCelsius);
+
+            var temperature = new Temperature(temperatureC, TemperatureType.Celsius);
+            return Result.Success(temperature);
         }
 
-        public static Temperature FromFahrenheit(double temperatureF)
+        public static Result<Temperature> FromFahrenheit(double temperatureF)
         {
-            ValidateFahrenheit(temperatureF);
-            return new Temperature(temperatureF, TemperatureType.Fahrenheit);
+            if (!EnsureIsValidFahrenheitValue(temperatureF))
+                return Result.Failure<Temperature>(TemperatureErrors.UnderZeroFahrenheit);
+
+            var temperature = new Temperature(temperatureF, TemperatureType.Fahrenheit);
+            return Result.Success(temperature);
         }
 
         public double ToCelsius() =>
@@ -33,26 +42,14 @@ namespace CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects
         public double ToFahrenheit() =>
             Type == TemperatureType.Fahrenheit ? Value : (Value * 9 / 5) + 32;
 
-        private static void ValidateCelsius(double temperatureC)
+        private static bool EnsureIsValidCelsiusValue(double temperatureC) => temperatureC >= TemperatureConstants.AbsoluteZeroCelsius;
+        private static bool EnsureIsValidFahrenheitValue(double temperatureF) => temperatureF >= TemperatureConstants.AbsoluteZeroFahrenheit;
+
+        protected override IEnumerable<object> GetAtomicValues()
         {
-            if (temperatureC < TemperatureConstants.AbsoluteZeroCelsius)
-                throw new Exception("Temperature cannot be below absolute zero in Celsius.");
+            yield return Value;
+            yield return Type;
         }
-
-        private static void ValidateFahrenheit(double temperatureF)
-        {
-            if (temperatureF < TemperatureConstants.AbsoluteZeroFahrenheit)
-                throw new Exception("Temperature cannot be below absolute zero in Fahrenheit.");
-        }
-
-        public override bool Equals(object? obj)
-        {
-            if (obj is not Temperature other) return false;
-            return Value.Equals(other.Value) && Type == other.Type;
-        }
-
-        public override int GetHashCode() => HashCode.Combine(Value, Type);
-
     }
 }
 

@@ -27,8 +27,13 @@ namespace CleanArchitecture.Template.Api.Controllers
             return Ok(await _weatherForecastService.GetAllAsync());
         }
 
+        /// <summary>
+        /// Get a list of weather forecasts paginated, filtered and sorted. By default, the attribute IsPaginated is true, page = 1 and page size = 15
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<PageListResponse<WeatherForecastGetListRequest>>> Get([FromQuery] WeatherForecastGetListRequest request)
+        public async Task<ActionResult<PageListResponse<WeatherForecastGetListItemResponse>>> Get([FromQuery] WeatherForecastGetListRequest request)
         {
             return Ok(await _weatherForecastService.GetListAsync(request));
         }
