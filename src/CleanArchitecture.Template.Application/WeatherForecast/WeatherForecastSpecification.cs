@@ -10,11 +10,23 @@ namespace CleanArchitecture.Template.Application.WeatherForecast
     public class WeatherForecastSpecification : BaseSpecification<Domain.Entities.WeatherForecast>
     {
         public WeatherForecastSpecification(WeatherForecastGetListRequest request)
-            : base(weatherForecast =>
-                (!request.StartDate.HasValue || weatherForecast.Date.Value >= request.StartDate.Value) &&
-                (!request.EndDate.HasValue || weatherForecast.Date.Value <= request.EndDate.Value) &&
-                (string.IsNullOrEmpty(request.Summary) || weatherForecast.Summary.ToString().Contains(request.Summary)))
         {
+
+            if (request.StartDate.HasValue)
+                AddCriteria(weatherForecast => weatherForecast.Date.Value >= DateOnly.FromDateTime(request.StartDate.Value));
+
+            if (request.EndDate.HasValue)
+                AddCriteria(weatherForecast => weatherForecast.Date.Value <= DateOnly.FromDateTime(request.EndDate.Value));
+
+            if (request.Summary is not null)
+                AddCriteria(weatherForecast => weatherForecast.Summary.Equals(request.Summary));
+
+            if (request.TemperatureType is not null)
+                AddCriteria(weatherForecast => weatherForecast.Temperature.Type.Equals(request.TemperatureType));
+
+            if (request.TemperatureValue is not null)
+                AddCriteria(weatherForecast => weatherForecast.Temperature.Value >= request.TemperatureValue);
+
 
             switch (request.SortDirection)
             {
@@ -32,17 +44,18 @@ namespace CleanArchitecture.Template.Application.WeatherForecast
             }
 
             if (request.IsPaginated)
-                ApplyPaging((request.Page.Value - 1) * request.PageSize.Value, request.PageSize.Value);
+                //TODO: Refactor this method to only pass as parameter Page and PageSize
+                ApplyPaging((request.Page.Value - 1) * request.PageSize.Value, request.PageSize.Value, request.Page.Value, request.PageSize.Value);
         }
 
         private static Expression<Func<Domain.Entities.WeatherForecast, object>> GetOrderByExpression(WeatherForecastOrderBy? orderBy)
         {
             return orderBy switch
             {
-                WeatherForecastOrderBy.Date => weatherForecast => weatherForecast.Date,
+                WeatherForecastOrderBy.Date => weatherForecast => weatherForecast.Date.Value,
                 WeatherForecastOrderBy.TemperatureCelsius => weatherForecast => weatherForecast.Temperature.Type == TemperatureType.Celsius ? weatherForecast.Temperature.Value : weatherForecast.Temperature.ToCelsius(),
                 WeatherForecastOrderBy.TemperatureFahrenheit => weatherForecast => weatherForecast.Temperature.Type == TemperatureType.Fahrenheit ? weatherForecast.Temperature.Value : weatherForecast.Temperature.ToFahrenheit(),
-                _ => weatherForecast => weatherForecast.Date
+                _ => weatherForecast => weatherForecast.Date.Value
             };
         }
     }

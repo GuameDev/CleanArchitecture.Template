@@ -4,18 +4,29 @@ namespace CleanArchitecture.Template.Application.Base.Specification
 {
     public class BaseSpecification<T> : ISpecification<T>
     {
+        private readonly List<Expression<Func<T, bool>>> _criteria = new();
+
+        public BaseSpecification() { }
+
         public BaseSpecification(Expression<Func<T, bool>> criteria)
         {
-            Criteria = criteria;
+            _criteria.Add(criteria);
         }
 
-        public Expression<Func<T, bool>> Criteria { get; }
+        public IReadOnlyCollection<Expression<Func<T, bool>>> Criteria => _criteria.AsReadOnly();
         public List<Expression<Func<T, object>>> Includes { get; } = new();
         public Expression<Func<T, object>> OrderBy { get; private set; }
         public Expression<Func<T, object>> OrderByDescending { get; private set; }
         public int Take { get; private set; }
         public int Skip { get; private set; }
+        public int Page { get; set; }
+        public int PageSize { get; set; }
         public bool IsPagingEnabled { get; private set; } = false;
+
+        protected void AddCriteria(Expression<Func<T, bool>> criteria)
+        {
+            _criteria.Add(criteria);
+        }
 
         protected void AddInclude(Expression<Func<T, object>> includeExpression)
         {
@@ -32,11 +43,14 @@ namespace CleanArchitecture.Template.Application.Base.Specification
             OrderByDescending = orderByDescendingExpression;
         }
 
-        protected void ApplyPaging(int skip, int take)
+        //TODO: Maybe have sense to move this: (request.Page.Value - 1) * request.PageSize.Value - to this method
+        protected void ApplyPaging(int skip, int take, int page, int pageSize)
         {
             Skip = skip;
             Take = take;
             IsPagingEnabled = true;
+            Page = page;
+            PageSize = pageSize;
         }
     }
 }

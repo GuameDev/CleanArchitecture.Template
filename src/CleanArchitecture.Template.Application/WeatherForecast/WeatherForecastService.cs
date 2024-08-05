@@ -1,5 +1,6 @@
 ﻿using CleanArchitecture.Template.Application.Base.PageList;
 using CleanArchitecture.Template.Application.WeatherForecast.DTOs.GetAll;
+using CleanArchitecture.Template.Application.WeatherForecast.DTOs.List;
 
 namespace CleanArchitecture.Template.Application.WeatherForecast
 {
@@ -13,9 +14,14 @@ namespace CleanArchitecture.Template.Application.WeatherForecast
         }
 
 
-        public async Task<ListAllResponse<WeatherForecastGetAllListItemResponse>> GetAll()
+        public async Task<ListAllResponse<WeatherForecastGetAllListItemResponse>> GetAllAsync()
         {
             return await _weatherForecastRepository.GetAllAsync();
+        }
+
+        public async Task<PageListResponse<WeatherForecastGetListItemResponse>> GetListAsync(WeatherForecastGetListRequest request)
+        {
+            return await _weatherForecastRepository.GetListAsync(new WeatherForecastSpecification(request));
         }
     }
 }

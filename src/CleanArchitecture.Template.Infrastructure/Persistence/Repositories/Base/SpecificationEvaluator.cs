@@ -9,11 +9,13 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories.Bas
         {
             var query = inputQuery;
 
-            if (specification.Criteria != null)
+            // Apply criteria
+            foreach (var criteria in specification.Criteria)
             {
-                query = query.Where(specification.Criteria);
+                query = query.Where(criteria);
             }
 
+            // Apply sorting
             if (specification.OrderBy != null)
             {
                 query = query.OrderBy(specification.OrderBy);
@@ -23,8 +25,10 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories.Bas
                 query = query.OrderByDescending(specification.OrderByDescending);
             }
 
+            // Apply includes
             query = specification.Includes.Aggregate(query, (current, include) => current.Include(include));
 
+            // Apply paging
             if (specification.IsPagingEnabled)
             {
                 query = query.Skip(specification.Skip).Take(specification.Take);

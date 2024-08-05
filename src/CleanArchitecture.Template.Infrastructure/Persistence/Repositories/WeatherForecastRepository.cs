@@ -49,28 +49,27 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories
         public Task<WeatherForecast?> GetByIdAsync(WeatherForecastGetByIdRequest request) => _context.WeatherForecasts
             .FirstOrDefaultAsync(x => x.Id.Equals(request.Id));
 
-
-        public async Task<PageListResponse<WeatherForecastGetListItemResponse>> GetListAsync(ISpecification<WeatherForecast> request)
+        public async Task<PageListResponse<WeatherForecastGetListItemResponse>> GetListAsync(ISpecification<WeatherForecast> specification)
         {
-            var query = ApplySpecification(request);
+            var query = ApplySpecification(specification).AsNoTracking();
 
             var totalItems = await query.CountAsync();
 
-            var items = await query.Skip(request.Skip)
-                                   .Take(request.Take)
-                                   .Select(x => new WeatherForecastGetListItemResponse(
-                                                 x.Id,
-                                                 x.Date.Value,
-                                                 x.Summary.ToString(),
-                                                 x.Temperature.ToCelsius(),
-                                                 x.Temperature.ToFahrenheit()
-                                                 ))
+            var items = await query.Select(x => new WeatherForecastGetListItemResponse(
+                                       x.Id,
+                                       x.Date.Value,
+                                       x.Summary.ToString(),
+                                       x.Temperature.ToCelsius(),
+                                       x.Temperature.ToFahrenheit()
+                                   ))
                                    .ToListAsync();
 
             return new PageListResponse<WeatherForecastGetListItemResponse>
             {
                 Elements = items,
-                TotalCount = totalItems
+                TotalCount = totalItems,
+                Page = specification.IsPagingEnabled ? specification.Page : null,
+                PageSize = specification.IsPagingEnabled ? specification.PageSize : null,
             };
         }
 
