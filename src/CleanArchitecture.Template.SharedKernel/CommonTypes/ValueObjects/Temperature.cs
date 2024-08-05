@@ -52,6 +52,7 @@ namespace CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects
         }
 
         public override int GetHashCode() => HashCode.Combine(Value, Type);
+
     }
 }
 
