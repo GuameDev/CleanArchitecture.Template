@@ -21,7 +21,8 @@ namespace CleanArchitecture.Template.Api.Controllers
             _weatherForecastService = weatherForecastService;
         }
 
-        [HttpGet(Name = "GetAllWeatherForecast")]
+        [HttpGet]
+        [Route("all")]
         public async Task<ActionResult<ListAllResponse<WeatherForecastGetAllListItemResponse>>> GetAll()
         {
             return Ok(await _weatherForecastService.GetAll());

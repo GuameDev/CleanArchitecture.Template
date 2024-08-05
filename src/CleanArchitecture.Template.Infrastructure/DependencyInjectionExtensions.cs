@@ -15,6 +15,10 @@ namespace CleanArchitecture.Template.Infrastructure
             {
                 var configuration = sp.GetRequiredService<IConfiguration>();
                 options.UseSqlServer(configuration.GetConnectionString("ApplicationDbContext"));
+
+                //TODO: Add only in development
+                options.EnableSensitiveDataLogging();
+
             });
 
             services.AddScoped<IWeatherForecastRepository, WeatherForecastRepository>();
