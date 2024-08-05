@@ -3,8 +3,7 @@
     public enum WeatherForecastOrderBy
     {
         Date,
-        TemperatureCelsius,
-        TemperatureFahrenheit,
+        Temperature,
         Summary
     }
 }

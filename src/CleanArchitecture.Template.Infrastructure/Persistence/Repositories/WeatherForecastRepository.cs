@@ -2,7 +2,7 @@
 using CleanArchitecture.Template.Application.WeatherForecast.DTOs.GetAll;
 using CleanArchitecture.Template.Application.WeatherForecast.DTOs.GetById;
 using CleanArchitecture.Template.Application.WeatherForecast.DTOs.List;
-using CleanArchitecture.Template.Domain.WeatherForecasts;
+using CleanArchitecture.Template.Domain.Entities;
 using CleanArchitecture.Template.Infrastructure.Persistence.Repositories.Base;
 using CleanArchitecture.Template.SharedKernel.Responses.PageList;
 using CleanArchitecture.Template.SharedKernel.Specification;
@@ -53,7 +53,16 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories
         {
             var query = ApplySpecification(specification).AsNoTracking();
 
-            var totalItems = await query.CountAsync();
+            try
+            {
+                var totalItems = await query.CountAsync();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
 
             var items = await query.Select(x => new WeatherForecastGetListItemResponse(
                                        x.Id,
@@ -66,7 +75,7 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories
             return new PageListResponse<WeatherForecastGetListItemResponse>
             {
                 Elements = items,
-                TotalCount = totalItems,
+                TotalCount = 2,
                 Page = specification.IsPagingEnabled ? specification.Page : null,
                 PageSize = specification.IsPagingEnabled ? specification.PageSize : null,
             };

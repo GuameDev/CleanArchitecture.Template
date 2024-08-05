@@ -1,6 +1,9 @@
-﻿namespace CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects
+﻿
+using CleanArchitecture.Template.SharedKernel.Results;
+
+namespace CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects
 {
-    public class WeatherDate
+    public class WeatherDate : ValueObject
     {
         public DateOnly Value { get; private set; }
 
@@ -11,23 +14,15 @@
             Value = date;
         }
 
-        public static WeatherDate Create(DateOnly date)
+        public static Result<WeatherDate> Create(DateOnly date)
         {
             //Perform validations
-            return new WeatherDate(date);
-        }
-        public override bool Equals(object? obj)
-        {
-            if (obj == null || GetType() != obj.GetType())
-                return false;
-
-            var other = (WeatherDate)obj;
-            return Value.Equals(other.Value);
+            return Result.Success(new WeatherDate(date));
         }
 
-        public override int GetHashCode()
+        protected override IEnumerable<object> GetAtomicValues()
         {
-            return Value.GetHashCode();
+            yield return Value;
         }
     }
 }

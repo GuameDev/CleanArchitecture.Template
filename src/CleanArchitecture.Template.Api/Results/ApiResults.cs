@@ -1,5 +1,5 @@
 ﻿using CleanArchitecture.Template.SharedKernel.CommonTypes.Enums;
-using CleanArchitecture.Template.SharedKernel.Errors;
+using CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects.Errors.Base;
 using CleanArchitecture.Template.SharedKernel.Results;
 using Microsoft.AspNetCore.Http;
 

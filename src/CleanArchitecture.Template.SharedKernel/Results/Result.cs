@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Template.SharedKernel.Errors;
+﻿using CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects.Errors.Base;
 using System.Diagnostics.CodeAnalysis;
 
 namespace CleanArchitecture.Template.SharedKernel.Results
