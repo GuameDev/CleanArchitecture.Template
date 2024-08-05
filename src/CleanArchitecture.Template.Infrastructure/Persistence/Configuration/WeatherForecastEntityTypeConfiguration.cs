@@ -21,7 +21,11 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration
             builder.OwnsOne(weatherForecast => weatherForecast.Temperature, temp =>
             {
                 temp.Property(t => t.Value).HasColumnName("TemperatureValue");
-                temp.Property(t => t.Type).HasColumnName("TemperatureType");
+
+                temp.Property(t => t.Type).HasConversion(
+                       temperatureType => temperatureType.ToString(),
+                       temperatureType => (TemperatureType)Enum.Parse(typeof(TemperatureType), temperatureType))
+                   .IsRequired();
             });
 
             builder.OwnsOne(weatherForecast => weatherForecast.Date, date =>
