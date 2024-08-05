@@ -2,5 +2,5 @@
 
 namespace CleanArchitecture.Template.Application.WeatherForecast.DTOs.List
 {
-    public record WeatherForecastGetListResponse(PageListResponse<WeatherForecastGetListItemResponse> Response);
+    public class WeatherForecastGetListResponse : PageListResponse<WeatherForecastGetListItemResponse> { }
 }
