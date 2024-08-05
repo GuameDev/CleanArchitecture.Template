@@ -6,8 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\CleanArchitecture.Template.SharedKernel\CleanArchitecture.Template.SharedKernel.csproj" />
-  </ItemGroup>
-
 </Project>

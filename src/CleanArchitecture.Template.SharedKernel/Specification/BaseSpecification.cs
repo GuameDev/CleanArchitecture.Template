@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace CleanArchitecture.Template.Application.Base.Specification
+namespace CleanArchitecture.Template.SharedKernel.Specification
 {
     public class BaseSpecification<T> : ISpecification<T>
     {

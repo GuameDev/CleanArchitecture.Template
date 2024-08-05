@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.Template.Domain.ValueObjects
+﻿namespace CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects
 {
     public class WeatherDate
     {

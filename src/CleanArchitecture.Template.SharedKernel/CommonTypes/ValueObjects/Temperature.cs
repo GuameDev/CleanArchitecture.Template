@@ -1,6 +1,7 @@
-﻿using CleanArchitecture.Template.Domain.Constants;
+﻿using CleanArchitecture.Template.SharedKernel.CommonTypes.Enums;
+using CleanArchitecture.Template.SharedKernel.Constants;
 
-namespace CleanArchitecture.Template.Domain.ValueObjects
+namespace CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects
 {
 
     public class Temperature
@@ -51,11 +52,6 @@ namespace CleanArchitecture.Template.Domain.ValueObjects
         }
 
         public override int GetHashCode() => HashCode.Combine(Value, Type);
-    }
-    public enum TemperatureType
-    {
-        Celsius,
-        Fahrenheit
     }
 }
 

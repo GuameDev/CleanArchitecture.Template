@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.Template.Application.Base.PageList
+﻿namespace CleanArchitecture.Template.SharedKernel.CommonTypes.Enums
 {
     public enum SortDirection
     {

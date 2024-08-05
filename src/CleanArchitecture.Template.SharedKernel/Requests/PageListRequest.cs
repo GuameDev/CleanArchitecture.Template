@@ -1,4 +1,6 @@
-﻿namespace CleanArchitecture.Template.Application.Base.PageList
+﻿using CleanArchitecture.Template.SharedKernel.CommonTypes.Enums;
+
+namespace CleanArchitecture.Template.SharedKernel.Requests
 {
     public class PageListRequest<TOrderBy> where TOrderBy : struct
     {

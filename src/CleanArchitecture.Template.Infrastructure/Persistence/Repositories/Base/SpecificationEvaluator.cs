@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Template.Application.Base.Specification;
+﻿using CleanArchitecture.Template.SharedKernel.Specification;
 using Microsoft.EntityFrameworkCore;
 
 namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories.Base

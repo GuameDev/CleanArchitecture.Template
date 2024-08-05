@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.Template.Application.Base.PageList
+﻿namespace CleanArchitecture.Template.SharedKernel.Responses.PageList
 {
     public class ListAllResponse<TListItemResponse> where TListItemResponse : class
     {

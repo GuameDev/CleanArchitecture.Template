@@ -1,7 +1,8 @@
-﻿using CleanArchitecture.Template.Domain.Constants;
-using CleanArchitecture.Template.Domain.ValueObjects;
+﻿using CleanArchitecture.Template.Domain.Base;
+using CleanArchitecture.Template.SharedKernel.CommonTypes.Enums;
+using CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects;
 
-namespace CleanArchitecture.Template.Domain.Entities
+namespace CleanArchitecture.Template.Domain.WeatherForecasts
 {
 
     public class WeatherForecast : BaseEntity<Guid>

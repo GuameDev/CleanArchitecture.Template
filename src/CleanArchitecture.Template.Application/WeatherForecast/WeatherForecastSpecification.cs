@@ -1,13 +1,12 @@
-﻿using CleanArchitecture.Template.Application.Base.PageList;
-using CleanArchitecture.Template.Application.Base.Specification;
-using CleanArchitecture.Template.Application.WeatherForecast.DTOs;
+﻿using CleanArchitecture.Template.Application.WeatherForecast.DTOs;
 using CleanArchitecture.Template.Application.WeatherForecast.DTOs.List;
-using CleanArchitecture.Template.Domain.ValueObjects;
+using CleanArchitecture.Template.SharedKernel.CommonTypes.Enums;
+using CleanArchitecture.Template.SharedKernel.Specification;
 using System.Linq.Expressions;
 
 namespace CleanArchitecture.Template.Application.WeatherForecast
 {
-    public class WeatherForecastSpecification : BaseSpecification<Domain.Entities.WeatherForecast>
+    public class WeatherForecastSpecification : BaseSpecification<Domain.WeatherForecasts.WeatherForecast>
     {
         public WeatherForecastSpecification(WeatherForecastGetListRequest request)
         {
@@ -48,7 +47,7 @@ namespace CleanArchitecture.Template.Application.WeatherForecast
                 ApplyPaging((request.Page.Value - 1) * request.PageSize.Value, request.PageSize.Value, request.Page.Value, request.PageSize.Value);
         }
 
-        private static Expression<Func<Domain.Entities.WeatherForecast, object>> GetOrderByExpression(WeatherForecastOrderBy? orderBy)
+        private static Expression<Func<Domain.WeatherForecasts.WeatherForecast, object>> GetOrderByExpression(WeatherForecastOrderBy? orderBy)
         {
             return orderBy switch
             {

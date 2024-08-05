@@ -1,6 +1,5 @@
-﻿using CleanArchitecture.Template.Application.Base.PageList;
-using CleanArchitecture.Template.Domain.Constants;
-using CleanArchitecture.Template.Domain.ValueObjects;
+﻿using CleanArchitecture.Template.SharedKernel.CommonTypes.Enums;
+using CleanArchitecture.Template.SharedKernel.Requests;
 
 namespace CleanArchitecture.Template.Application.WeatherForecast.DTOs.List
 {

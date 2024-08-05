@@ -1,7 +1,7 @@
-using CleanArchitecture.Template.Application.Base.PageList;
 using CleanArchitecture.Template.Application.WeatherForecast;
 using CleanArchitecture.Template.Application.WeatherForecast.DTOs.GetAll;
 using CleanArchitecture.Template.Application.WeatherForecast.DTOs.List;
+using CleanArchitecture.Template.SharedKernel.Responses.PageList;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitecture.Template.Api.Controllers

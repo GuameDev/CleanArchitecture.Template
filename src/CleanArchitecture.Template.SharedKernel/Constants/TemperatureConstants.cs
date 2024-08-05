@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.Template.Domain.Constants
+﻿namespace CleanArchitecture.Template.SharedKernel.Constants
 {
     public static class TemperatureConstants
     {

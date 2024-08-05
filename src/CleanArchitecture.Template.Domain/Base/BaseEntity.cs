@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.Template.Domain.Entities
+﻿namespace CleanArchitecture.Template.Domain.Base
 {
     public class BaseEntity<Tkey>
     {
