@@ -1,5 +1,6 @@
 
 using CleanArchitecture.Template.Infrastructure;
+using System.Text.Json.Serialization;
 
 namespace CleanArchitecture.Template.Api
 {
@@ -14,7 +15,19 @@ namespace CleanArchitecture.Template.Api
               .AddApplicationServices()
               .AddInfrastructureServices();
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+                options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            })
+            .ConfigureApiBehaviorOptions(options =>
+            {
+                // https://learn.microsoft.com/es-es/dotnet/core/compatibility/aspnet-core/7.0/api-controller-action-parameters-di
+                options.DisableImplicitFromServicesParameters = true;
+            });
+
+            builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
