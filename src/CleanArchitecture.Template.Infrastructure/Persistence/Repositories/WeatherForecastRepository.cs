@@ -44,7 +44,6 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories
                 TotalCount = entities.Count
             };
         }
-
         public Task<WeatherForecast?> GetByIdAsync(WeatherForecastGetByIdRequest request) => _context.WeatherForecasts
             .FirstOrDefaultAsync(x => x.Id.Equals(request.Id));
 

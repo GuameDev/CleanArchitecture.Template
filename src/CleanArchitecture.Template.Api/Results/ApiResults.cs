@@ -2,25 +2,31 @@
 using CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects.Errors.Base;
 using CleanArchitecture.Template.SharedKernel.Results;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitecture.Template.Api.Results
 {
     public static class ApiResults
     {
-        public static IResult Problem(Result result)
+        public static IActionResult Problem(Result result)
         {
             if (result.IsSuccess)
             {
                 throw new InvalidOperationException();
             }
-            return Microsoft.AspNetCore.Http.Results.Problem(
-                title: GetTitle(result.Error),
-                detail: GetDetail(result.Error),
-                type: GetType(result.Error),
-                statusCode: GetStatusCode(result.Error.Type),
-                extensions: GetErrors(result)
-                );
+            return new ObjectResult(new ProblemDetails
+            {
+                Title = GetTitle(result.Error),
+                Detail = GetDetail(result.Error),
+                Type = GetType(result.Error),
+                Status = GetStatusCode(result.Error.Type),
+                Extensions = { ["Errors"] = GetErrors(result) }
+            })
+            {
+                StatusCode = GetStatusCode(result.Error.Type)
+            };
         }
+
 
         private static string GetTitle(Error error) =>
             error.Type switch

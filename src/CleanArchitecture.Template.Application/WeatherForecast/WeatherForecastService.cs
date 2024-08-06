@@ -1,5 +1,6 @@
 ﻿using CleanArchitecture.Template.Application.WeatherForecast.DTOs.GetAll;
 using CleanArchitecture.Template.Application.WeatherForecast.DTOs.List;
+using CleanArchitecture.Template.SharedKernel.Results;
 
 namespace CleanArchitecture.Template.Application.WeatherForecast
 {
@@ -13,14 +14,16 @@ namespace CleanArchitecture.Template.Application.WeatherForecast
         }
 
 
-        public async Task<WeatherForecastGetAllListResponse> GetAllAsync()
+        public async Task<Result<WeatherForecastGetAllListResponse>> GetAllAsync()
         {
-            return await _weatherForecastRepository.GetAllAsync();
+            var elements = await _weatherForecastRepository.GetAllAsync();
+            return Result.Success(elements);
         }
 
-        public async Task<WeatherForecastGetListResponse> GetListAsync(WeatherForecastGetListRequest request)
+        public async Task<Result<WeatherForecastGetListResponse>> GetListAsync(WeatherForecastGetListRequest request)
         {
-            return await _weatherForecastRepository.GetListAsync(new WeatherForecastSpecification(request));
+            var elements = await _weatherForecastRepository.GetListAsync(new WeatherForecastSpecification(request));
+            return Result.Success(elements);
         }
     }
 }

@@ -21,7 +21,10 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration
             builder.OwnsOne(weatherForecast => weatherForecast.Temperature, temp =>
             {
                 temp.Property(t => t.Value).HasColumnName("TemperatureValue");
-                temp.Property(t => t.Type).HasColumnName("TemperatureType");
+                temp.Property(t => t.Type).HasColumnName("TemperatureType").HasConversion(
+                       summary => summary.ToString(),
+                       summary => (TemperatureType)Enum.Parse(typeof(TemperatureType), summary))
+                   .IsRequired(); ;
             });
 
             builder.OwnsOne(weatherForecast => weatherForecast.Date, date =>
@@ -44,13 +47,13 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration
                 var id = Guid.NewGuid();
                 var summary = (Summary)random.Next(0, Enum.GetValues<Summary>().Length);
                 var temperatureValue = (double)random.Next(-5, 35);
-                var temperatureType = TemperatureType.Celsius;
+                var temperatureType = (TemperatureType)random.Next(0, 2);
                 var dateValue = DateOnly.FromDateTime(DateTime.Now.AddDays(random.Next(-1000, 1000)));
 
                 weatherForecasts.Add(new
                 {
                     Id = id,
-                    Summary = summary  // Save as string
+                    Summary = summary
                 });
 
                 temperatures.Add(new
