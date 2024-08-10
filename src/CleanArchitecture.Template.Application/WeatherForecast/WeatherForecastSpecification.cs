@@ -43,8 +43,7 @@ namespace CleanArchitecture.Template.Application.WeatherForecast
             }
 
             if (request.IsPaginated)
-                //TODO: Refactor this method to only pass as parameter Page and PageSize
-                ApplyPaging((request.Page.Value - 1) * request.PageSize.Value, request.PageSize.Value, request.Page.Value, request.PageSize.Value);
+                ApplyPaging(request.Page, request.PageSize);
         }
 
         private static Expression<Func<Domain.Entities.WeatherForecast, object>> GetOrderByExpression(WeatherForecastOrderBy? orderBy)
