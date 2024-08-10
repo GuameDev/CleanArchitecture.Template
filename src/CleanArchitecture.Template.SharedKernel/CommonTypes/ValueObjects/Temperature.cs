@@ -6,7 +6,6 @@ using CleanArchitecture.Template.SharedKernel.Results;
 
 namespace CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects
 {
-
     public class Temperature : ValueObject
     {
         public double Value { get; }
@@ -44,7 +43,6 @@ namespace CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects
                 _ => Result.Failure<Temperature>(TemperatureErrors.InvalidTemperatureType)
             };
 
-
         public double ToCelsius() =>
             Type == TemperatureType.Celsius ? Value : (Value - 32) * 5 / 9;
 
@@ -61,8 +59,3 @@ namespace CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects
         }
     }
 }
-
-
-
-
-
