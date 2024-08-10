@@ -18,9 +18,10 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories
             _context = context;
         }
 
-        public Task AddAsync(WeatherForecast weatherForecast)
+        public async Task AddAsync(WeatherForecast weatherForecast)
         {
-            throw new NotImplementedException();
+            await _context.WeatherForecasts.AddAsync(weatherForecast);
+            await _context.SaveChangesAsync();
         }
 
         public Task DeleteAsync(Guid id)
