@@ -12,6 +12,9 @@ namespace CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects
             Value = date;
         }
 
+        //TODO: Implement conversion on the entity type configuration
+        public WeatherDate() { }
+
         public static Result<WeatherDate> Create(DateOnly date)
         {
             if (IsMinValueDate(date))

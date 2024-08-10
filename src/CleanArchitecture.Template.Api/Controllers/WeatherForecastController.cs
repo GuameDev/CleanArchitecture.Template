@@ -24,8 +24,8 @@ namespace CleanArchitecture.Template.Api.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
         [Route("all")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAll()
         {
             var result = await _weatherForecastService.GetAllAsync();
@@ -39,7 +39,6 @@ namespace CleanArchitecture.Template.Api.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpGet]
-        [AllowAnonymous]
         public async Task<IActionResult> Get([FromQuery] WeatherForecastGetListRequest request)
         {
             var result = await _weatherForecastService.GetListAsync(request);
@@ -54,7 +53,6 @@ namespace CleanArchitecture.Template.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("{Id}")]
-        [AllowAnonymous]
         public async Task<IActionResult> GetById([FromRoute] WeatherForecastGetByIdRequest request)
         {
             var result = await _weatherForecastService.GetById(request);
@@ -62,7 +60,6 @@ namespace CleanArchitecture.Template.Api.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
         public async Task<IActionResult> Create([FromBody] WeatherForecastCreateRequest request)
         {
             var result = await _weatherForecastService.CreateAsync(request);

@@ -32,6 +32,17 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration
                 date.Property(d => d.Value).HasColumnName("Date");
             });
 
+            //builder.OwnsOne(wf => wf.Date, date =>
+            //{
+            //    date.Property(d => d.Value)
+            //        .HasColumnName("Date")
+            //        .HasConversion(
+            //            v => v.ToString(),
+            //            v => DateOnly.Parse(v)); // or another way to convert if necessary
+
+            //    date.WithOwner(); // Ensures EF knows this is an owned entity
+            //});
+
             SeedDefaultData(builder);
         }
 
