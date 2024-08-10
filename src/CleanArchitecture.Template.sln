@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArchitecture.Template.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArchitecture.Template.Api", "CleanArchitecture.Template.Api\CleanArchitecture.Template.Api.csproj", "{F5B270EA-ED2D-4132-9368-2D3D47295BAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchitecture.Template.SharedKernel", "CleanArchitecture.Template.SharedKernel\CleanArchitecture.Template.SharedKernel.csproj", "{4D6DACA2-E7FB-400D-8611-4C1C39716D10}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArchitecture.Template.SharedKernel", "CleanArchitecture.Template.SharedKernel\CleanArchitecture.Template.SharedKernel.csproj", "{4D6DACA2-E7FB-400D-8611-4C1C39716D10}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchitecture.Template.Domain.Tests", "..\tests\CleanArchitecture.Template.Domain.Tests\CleanArchitecture.Template.Domain.Tests.csproj", "{19AD2C35-40E9-48FF-9F5A-CFD94FDF6969}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{4D6DACA2-E7FB-400D-8611-4C1C39716D10}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D6DACA2-E7FB-400D-8611-4C1C39716D10}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D6DACA2-E7FB-400D-8611-4C1C39716D10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19AD2C35-40E9-48FF-9F5A-CFD94FDF6969}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19AD2C35-40E9-48FF-9F5A-CFD94FDF6969}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19AD2C35-40E9-48FF-9F5A-CFD94FDF6969}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19AD2C35-40E9-48FF-9F5A-CFD94FDF6969}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
