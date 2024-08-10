@@ -16,7 +16,7 @@ namespace CleanArchitecture.Template.Domain.Entities
         //Constructors
         private WeatherForecast()
         {
-            Date = WeatherDate.Create(DateOnly.MinValue).Value;
+            Date = WeatherDate.Create(DateOnly.FromDateTime(DateTime.Now)).Value;
             Temperature = Temperature.FromCelsius(0).Value;
             Summary = Summary.Unknown;
         }
@@ -35,11 +35,17 @@ namespace CleanArchitecture.Template.Domain.Entities
             Summary = summary;
         }
 
-        //Factory methods
-        public static Result<WeatherForecast> Create(WeatherDate date, Temperature temperature, Summary summary)
+        public static Result<WeatherForecast> Create(Result<WeatherDate> dateResult, Result<Temperature> temperatureResult, Summary summary)
         {
-            return Result.Success(new WeatherForecast(date, temperature, summary) { Id = Guid.NewGuid() });
+            if (dateResult.IsFailure)
+                return Result.Failure<WeatherForecast>(dateResult.Error);
+
+            if (temperatureResult.IsFailure)
+                return Result.Failure<WeatherForecast>(temperatureResult.Error);
+
+            return Result.Success(new WeatherForecast(dateResult.Value, temperatureResult.Value, summary) { Id = Guid.NewGuid() });
         }
+
 
         //Methods
         public void UpdateTemperature(Temperature temperature) => Temperature = temperature;

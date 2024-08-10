@@ -1,5 +1,10 @@
-﻿using CleanArchitecture.Template.Application.WeatherForecast.DTOs.GetAll;
+﻿using CleanArchitecture.Template.Application.WeatherForecast.DTOs.Create;
+using CleanArchitecture.Template.Application.WeatherForecast.DTOs.GetAll;
+using CleanArchitecture.Template.Application.WeatherForecast.DTOs.GetById;
 using CleanArchitecture.Template.Application.WeatherForecast.DTOs.List;
+using CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects;
+using CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects.Errors;
+using CleanArchitecture.Template.SharedKernel.Results;
 
 namespace CleanArchitecture.Template.Application.WeatherForecast
 {
@@ -12,15 +17,62 @@ namespace CleanArchitecture.Template.Application.WeatherForecast
             _weatherForecastRepository = weatherForecastRepository;
         }
 
-
-        public async Task<WeatherForecastGetAllListResponse> GetAllAsync()
+        public async Task<Result<WeatherForecastCreateResponse>> CreateAsync(WeatherForecastCreateRequest request)
         {
-            return await _weatherForecastRepository.GetAllAsync();
+            //Try to create value objects
+            var temperatureResult = Temperature.Create(request.Temperature, request.TemperatureType);
+            var dateResult = WeatherDate.Create(request.Date);
+
+            //Check of the result of the creation of value objects its a success
+            var weatherForecastResult = Result.Combine(dateResult, temperatureResult)
+                                               .OnSuccess(() => Domain.Entities.WeatherForecast.Create(dateResult.Value, temperatureResult.Value, request.Summary).Value);
+
+            if (weatherForecastResult.IsFailure)
+                return Result.Failure<WeatherForecastCreateResponse>(weatherForecastResult.Error);
+
+
+            // Persist the entity in the repository
+            var entity = weatherForecastResult.Value;
+            await _weatherForecastRepository.AddAsync(entity);
+
+            //TODO: AutoMapper
+            return Result.Success(new WeatherForecastCreateResponse
+                (entity.Id,
+                entity.Date.Value,
+                entity.Summary.ToString(),
+                entity.Temperature.ToCelsius(),
+                entity.Temperature.ToFahrenheit()
+                ));
+
+
         }
 
-        public async Task<WeatherForecastGetListResponse> GetListAsync(WeatherForecastGetListRequest request)
+        public async Task<Result<WeatherForecastGetAllListResponse>> GetAllAsync()
         {
-            return await _weatherForecastRepository.GetListAsync(new WeatherForecastSpecification(request));
+            var elements = await _weatherForecastRepository.GetAllAsync();
+            return Result.Success(elements);
+        }
+
+        public async Task<Result<WeatherForecastGetByIdResponse>> GetById(WeatherForecastGetByIdRequest request)
+        {
+            var entity = await _weatherForecastRepository.GetByIdAsync(request);
+
+            return entity is not null
+                ? Result.Success(new WeatherForecastGetByIdResponse(
+                    entity.Id,
+                    entity.Date.Value,
+                    entity.Summary.ToString(),
+                    entity.Temperature.ToCelsius(),
+                    entity.Temperature.ToFahrenheit()
+                ))
+                : Result.Failure<WeatherForecastGetByIdResponse>(WeatherForecastErrors.NotFound);
+        }
+
+
+        public async Task<Result<WeatherForecastGetListResponse>> GetListAsync(WeatherForecastGetListRequest request)
+        {
+            var elements = await _weatherForecastRepository.GetListAsync(new WeatherForecastSpecification(request));
+            return Result.Success(elements);
         }
     }
 }

@@ -21,17 +21,27 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration
             builder.OwnsOne(weatherForecast => weatherForecast.Temperature, temp =>
             {
                 temp.Property(t => t.Value).HasColumnName("TemperatureValue");
-
-                temp.Property(t => t.Type).HasConversion(
-                       temperatureType => temperatureType.ToString(),
-                       temperatureType => (TemperatureType)Enum.Parse(typeof(TemperatureType), temperatureType))
-                   .IsRequired();
+                temp.Property(t => t.Type).HasColumnName("TemperatureType").HasConversion(
+                       summary => summary.ToString(),
+                       summary => (TemperatureType)Enum.Parse(typeof(TemperatureType), summary))
+                   .IsRequired(); ;
             });
 
             builder.OwnsOne(weatherForecast => weatherForecast.Date, date =>
             {
                 date.Property(d => d.Value).HasColumnName("Date");
             });
+
+            //builder.OwnsOne(wf => wf.Date, date =>
+            //{
+            //    date.Property(d => d.Value)
+            //        .HasColumnName("Date")
+            //        .HasConversion(
+            //            v => v.ToString(),
+            //            v => DateOnly.Parse(v)); // or another way to convert if necessary
+
+            //    date.WithOwner(); // Ensures EF knows this is an owned entity
+            //});
 
             SeedDefaultData(builder);
         }
@@ -48,13 +58,13 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration
                 var id = Guid.NewGuid();
                 var summary = (Summary)random.Next(0, Enum.GetValues<Summary>().Length);
                 var temperatureValue = (double)random.Next(-5, 35);
-                var temperatureType = TemperatureType.Celsius;
+                var temperatureType = (TemperatureType)random.Next(0, 2);
                 var dateValue = DateOnly.FromDateTime(DateTime.Now.AddDays(random.Next(-1000, 1000)));
 
                 weatherForecasts.Add(new
                 {
                     Id = id,
-                    Summary = summary  // Save as string
+                    Summary = summary
                 });
 
                 temperatures.Add(new

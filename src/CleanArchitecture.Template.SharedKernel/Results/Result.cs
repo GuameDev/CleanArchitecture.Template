@@ -23,6 +23,36 @@ namespace CleanArchitecture.Template.SharedKernel.Results
 
         public static Result Failure(Error error) => new(false, error);
         public static Result<TValue> Failure<TValue>(Error error) => new(default, false, error);
+
+        // Combines multiple results into one
+        public static Result Combine(params Result[] results)
+        {
+            foreach (var result in results)
+            {
+                if (result.IsFailure)
+                    return result;
+            }
+            return Success();
+        }
+
+        // Executes a function if the result is successful, otherwise returns the failure
+        public Result OnSuccess(Func<Result> func)
+        {
+            if (IsFailure)
+                return this;
+
+            return func();
+        }
+
+        // Executes a function with the result's value if successful, otherwise returns the failure
+        public Result<T> OnSuccess<T>(Func<T> func)
+        {
+            if (IsFailure)
+                return Failure<T>(Error);
+
+            return Success(func());
+        }
+
     }
 
     public class Result<TValue> : Result

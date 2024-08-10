@@ -1,6 +1,10 @@
+using CleanArchitecture.Template.Api.Results;
 using CleanArchitecture.Template.Application.WeatherForecast;
-using CleanArchitecture.Template.Application.WeatherForecast.DTOs.GetAll;
+using CleanArchitecture.Template.Application.WeatherForecast.DTOs.Create;
+using CleanArchitecture.Template.Application.WeatherForecast.DTOs.GetById;
 using CleanArchitecture.Template.Application.WeatherForecast.DTOs.List;
+using CleanArchitecture.Template.SharedKernel.Results;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitecture.Template.Api.Controllers
@@ -21,9 +25,12 @@ namespace CleanArchitecture.Template.Api.Controllers
 
         [HttpGet]
         [Route("all")]
-        public async Task<ActionResult<WeatherForecastGetAllListResponse>> GetAll()
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAll()
         {
-            return Ok(await _weatherForecastService.GetAllAsync());
+            var result = await _weatherForecastService.GetAllAsync();
+
+            return result.Match(onSuccess: Ok, onFailure: ApiResults.Problem);
         }
 
         /// <summary>
@@ -32,9 +39,35 @@ namespace CleanArchitecture.Template.Api.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<WeatherForecastGetListResponse>> Get([FromQuery] WeatherForecastGetListRequest request)
+        public async Task<IActionResult> Get([FromQuery] WeatherForecastGetListRequest request)
         {
-            return Ok(await _weatherForecastService.GetListAsync(request));
+            var result = await _weatherForecastService.GetListAsync(request);
+
+            return result.Match(onSuccess: Ok, onFailure: ApiResults.Problem);
+        }
+
+        /// <summary>
+        /// Get a weather forecast entity by his ID
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("{Id}")]
+        public async Task<IActionResult> GetById([FromRoute] WeatherForecastGetByIdRequest request)
+        {
+            var result = await _weatherForecastService.GetById(request);
+            return result.Match(onSuccess: Ok, onFailure: ApiResults.Problem);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] WeatherForecastCreateRequest request)
+        {
+            var result = await _weatherForecastService.CreateAsync(request);
+
+            return result.Match(
+                onSuccess: () => CreatedAtAction(nameof(GetById), new { id = result.Value.Id }, result.Value),
+                onFailure: ApiResults.Problem
+            );
         }
     }
 }

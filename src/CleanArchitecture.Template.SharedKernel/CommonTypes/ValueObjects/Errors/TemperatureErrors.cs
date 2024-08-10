@@ -1,5 +1,4 @@
-﻿using CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects;
-using CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects.Errors.Base;
+﻿using CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects.Errors.Base;
 
 namespace CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects.Errors
 {
@@ -7,5 +6,7 @@ namespace CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects.Error
     {
         public static Error UnderZeroFahrenheit => Error.Validation($"{nameof(Temperature)}.{nameof(UnderZeroFahrenheit)}", "Temperature cannot be below absolute zero in Fahrenheit.");
         public static Error UnderZeroCelsius => Error.Validation($"{nameof(Temperature)}.{nameof(UnderZeroCelsius)}", "Temperature cannot be below absolute zero in Celsius.");
+
+        public static Error InvalidTemperatureType => Error.Problem($"{nameof(Temperature)}.{nameof(InvalidTemperatureType)}", "Temperature type doesnt exist");
     }
 }

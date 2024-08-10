@@ -43,7 +43,6 @@ namespace CleanArchitecture.Template.SharedKernel.Specification
             OrderByDescending = orderByDescendingExpression;
         }
 
-        //TODO: Maybe have sense to move this: (request.Page.Value - 1) * request.PageSize.Value - to this method
         protected void ApplyPaging(int skip, int take, int page, int pageSize)
         {
             Skip = skip;
@@ -52,5 +51,17 @@ namespace CleanArchitecture.Template.SharedKernel.Specification
             Page = page;
             PageSize = pageSize;
         }
+        protected void ApplyPaging(int? page, int? pageSize)
+        {
+            if (page is null || pageSize is null)
+                return;
+
+            Skip = (page.Value - 1) * pageSize.Value;
+            Take = pageSize.Value;
+            IsPagingEnabled = true;
+            Page = page.Value;
+            PageSize = pageSize.Value;
+        }
+
     }
 }

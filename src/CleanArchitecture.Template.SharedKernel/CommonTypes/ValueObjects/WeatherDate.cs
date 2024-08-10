@@ -1,4 +1,4 @@
-﻿
+﻿using CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects.Errors;
 using CleanArchitecture.Template.SharedKernel.Results;
 
 namespace CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects
@@ -7,17 +7,25 @@ namespace CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects
     {
         public DateOnly Value { get; private set; }
 
-        private WeatherDate() { }
-
         private WeatherDate(DateOnly date)
         {
             Value = date;
         }
 
+        //TODO: Implement conversion on the entity type configuration
+        public WeatherDate() { }
+
         public static Result<WeatherDate> Create(DateOnly date)
         {
-            //Perform validations
+            if (IsMinValueDate(date))
+                return Result.Failure<WeatherDate>(WeatherDateErrors.MinValue);
+
             return Result.Success(new WeatherDate(date));
+        }
+
+        private static bool IsMinValueDate(DateOnly date)
+        {
+            return date.Equals(DateOnly.FromDateTime(DateTime.MinValue));
         }
 
         protected override IEnumerable<object> GetAtomicValues()
