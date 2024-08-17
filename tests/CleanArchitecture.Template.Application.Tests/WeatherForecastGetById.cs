@@ -1,5 +1,6 @@
 using CleanArchitecture.Template.Application.WeatherForecast.Repository;
 using CleanArchitecture.Template.Application.WeatherForecast.Services;
+using CleanArchitecture.Template.Application.WeatherForecast.UseCases.GetById;
 using CleanArchitecture.Template.SharedKernel.CommonTypes.Enums;
 using CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects;
 using CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects.Errors;
