@@ -1,5 +1,5 @@
-﻿using CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects;
-using CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects.Errors;
+﻿using CleanArchitecture.Template.Domain.WeatherForecasts.Errors;
+using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects;
 
 namespace CleanArchitecture.Template.SharedKernel.Tests.ValueObjects
 {

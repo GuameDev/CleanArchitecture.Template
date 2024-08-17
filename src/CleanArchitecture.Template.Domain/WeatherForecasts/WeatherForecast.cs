@@ -1,5 +1,5 @@
-﻿using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects;
-using CleanArchitecture.Template.SharedKernel.CommonTypes.Enums;
+﻿using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
+using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects;
 using CleanArchitecture.Template.SharedKernel.Entities;
 using CleanArchitecture.Template.SharedKernel.Results;
 

@@ -1,9 +1,8 @@
 ﻿using CleanArchitecture.Template.Application.WeatherForecast.Repository;
 using CleanArchitecture.Template.Application.WeatherForecast.Services;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.Create;
+using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Errors;
-using CleanArchitecture.Template.SharedKernel.CommonTypes.Enums;
-using CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects.Errors;
 using Moq;
 
 namespace CleanArchitecture.Template.Application.Tests

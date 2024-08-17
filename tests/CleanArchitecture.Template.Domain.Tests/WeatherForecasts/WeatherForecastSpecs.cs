@@ -1,9 +1,9 @@
 using CleanArchitecture.Template.Domain.WeatherForecasts;
+using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Errors;
 using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects;
-using CleanArchitecture.Template.SharedKernel.CommonTypes.Enums;
 
-namespace CleanArchitecture.Template.Domain.Tests
+namespace CleanArchitecture.Template.Domain.Tests.WeatherForecasts
 {
     public class WeatherForecastSpecs
     {

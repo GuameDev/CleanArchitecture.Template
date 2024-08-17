@@ -1,4 +1,5 @@
 ﻿using CleanArchitecture.Template.Application.WeatherForecast.DTOs;
+using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
 using CleanArchitecture.Template.SharedKernel.CommonTypes.Enums;
 using CleanArchitecture.Template.SharedKernel.Requests;
 

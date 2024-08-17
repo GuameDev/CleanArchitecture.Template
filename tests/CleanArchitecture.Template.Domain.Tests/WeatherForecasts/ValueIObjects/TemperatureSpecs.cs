@@ -1,9 +1,9 @@
 ﻿namespace CleanArchitecture.Template.SharedKernel.Tests.ValueObjects
 {
-    using CleanArchitecture.Template.SharedKernel.CommonTypes.Enums;
-    using CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects;
-    using CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects.Errors;
-    using CleanArchitecture.Template.SharedKernel.Constants;
+    using CleanArchitecture.Template.Domain.WeatherForecasts.Constants;
+    using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
+    using CleanArchitecture.Template.Domain.WeatherForecasts.Errors;
+    using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects;
     using Xunit;
 
     public class TemperatureSpecs

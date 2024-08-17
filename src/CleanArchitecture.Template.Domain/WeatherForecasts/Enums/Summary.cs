@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.Template.SharedKernel.CommonTypes.Enums
+﻿namespace CleanArchitecture.Template.Domain.WeatherForecasts.Enums
 {
     public enum Summary
     {
