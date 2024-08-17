@@ -1,6 +1,7 @@
-﻿using CleanArchitecture.Template.Application.WeatherForecast.UseCases.GetAll;
+using CleanArchitecture.Template.Application.WeatherForecast.UseCases.GetAll;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.GetById;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.List;
+
 using CleanArchitecture.Template.SharedKernel.Specification;
 
 namespace CleanArchitecture.Template.Application.WeatherForecast.Repository

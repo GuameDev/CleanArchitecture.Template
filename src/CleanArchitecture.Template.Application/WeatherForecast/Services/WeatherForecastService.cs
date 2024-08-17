@@ -1,4 +1,5 @@
 ﻿using CleanArchitecture.Template.Application.WeatherForecast.Repository;
+using CleanArchitecture.Template.Application.WeatherForecast.Specifications;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.Create;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.GetAll;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.GetById;
@@ -25,12 +26,10 @@ namespace CleanArchitecture.Template.Application.WeatherForecast.Services
             var dateResult = WeatherDate.Create(request.Date);
 
             //Check of the result of the creation of value objects its a success
-            var weatherForecastResult = Result.Combine(dateResult, temperatureResult)
-                                               .OnSuccess(() => Domain.Entities.WeatherForecast.Create(dateResult.Value, temperatureResult.Value, request.Summary).Value);
+            var weatherForecastResult = Domain.Entities.WeatherForecast.Create(dateResult, temperatureResult, request.Summary);
 
             if (weatherForecastResult.IsFailure)
                 return Result.Failure<WeatherForecastCreateResponse>(weatherForecastResult.Error);
-
 
             // Persist the entity in the repository
             var entity = weatherForecastResult.Value;
@@ -44,7 +43,6 @@ namespace CleanArchitecture.Template.Application.WeatherForecast.Services
                 entity.Temperature.ToCelsius(),
                 entity.Temperature.ToFahrenheit()
                 ));
-
         }
 
         public async Task<Result<WeatherForecastGetAllListResponse>> GetAllAsync()

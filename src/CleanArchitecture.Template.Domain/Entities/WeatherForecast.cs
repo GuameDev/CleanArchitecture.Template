@@ -37,13 +37,8 @@ namespace CleanArchitecture.Template.Domain.Entities
 
         public static Result<WeatherForecast> Create(Result<WeatherDate> dateResult, Result<Temperature> temperatureResult, Summary summary)
         {
-            if (dateResult.IsFailure)
-                return Result.Failure<WeatherForecast>(dateResult.Error);
-
-            if (temperatureResult.IsFailure)
-                return Result.Failure<WeatherForecast>(temperatureResult.Error);
-
-            return Result.Success(new WeatherForecast(dateResult.Value, temperatureResult.Value, summary) { Id = Guid.NewGuid() });
+            return Result.Combine(dateResult, temperatureResult)
+                 .OnSuccess(() => new WeatherForecast(dateResult.Value, temperatureResult.Value, summary) { Id = Guid.NewGuid() });
         }
 
 
