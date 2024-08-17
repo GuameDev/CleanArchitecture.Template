@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using CleanArchitecture.Template.Api.Middlewares;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 
 namespace CleanArchitecture.Template.Api.Extensions
@@ -12,6 +13,10 @@ namespace CleanArchitecture.Template.Api.Extensions
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            //Middlewares
+            app.UseMiddleware<RequestResponseLoggingMiddleware>();
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
 
             app.UseHttpsRedirection();
             app.UseExceptionHandler();
