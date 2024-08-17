@@ -56,30 +56,25 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories
 
         public async Task<WeatherForecastGetListResponse> GetListAsync(ISpecification<WeatherForecast> specification)
         {
-            try
+            var query = ApplySpecification(specification).AsNoTracking();
+
+            var totalItems = await query.CountAsync();
+
+            var items = await query.Select(x => new WeatherForecastGetListItemResponse(
+                                       x.Id,
+                                       x.Date.Value,
+                                       x.Summary.ToString(),
+                                       x.Temperature.ToCelsius(),
+                                       x.Temperature.ToFahrenheit()))
+                                   .ToListAsync();
+
+            return new WeatherForecastGetListResponse
             {
-
-                var query = ApplySpecification(specification).AsNoTracking();
-
-                var totalItems = await query.CountAsync();
-
-                var items = await query.Select(x => new WeatherForecastGetListItemResponse(
-                                           x.Id,
-                                           x.Date.Value,
-                                           x.Summary.ToString(),
-                                           x.Temperature.ToCelsius(),
-                                           x.Temperature.ToFahrenheit()))
-                                       .ToListAsync();
-
-                return new WeatherForecastGetListResponse
-                {
-                    Elements = items,
-                    TotalCount = totalItems,
-                    Page = specification.IsPagingEnabled ? specification.Page : null,
-                    PageSize = specification.IsPagingEnabled ? specification.PageSize : null,
-                };
-            }
-            catch (Exception ex) { _logger.LogInformation($"Error on getting weather forecast: {ex.Message}"); throw; }
+                Elements = items,
+                TotalCount = totalItems,
+                Page = specification.IsPagingEnabled ? specification.Page : null,
+                PageSize = specification.IsPagingEnabled ? specification.PageSize : null,
+            };
         }
 
         private IQueryable<WeatherForecast> ApplySpecification(ISpecification<WeatherForecast> specification) => SpecificationEvaluator<WeatherForecast>
