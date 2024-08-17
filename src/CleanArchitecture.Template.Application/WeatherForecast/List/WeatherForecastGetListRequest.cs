@@ -1,7 +1,8 @@
-﻿using CleanArchitecture.Template.SharedKernel.CommonTypes.Enums;
+﻿using CleanArchitecture.Template.Application.WeatherForecast.DTOs;
+using CleanArchitecture.Template.SharedKernel.CommonTypes.Enums;
 using CleanArchitecture.Template.SharedKernel.Requests;
 
-namespace CleanArchitecture.Template.Application.WeatherForecast.DTOs.List
+namespace CleanArchitecture.Template.Application.WeatherForecast.List
 {
     public class WeatherForecastGetListRequest : PageListRequest<WeatherForecastOrderBy>
     {

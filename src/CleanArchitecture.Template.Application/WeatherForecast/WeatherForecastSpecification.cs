@@ -1,5 +1,5 @@
 ﻿using CleanArchitecture.Template.Application.WeatherForecast.DTOs;
-using CleanArchitecture.Template.Application.WeatherForecast.DTOs.List;
+using CleanArchitecture.Template.Application.WeatherForecast.List;
 using CleanArchitecture.Template.SharedKernel.CommonTypes.Enums;
 using CleanArchitecture.Template.SharedKernel.Specification;
 using System.Linq.Expressions;

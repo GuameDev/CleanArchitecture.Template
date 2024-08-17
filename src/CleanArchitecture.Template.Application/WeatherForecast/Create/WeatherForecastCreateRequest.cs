@@ -1,6 +1,6 @@
 ﻿using CleanArchitecture.Template.SharedKernel.CommonTypes.Enums;
 
-namespace CleanArchitecture.Template.Application.WeatherForecast.DTOs.Create
+namespace CleanArchitecture.Template.Application.WeatherForecast.Create
 {
     public class WeatherForecastCreateRequest
     {

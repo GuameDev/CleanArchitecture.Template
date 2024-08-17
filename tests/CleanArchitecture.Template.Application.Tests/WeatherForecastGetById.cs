@@ -1,5 +1,5 @@
 using CleanArchitecture.Template.Application.WeatherForecast;
-using CleanArchitecture.Template.Application.WeatherForecast.DTOs.GetById;
+using CleanArchitecture.Template.Application.WeatherForecast.GetById;
 using CleanArchitecture.Template.SharedKernel.CommonTypes.Enums;
 using CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects;
 using CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects.Errors;

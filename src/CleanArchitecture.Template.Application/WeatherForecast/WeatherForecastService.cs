@@ -1,7 +1,7 @@
-﻿using CleanArchitecture.Template.Application.WeatherForecast.DTOs.Create;
-using CleanArchitecture.Template.Application.WeatherForecast.DTOs.GetAll;
-using CleanArchitecture.Template.Application.WeatherForecast.DTOs.GetById;
-using CleanArchitecture.Template.Application.WeatherForecast.DTOs.List;
+﻿using CleanArchitecture.Template.Application.WeatherForecast.Create;
+using CleanArchitecture.Template.Application.WeatherForecast.GetAll;
+using CleanArchitecture.Template.Application.WeatherForecast.GetById;
+using CleanArchitecture.Template.Application.WeatherForecast.List;
 using CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects;
 using CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects.Errors;
 using CleanArchitecture.Template.SharedKernel.Results;
@@ -43,7 +43,6 @@ namespace CleanArchitecture.Template.Application.WeatherForecast
                 entity.Temperature.ToCelsius(),
                 entity.Temperature.ToFahrenheit()
                 ));
-
 
         }
 

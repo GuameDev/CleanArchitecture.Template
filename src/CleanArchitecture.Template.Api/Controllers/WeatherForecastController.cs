@@ -1,8 +1,8 @@
 using CleanArchitecture.Template.Api.Results;
 using CleanArchitecture.Template.Application.WeatherForecast;
-using CleanArchitecture.Template.Application.WeatherForecast.DTOs.Create;
-using CleanArchitecture.Template.Application.WeatherForecast.DTOs.GetById;
-using CleanArchitecture.Template.Application.WeatherForecast.DTOs.List;
+using CleanArchitecture.Template.Application.WeatherForecast.Create;
+using CleanArchitecture.Template.Application.WeatherForecast.GetById;
+using CleanArchitecture.Template.Application.WeatherForecast.List;
 using CleanArchitecture.Template.SharedKernel.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
