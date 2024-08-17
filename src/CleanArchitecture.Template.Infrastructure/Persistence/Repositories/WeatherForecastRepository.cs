@@ -2,7 +2,7 @@
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.GetAll;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.GetById;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.List;
-using CleanArchitecture.Template.Domain.Entities;
+using CleanArchitecture.Template.Domain.WeatherForecasts;
 using CleanArchitecture.Template.Infrastructure.Persistence.Repositories.Base;
 using CleanArchitecture.Template.SharedKernel.Specification;
 using Microsoft.EntityFrameworkCore;

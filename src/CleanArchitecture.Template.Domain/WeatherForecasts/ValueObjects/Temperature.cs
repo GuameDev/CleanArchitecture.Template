@@ -1,10 +1,10 @@
-﻿using CleanArchitecture.Template.SharedKernel.CommonTypes.Enums;
-using CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects.Errors;
-using CleanArchitecture.Template.SharedKernel.Constants;
+﻿using CleanArchitecture.Template.Domain.WeatherForecasts.Constants;
+using CleanArchitecture.Template.Domain.WeatherForecasts.Errors;
+using CleanArchitecture.Template.SharedKernel.CommonTypes.Enums;
 using CleanArchitecture.Template.SharedKernel.Results;
 
 
-namespace CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects
+namespace CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects
 {
     public class Temperature : ValueObject
     {
@@ -47,7 +47,7 @@ namespace CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects
             Type == TemperatureType.Celsius ? Value : (Value - 32) * 5 / 9;
 
         public double ToFahrenheit() =>
-            Type == TemperatureType.Fahrenheit ? Value : (Value * 9 / 5) + 32;
+            Type == TemperatureType.Fahrenheit ? Value : Value * 9 / 5 + 32;
 
         private static bool EnsureIsValidCelsiusValue(double temperatureC) => temperatureC >= TemperatureConstants.AbsoluteZeroCelsius;
         private static bool EnsureIsValidFahrenheitValue(double temperatureF) => temperatureF >= TemperatureConstants.AbsoluteZeroFahrenheit;

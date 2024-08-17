@@ -1,12 +1,12 @@
-﻿using CleanArchitecture.Template.Domain.Base;
+﻿using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects;
 using CleanArchitecture.Template.SharedKernel.CommonTypes.Enums;
-using CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects;
+using CleanArchitecture.Template.SharedKernel.Entities;
 using CleanArchitecture.Template.SharedKernel.Results;
 
-namespace CleanArchitecture.Template.Domain.Entities
+namespace CleanArchitecture.Template.Domain.WeatherForecasts
 {
 
-    public class WeatherForecast : BaseEntity<Guid>
+    public class WeatherForecast : Entity<Guid>
     {
         //Properties
         public WeatherDate Date { get; }

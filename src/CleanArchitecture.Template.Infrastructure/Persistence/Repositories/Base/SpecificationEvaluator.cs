@@ -16,22 +16,39 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories.Bas
             }
 
             // Apply sorting
-            if (specification.OrderBy != null)
-            {
-                query = query.OrderBy(specification.OrderBy);
-            }
-            else if (specification.OrderByDescending != null)
-            {
-                query = query.OrderByDescending(specification.OrderByDescending);
-            }
+            query = ApplySorting(query, specification);
 
             // Apply includes
-            query = specification.Includes.Aggregate(query, (current, include) => current.Include(include));
+            query = ApplyIncludes(query, specification);
 
             // Apply paging
             if (specification.IsPagingEnabled)
             {
                 query = query.Skip(specification.Skip).Take(specification.Take);
+            }
+
+            return query;
+        }
+
+        private static IQueryable<TEntity> ApplySorting(IQueryable<TEntity> query, ISpecification<TEntity> specification)
+        {
+            if (specification.OrderBy != null)
+            {
+                return query.OrderBy(specification.OrderBy);
+            }
+            else if (specification.OrderByDescending != null)
+            {
+                return query.OrderByDescending(specification.OrderByDescending);
+            }
+
+            return query;
+        }
+
+        private static IQueryable<TEntity> ApplyIncludes(IQueryable<TEntity> query, ISpecification<TEntity> specification)
+        {
+            foreach (var include in specification.Includes)
+            {
+                query = query.Include(include);
             }
 
             return query;

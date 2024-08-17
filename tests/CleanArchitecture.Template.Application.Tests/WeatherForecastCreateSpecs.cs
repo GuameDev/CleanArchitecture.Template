@@ -1,6 +1,7 @@
 ﻿using CleanArchitecture.Template.Application.WeatherForecast.Repository;
 using CleanArchitecture.Template.Application.WeatherForecast.Services;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.Create;
+using CleanArchitecture.Template.Domain.WeatherForecasts.Errors;
 using CleanArchitecture.Template.SharedKernel.CommonTypes.Enums;
 using CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects.Errors;
 using Moq;
@@ -30,7 +31,7 @@ namespace CleanArchitecture.Template.Application.Tests
                 Summary = Summary.Mild
             };
 
-            _mockRepository.Setup(repo => repo.AddAsync(It.IsAny<Domain.Entities.WeatherForecast>())).Returns(Task.CompletedTask);
+            _mockRepository.Setup(repo => repo.AddAsync(It.IsAny<Domain.WeatherForecasts.WeatherForecast>())).Returns(Task.CompletedTask);
 
             // Act
             var result = await _service.CreateAsync(request);
@@ -38,7 +39,7 @@ namespace CleanArchitecture.Template.Application.Tests
             // Assert
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Value);
-            _mockRepository.Verify(repo => repo.AddAsync(It.IsAny<Domain.Entities.WeatherForecast>()), Times.Once);
+            _mockRepository.Verify(repo => repo.AddAsync(It.IsAny<Domain.WeatherForecasts.WeatherForecast>()), Times.Once);
         }
 
         [Fact]
@@ -59,7 +60,7 @@ namespace CleanArchitecture.Template.Application.Tests
             // Assert
             Assert.False(result.IsSuccess);
             Assert.Equal(TemperatureErrors.UnderZeroCelsius, result.Error);
-            _mockRepository.Verify(repo => repo.AddAsync(It.IsAny<Domain.Entities.WeatherForecast>()), Times.Never);
+            _mockRepository.Verify(repo => repo.AddAsync(It.IsAny<Domain.WeatherForecasts.WeatherForecast>()), Times.Never);
         }
 
         [Fact]
@@ -80,7 +81,7 @@ namespace CleanArchitecture.Template.Application.Tests
             // Assert
             Assert.False(result.IsSuccess);
             Assert.Equal(WeatherDateErrors.MinValue, result.Error);
-            _mockRepository.Verify(repo => repo.AddAsync(It.IsAny<Domain.Entities.WeatherForecast>()), Times.Never);
+            _mockRepository.Verify(repo => repo.AddAsync(It.IsAny<Domain.WeatherForecasts.WeatherForecast>()), Times.Never);
         }
     }
 }

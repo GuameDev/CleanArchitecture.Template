@@ -4,8 +4,8 @@ using CleanArchitecture.Template.Application.WeatherForecast.UseCases.Create;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.GetAll;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.GetById;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.List;
-using CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects;
-using CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects.Errors;
+using CleanArchitecture.Template.Domain.WeatherForecasts.Errors;
+using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects;
 using CleanArchitecture.Template.SharedKernel.Results;
 
 namespace CleanArchitecture.Template.Application.WeatherForecast.Services
@@ -26,7 +26,7 @@ namespace CleanArchitecture.Template.Application.WeatherForecast.Services
             var dateResult = WeatherDate.Create(request.Date);
 
             //Check of the result of the creation of value objects its a success
-            var weatherForecastResult = Domain.Entities.WeatherForecast.Create(dateResult, temperatureResult, request.Summary);
+            var weatherForecastResult = Domain.WeatherForecasts.WeatherForecast.Create(dateResult, temperatureResult, request.Summary);
 
             if (weatherForecastResult.IsFailure)
                 return Result.Failure<WeatherForecastCreateResponse>(weatherForecastResult.Error);

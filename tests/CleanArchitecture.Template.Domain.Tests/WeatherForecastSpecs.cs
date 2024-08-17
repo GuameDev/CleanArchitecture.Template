@@ -1,7 +1,7 @@
-using CleanArchitecture.Template.Domain.Entities;
+using CleanArchitecture.Template.Domain.WeatherForecasts;
+using CleanArchitecture.Template.Domain.WeatherForecasts.Errors;
+using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects;
 using CleanArchitecture.Template.SharedKernel.CommonTypes.Enums;
-using CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects;
-using CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects.Errors;
 
 namespace CleanArchitecture.Template.Domain.Tests
 {

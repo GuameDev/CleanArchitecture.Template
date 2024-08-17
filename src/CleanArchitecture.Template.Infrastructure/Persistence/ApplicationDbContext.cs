@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Template.Domain.Entities;
+﻿using CleanArchitecture.Template.Domain.WeatherForecasts;
 using Microsoft.EntityFrameworkCore;
 
 namespace CleanArchitecture.Template.Infrastructure.Persistence

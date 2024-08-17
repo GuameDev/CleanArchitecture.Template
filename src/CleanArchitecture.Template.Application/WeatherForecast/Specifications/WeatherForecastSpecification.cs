@@ -6,47 +6,48 @@ using System.Linq.Expressions;
 
 namespace CleanArchitecture.Template.Application.WeatherForecast.Specifications
 {
-    public class WeatherForecastSpecification : BaseSpecification<Domain.Entities.WeatherForecast>
+    public class WeatherForecastSpecification : BaseSpecification<Domain.WeatherForecasts.WeatherForecast>
     {
         public WeatherForecastSpecification(WeatherForecastGetListRequest request)
         {
+            BuildCriteria(request);
+            ApplySorting(request.OrderBy, request.SortDirection);
+            ApplyPaging(request.Page ?? 1, request.PageSize ?? 15);
+        }
+
+        private void BuildCriteria(WeatherForecastGetListRequest request)
+        {
+            var criteria = new List<Expression<Func<Domain.WeatherForecasts.WeatherForecast, bool>>>();
 
             if (request.StartDate.HasValue)
-                AddCriteria(weatherForecast => weatherForecast.Date.Value >= DateOnly.FromDateTime(request.StartDate.Value));
+                criteria.Add(weatherForecast => weatherForecast.Date.Value >= DateOnly.FromDateTime(request.StartDate.Value));
 
             if (request.EndDate.HasValue)
-                AddCriteria(weatherForecast => weatherForecast.Date.Value <= DateOnly.FromDateTime(request.EndDate.Value));
+                criteria.Add(weatherForecast => weatherForecast.Date.Value <= DateOnly.FromDateTime(request.EndDate.Value));
 
             if (request.Summary is not null)
                 AddCriteria(weatherForecast => weatherForecast.Summary.Equals(request.Summary));
 
-            if (request.TemperatureType is not null)
-                AddCriteria(weatherForecast => weatherForecast.Temperature.Type.Equals(request.TemperatureType));
+            if (request.TemperatureType.HasValue)
+                criteria.Add(weatherForecast => weatherForecast.Temperature.Type == request.TemperatureType.Value);
 
-            if (request.TemperatureValue is not null)
-                AddCriteria(weatherForecast => weatherForecast.Temperature.Value >= request.TemperatureValue);
+            if (request.TemperatureValue.HasValue)
+                criteria.Add(weatherForecast => weatherForecast.Temperature.Value >= request.TemperatureValue.Value);
 
-
-            switch (request.SortDirection)
-            {
-                case SortDirection.Ascending:
-                    AddOrderBy(GetOrderByExpression(request.OrderBy));
-                    break;
-
-                case SortDirection.Descending:
-                    AddOrderByDescending(GetOrderByExpression(request.OrderBy));
-                    break;
-
-                default:
-                    AddOrderByDescending(GetOrderByExpression(request.OrderBy));
-                    break;
-            }
-
-            if (request.IsPaginated)
-                ApplyPaging(request.Page, request.PageSize);
+            AddCriteria(criteria.ToArray());
         }
 
-        private static Expression<Func<Domain.Entities.WeatherForecast, object>> GetOrderByExpression(WeatherForecastOrderBy? orderBy)
+        private void ApplySorting(WeatherForecastOrderBy? orderBy, SortDirection sortDirection)
+        {
+            var orderByExpression = GetOrderByExpression(orderBy);
+
+            if (sortDirection == SortDirection.Ascending)
+                SetOrderBy(orderByExpression);
+            else
+                SetOrderByDescending(orderByExpression);
+        }
+
+        private static Expression<Func<Domain.WeatherForecasts.WeatherForecast, object>> GetOrderByExpression(WeatherForecastOrderBy? orderBy)
         {
             return orderBy switch
             {
