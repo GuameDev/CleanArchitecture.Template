@@ -39,103 +39,103 @@ namespace CleanArchitecture.Template.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("b9da0708-19f1-4ece-9de1-1ea7b021cc30"),
+                            Id = new Guid("5229527d-cea0-43a2-b14f-3e714bb6e0fb"),
                             Summary = "Cool"
                         },
                         new
                         {
-                            Id = new Guid("1977f8fb-cf61-450b-a226-59071d78292b"),
-                            Summary = "Mild"
-                        },
-                        new
-                        {
-                            Id = new Guid("4c6b0c09-f3ce-49bd-a18e-6b2164c4732a"),
-                            Summary = "Unknown"
-                        },
-                        new
-                        {
-                            Id = new Guid("c16d209d-c279-4721-bfed-f9f3af3f39a1"),
-                            Summary = "Freezing"
-                        },
-                        new
-                        {
-                            Id = new Guid("d1619856-8b73-45e5-a2ba-d5274ed924eb"),
+                            Id = new Guid("e709a49a-2ca8-418f-bad4-3aa58f0041e1"),
                             Summary = "Chilly"
                         },
                         new
                         {
-                            Id = new Guid("21b5b494-b699-4cd9-92a1-f93d7a1ae89d"),
-                            Summary = "Balmy"
-                        },
-                        new
-                        {
-                            Id = new Guid("99861ec8-afcf-40ce-bf69-506545ef3881"),
-                            Summary = "Bracing"
-                        },
-                        new
-                        {
-                            Id = new Guid("4e83e289-28a6-44ea-b441-0ae79aad507d"),
-                            Summary = "Sweltering"
-                        },
-                        new
-                        {
-                            Id = new Guid("a48dbd18-102f-48a8-81c5-5ea57425489e"),
-                            Summary = "Unknown"
-                        },
-                        new
-                        {
-                            Id = new Guid("36dae24e-41cb-44b2-8ff7-32e425f985a1"),
-                            Summary = "Freezing"
-                        },
-                        new
-                        {
-                            Id = new Guid("513fb326-954e-437e-8e6a-d836a676e5c9"),
-                            Summary = "Sweltering"
-                        },
-                        new
-                        {
-                            Id = new Guid("af7ec632-c493-485a-ade8-1b22e174f758"),
-                            Summary = "Bracing"
-                        },
-                        new
-                        {
-                            Id = new Guid("023eccf0-05d0-495f-b890-c2f1649918a2"),
+                            Id = new Guid("c46f97e2-8b6c-4c67-97d5-b9224c374cee"),
                             Summary = "Mild"
                         },
                         new
                         {
-                            Id = new Guid("0aa9bd60-0527-4948-a552-b6bdc970c6fe"),
+                            Id = new Guid("9aec4c12-0917-43e7-ac68-30b76b473b54"),
+                            Summary = "Scorching"
+                        },
+                        new
+                        {
+                            Id = new Guid("0851bbdc-cf71-4009-9ba2-d4b1020e4aa8"),
+                            Summary = "Scorching"
+                        },
+                        new
+                        {
+                            Id = new Guid("30eeeaee-12b4-4176-88a5-0045e32bcb6b"),
+                            Summary = "Unknown"
+                        },
+                        new
+                        {
+                            Id = new Guid("cd25b402-d580-46e4-b3fa-f0ccd4d0c34c"),
+                            Summary = "Balmy"
+                        },
+                        new
+                        {
+                            Id = new Guid("4583e970-640c-409b-85eb-8bd5fb84ae4d"),
+                            Summary = "Freezing"
+                        },
+                        new
+                        {
+                            Id = new Guid("00a63995-a7e4-42b2-8408-a31f5fc8abbf"),
+                            Summary = "Freezing"
+                        },
+                        new
+                        {
+                            Id = new Guid("28259e9d-fa7d-4915-baa7-85cba9ca31d2"),
+                            Summary = "Scorching"
+                        },
+                        new
+                        {
+                            Id = new Guid("4c1ba407-415e-4894-a489-d1f9541ea658"),
                             Summary = "Hot"
                         },
                         new
                         {
-                            Id = new Guid("6239da15-2ad6-450f-89f9-7a7747ad2782"),
-                            Summary = "Mild"
-                        },
-                        new
-                        {
-                            Id = new Guid("e5b2ae1c-8089-48ad-aca5-dc0b622cfbcf"),
+                            Id = new Guid("b7ee5b3a-e2ef-4aa5-9fe1-e9bac4f46ab2"),
                             Summary = "Chilly"
                         },
                         new
                         {
-                            Id = new Guid("51138dcd-9663-4ad8-b3c2-fde18da242ae"),
-                            Summary = "Cool"
+                            Id = new Guid("bdea3223-7e74-42dc-9daa-90602e60e403"),
+                            Summary = "Warm"
                         },
                         new
                         {
-                            Id = new Guid("81d5a557-4476-4c46-b575-66e2b9fb886d"),
+                            Id = new Guid("c7d15f40-1ac1-4b53-a0e5-7401aa095687"),
                             Summary = "Unknown"
                         },
                         new
                         {
-                            Id = new Guid("f5609cad-8529-4968-b223-3d540c2247d2"),
-                            Summary = "Sweltering"
+                            Id = new Guid("9c7212f2-28b4-4ef2-bb15-16d60b9863eb"),
+                            Summary = "Unknown"
                         },
                         new
                         {
-                            Id = new Guid("85b92d6d-0400-49dc-848f-498c49d39398"),
-                            Summary = "Balmy"
+                            Id = new Guid("b4315a8a-af9f-4966-ab77-c6bce7dbfc27"),
+                            Summary = "Unknown"
+                        },
+                        new
+                        {
+                            Id = new Guid("19775645-82a7-4f10-917d-5a1e82c403f2"),
+                            Summary = "Hot"
+                        },
+                        new
+                        {
+                            Id = new Guid("831d8fda-64ce-414b-8ecc-1a90dc9f51ad"),
+                            Summary = "Warm"
+                        },
+                        new
+                        {
+                            Id = new Guid("4e844bd9-f72d-41ea-9939-713fe9198b20"),
+                            Summary = "Warm"
+                        },
+                        new
+                        {
+                            Id = new Guid("834debb2-fd24-4b4f-8c5a-11f0a9926976"),
+                            Summary = "Unknown"
                         });
                 });
 
@@ -165,123 +165,123 @@ namespace CleanArchitecture.Template.Infrastructure.Migrations
                             b1.HasData(
                                 new
                                 {
-                                    WeatherForecastId = new Guid("b9da0708-19f1-4ece-9de1-1ea7b021cc30"),
-                                    Type = "Celsius",
-                                    Value = -4.0
-                                },
-                                new
-                                {
-                                    WeatherForecastId = new Guid("1977f8fb-cf61-450b-a226-59071d78292b"),
+                                    WeatherForecastId = new Guid("5229527d-cea0-43a2-b14f-3e714bb6e0fb"),
                                     Type = "Fahrenheit",
-                                    Value = -5.0
-                                },
-                                new
-                                {
-                                    WeatherForecastId = new Guid("4c6b0c09-f3ce-49bd-a18e-6b2164c4732a"),
-                                    Type = "Fahrenheit",
-                                    Value = 23.0
-                                },
-                                new
-                                {
-                                    WeatherForecastId = new Guid("c16d209d-c279-4721-bfed-f9f3af3f39a1"),
-                                    Type = "Celsius",
-                                    Value = 26.0
-                                },
-                                new
-                                {
-                                    WeatherForecastId = new Guid("d1619856-8b73-45e5-a2ba-d5274ed924eb"),
-                                    Type = "Fahrenheit",
-                                    Value = -4.0
-                                },
-                                new
-                                {
-                                    WeatherForecastId = new Guid("21b5b494-b699-4cd9-92a1-f93d7a1ae89d"),
-                                    Type = "Celsius",
-                                    Value = 13.0
-                                },
-                                new
-                                {
-                                    WeatherForecastId = new Guid("99861ec8-afcf-40ce-bf69-506545ef3881"),
-                                    Type = "Fahrenheit",
-                                    Value = 29.0
-                                },
-                                new
-                                {
-                                    WeatherForecastId = new Guid("4e83e289-28a6-44ea-b441-0ae79aad507d"),
-                                    Type = "Celsius",
-                                    Value = 3.0
-                                },
-                                new
-                                {
-                                    WeatherForecastId = new Guid("a48dbd18-102f-48a8-81c5-5ea57425489e"),
-                                    Type = "Celsius",
                                     Value = 22.0
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("36dae24e-41cb-44b2-8ff7-32e425f985a1"),
+                                    WeatherForecastId = new Guid("e709a49a-2ca8-418f-bad4-3aa58f0041e1"),
                                     Type = "Fahrenheit",
                                     Value = 21.0
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("513fb326-954e-437e-8e6a-d836a676e5c9"),
+                                    WeatherForecastId = new Guid("c46f97e2-8b6c-4c67-97d5-b9224c374cee"),
                                     Type = "Fahrenheit",
-                                    Value = 22.0
+                                    Value = 1.0
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("af7ec632-c493-485a-ade8-1b22e174f758"),
-                                    Type = "Celsius",
-                                    Value = 14.0
-                                },
-                                new
-                                {
-                                    WeatherForecastId = new Guid("023eccf0-05d0-495f-b890-c2f1649918a2"),
-                                    Type = "Fahrenheit",
-                                    Value = 4.0
-                                },
-                                new
-                                {
-                                    WeatherForecastId = new Guid("0aa9bd60-0527-4948-a552-b6bdc970c6fe"),
+                                    WeatherForecastId = new Guid("9aec4c12-0917-43e7-ac68-30b76b473b54"),
                                     Type = "Celsius",
                                     Value = 15.0
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("6239da15-2ad6-450f-89f9-7a7747ad2782"),
+                                    WeatherForecastId = new Guid("0851bbdc-cf71-4009-9ba2-d4b1020e4aa8"),
+                                    Type = "Celsius",
+                                    Value = 22.0
+                                },
+                                new
+                                {
+                                    WeatherForecastId = new Guid("30eeeaee-12b4-4176-88a5-0045e32bcb6b"),
+                                    Type = "Fahrenheit",
+                                    Value = -1.0
+                                },
+                                new
+                                {
+                                    WeatherForecastId = new Guid("cd25b402-d580-46e4-b3fa-f0ccd4d0c34c"),
+                                    Type = "Celsius",
+                                    Value = 2.0
+                                },
+                                new
+                                {
+                                    WeatherForecastId = new Guid("4583e970-640c-409b-85eb-8bd5fb84ae4d"),
+                                    Type = "Celsius",
+                                    Value = -3.0
+                                },
+                                new
+                                {
+                                    WeatherForecastId = new Guid("00a63995-a7e4-42b2-8408-a31f5fc8abbf"),
+                                    Type = "Fahrenheit",
+                                    Value = 13.0
+                                },
+                                new
+                                {
+                                    WeatherForecastId = new Guid("28259e9d-fa7d-4915-baa7-85cba9ca31d2"),
+                                    Type = "Fahrenheit",
+                                    Value = 22.0
+                                },
+                                new
+                                {
+                                    WeatherForecastId = new Guid("4c1ba407-415e-4894-a489-d1f9541ea658"),
+                                    Type = "Fahrenheit",
+                                    Value = 22.0
+                                },
+                                new
+                                {
+                                    WeatherForecastId = new Guid("b7ee5b3a-e2ef-4aa5-9fe1-e9bac4f46ab2"),
                                     Type = "Fahrenheit",
                                     Value = 29.0
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("e5b2ae1c-8089-48ad-aca5-dc0b622cfbcf"),
+                                    WeatherForecastId = new Guid("bdea3223-7e74-42dc-9daa-90602e60e403"),
+                                    Type = "Fahrenheit",
+                                    Value = 12.0
+                                },
+                                new
+                                {
+                                    WeatherForecastId = new Guid("c7d15f40-1ac1-4b53-a0e5-7401aa095687"),
+                                    Type = "Fahrenheit",
+                                    Value = 25.0
+                                },
+                                new
+                                {
+                                    WeatherForecastId = new Guid("9c7212f2-28b4-4ef2-bb15-16d60b9863eb"),
+                                    Type = "Fahrenheit",
+                                    Value = -1.0
+                                },
+                                new
+                                {
+                                    WeatherForecastId = new Guid("b4315a8a-af9f-4966-ab77-c6bce7dbfc27"),
+                                    Type = "Fahrenheit",
+                                    Value = 9.0
+                                },
+                                new
+                                {
+                                    WeatherForecastId = new Guid("19775645-82a7-4f10-917d-5a1e82c403f2"),
+                                    Type = "Celsius",
+                                    Value = 1.0
+                                },
+                                new
+                                {
+                                    WeatherForecastId = new Guid("831d8fda-64ce-414b-8ecc-1a90dc9f51ad"),
                                     Type = "Fahrenheit",
                                     Value = 10.0
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("51138dcd-9663-4ad8-b3c2-fde18da242ae"),
+                                    WeatherForecastId = new Guid("4e844bd9-f72d-41ea-9939-713fe9198b20"),
                                     Type = "Fahrenheit",
-                                    Value = 34.0
+                                    Value = 32.0
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("81d5a557-4476-4c46-b575-66e2b9fb886d"),
-                                    Type = "Fahrenheit",
-                                    Value = 8.0
-                                },
-                                new
-                                {
-                                    WeatherForecastId = new Guid("f5609cad-8529-4968-b223-3d540c2247d2"),
+                                    WeatherForecastId = new Guid("834debb2-fd24-4b4f-8c5a-11f0a9926976"),
                                     Type = "Celsius",
-                                    Value = 13.0
-                                },
-                                new
-                                {
-                                    WeatherForecastId = new Guid("85b92d6d-0400-49dc-848f-498c49d39398"),
-                                    Type = "Celsius",
-                                    Value = -2.0
+                                    Value = 9.0
                                 });
                         });
 
@@ -304,103 +304,103 @@ namespace CleanArchitecture.Template.Infrastructure.Migrations
                             b1.HasData(
                                 new
                                 {
-                                    WeatherForecastId = new Guid("b9da0708-19f1-4ece-9de1-1ea7b021cc30"),
-                                    Value = new DateOnly(2025, 7, 27)
+                                    WeatherForecastId = new Guid("5229527d-cea0-43a2-b14f-3e714bb6e0fb"),
+                                    Value = new DateOnly(2022, 7, 12)
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("1977f8fb-cf61-450b-a226-59071d78292b"),
-                                    Value = new DateOnly(2024, 4, 20)
+                                    WeatherForecastId = new Guid("e709a49a-2ca8-418f-bad4-3aa58f0041e1"),
+                                    Value = new DateOnly(2025, 11, 25)
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("4c6b0c09-f3ce-49bd-a18e-6b2164c4732a"),
-                                    Value = new DateOnly(2023, 8, 24)
+                                    WeatherForecastId = new Guid("c46f97e2-8b6c-4c67-97d5-b9224c374cee"),
+                                    Value = new DateOnly(2026, 2, 23)
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("c16d209d-c279-4721-bfed-f9f3af3f39a1"),
-                                    Value = new DateOnly(2026, 5, 26)
+                                    WeatherForecastId = new Guid("9aec4c12-0917-43e7-ac68-30b76b473b54"),
+                                    Value = new DateOnly(2025, 4, 28)
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("d1619856-8b73-45e5-a2ba-d5274ed924eb"),
-                                    Value = new DateOnly(2026, 6, 18)
+                                    WeatherForecastId = new Guid("0851bbdc-cf71-4009-9ba2-d4b1020e4aa8"),
+                                    Value = new DateOnly(2026, 7, 12)
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("21b5b494-b699-4cd9-92a1-f93d7a1ae89d"),
-                                    Value = new DateOnly(2022, 8, 25)
+                                    WeatherForecastId = new Guid("30eeeaee-12b4-4176-88a5-0045e32bcb6b"),
+                                    Value = new DateOnly(2022, 12, 24)
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("99861ec8-afcf-40ce-bf69-506545ef3881"),
-                                    Value = new DateOnly(2024, 7, 2)
+                                    WeatherForecastId = new Guid("cd25b402-d580-46e4-b3fa-f0ccd4d0c34c"),
+                                    Value = new DateOnly(2026, 4, 4)
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("4e83e289-28a6-44ea-b441-0ae79aad507d"),
-                                    Value = new DateOnly(2023, 5, 10)
+                                    WeatherForecastId = new Guid("4583e970-640c-409b-85eb-8bd5fb84ae4d"),
+                                    Value = new DateOnly(2023, 12, 27)
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("a48dbd18-102f-48a8-81c5-5ea57425489e"),
-                                    Value = new DateOnly(2024, 8, 30)
+                                    WeatherForecastId = new Guid("00a63995-a7e4-42b2-8408-a31f5fc8abbf"),
+                                    Value = new DateOnly(2026, 6, 20)
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("36dae24e-41cb-44b2-8ff7-32e425f985a1"),
-                                    Value = new DateOnly(2025, 7, 1)
+                                    WeatherForecastId = new Guid("28259e9d-fa7d-4915-baa7-85cba9ca31d2"),
+                                    Value = new DateOnly(2024, 7, 5)
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("513fb326-954e-437e-8e6a-d836a676e5c9"),
-                                    Value = new DateOnly(2026, 9, 26)
+                                    WeatherForecastId = new Guid("4c1ba407-415e-4894-a489-d1f9541ea658"),
+                                    Value = new DateOnly(2022, 3, 7)
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("af7ec632-c493-485a-ade8-1b22e174f758"),
-                                    Value = new DateOnly(2026, 4, 22)
+                                    WeatherForecastId = new Guid("b7ee5b3a-e2ef-4aa5-9fe1-e9bac4f46ab2"),
+                                    Value = new DateOnly(2025, 11, 27)
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("023eccf0-05d0-495f-b890-c2f1649918a2"),
-                                    Value = new DateOnly(2022, 3, 24)
+                                    WeatherForecastId = new Guid("bdea3223-7e74-42dc-9daa-90602e60e403"),
+                                    Value = new DateOnly(2022, 3, 25)
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("0aa9bd60-0527-4948-a552-b6bdc970c6fe"),
-                                    Value = new DateOnly(2023, 8, 1)
+                                    WeatherForecastId = new Guid("c7d15f40-1ac1-4b53-a0e5-7401aa095687"),
+                                    Value = new DateOnly(2023, 2, 17)
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("6239da15-2ad6-450f-89f9-7a7747ad2782"),
-                                    Value = new DateOnly(2023, 5, 16)
+                                    WeatherForecastId = new Guid("9c7212f2-28b4-4ef2-bb15-16d60b9863eb"),
+                                    Value = new DateOnly(2027, 2, 7)
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("e5b2ae1c-8089-48ad-aca5-dc0b622cfbcf"),
-                                    Value = new DateOnly(2022, 6, 6)
+                                    WeatherForecastId = new Guid("b4315a8a-af9f-4966-ab77-c6bce7dbfc27"),
+                                    Value = new DateOnly(2027, 1, 26)
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("51138dcd-9663-4ad8-b3c2-fde18da242ae"),
-                                    Value = new DateOnly(2023, 1, 3)
+                                    WeatherForecastId = new Guid("19775645-82a7-4f10-917d-5a1e82c403f2"),
+                                    Value = new DateOnly(2022, 1, 1)
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("81d5a557-4476-4c46-b575-66e2b9fb886d"),
-                                    Value = new DateOnly(2024, 7, 8)
+                                    WeatherForecastId = new Guid("831d8fda-64ce-414b-8ecc-1a90dc9f51ad"),
+                                    Value = new DateOnly(2023, 4, 30)
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("f5609cad-8529-4968-b223-3d540c2247d2"),
-                                    Value = new DateOnly(2025, 12, 20)
+                                    WeatherForecastId = new Guid("4e844bd9-f72d-41ea-9939-713fe9198b20"),
+                                    Value = new DateOnly(2023, 1, 9)
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("85b92d6d-0400-49dc-848f-498c49d39398"),
-                                    Value = new DateOnly(2022, 2, 19)
+                                    WeatherForecastId = new Guid("834debb2-fd24-4b4f-8c5a-11f0a9926976"),
+                                    Value = new DateOnly(2025, 7, 19)
                                 });
                         });
 

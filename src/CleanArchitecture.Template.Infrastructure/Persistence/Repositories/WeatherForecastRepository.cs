@@ -6,16 +6,22 @@ using CleanArchitecture.Template.Domain.Entities;
 using CleanArchitecture.Template.Infrastructure.Persistence.Repositories.Base;
 using CleanArchitecture.Template.SharedKernel.Specification;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories
 {
     internal class WeatherForecastRepository : IWeatherForecastRepository
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<WeatherForecastRepository> _logger;
 
-        public WeatherForecastRepository(ApplicationDbContext context)
+        public WeatherForecastRepository(
+            ApplicationDbContext context,
+            ILogger<WeatherForecastRepository> logger
+            )
         {
             _context = context;
+            _logger = logger;
         }
 
         public async Task AddAsync(WeatherForecast weatherForecast)
@@ -50,25 +56,30 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories
 
         public async Task<WeatherForecastGetListResponse> GetListAsync(ISpecification<WeatherForecast> specification)
         {
-            var query = ApplySpecification(specification).AsNoTracking();
-
-            var totalItems = await query.CountAsync();
-
-            var items = await query.Select(x => new WeatherForecastGetListItemResponse(
-                                       x.Id,
-                                       x.Date.Value,
-                                       x.Summary.ToString(),
-                                       x.Temperature.ToCelsius(),
-                                       x.Temperature.ToFahrenheit()))
-                                   .ToListAsync();
-
-            return new WeatherForecastGetListResponse
+            try
             {
-                Elements = items,
-                TotalCount = totalItems,
-                Page = specification.IsPagingEnabled ? specification.Page : null,
-                PageSize = specification.IsPagingEnabled ? specification.PageSize : null,
-            };
+
+                var query = ApplySpecification(specification).AsNoTracking();
+
+                var totalItems = await query.CountAsync();
+
+                var items = await query.Select(x => new WeatherForecastGetListItemResponse(
+                                           x.Id,
+                                           x.Date.Value,
+                                           x.Summary.ToString(),
+                                           x.Temperature.ToCelsius(),
+                                           x.Temperature.ToFahrenheit()))
+                                       .ToListAsync();
+
+                return new WeatherForecastGetListResponse
+                {
+                    Elements = items,
+                    TotalCount = totalItems,
+                    Page = specification.IsPagingEnabled ? specification.Page : null,
+                    PageSize = specification.IsPagingEnabled ? specification.PageSize : null,
+                };
+            }
+            catch (Exception ex) { _logger.LogInformation($"Error on getting weather forecast: {ex.Message}"); throw; }
         }
 
         private IQueryable<WeatherForecast> ApplySpecification(ISpecification<WeatherForecast> specification) => SpecificationEvaluator<WeatherForecast>
