@@ -1,4 +1,4 @@
-using CleanArchitecture.Template.Application.WeatherForecast.UseCases.GetAll;
+﻿using CleanArchitecture.Template.Application.WeatherForecast.UseCases.GetAll;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.GetById;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.List;
 
