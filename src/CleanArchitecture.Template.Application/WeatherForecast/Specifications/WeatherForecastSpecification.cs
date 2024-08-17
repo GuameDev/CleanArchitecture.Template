@@ -1,10 +1,10 @@
 ﻿using CleanArchitecture.Template.Application.WeatherForecast.DTOs;
-using CleanArchitecture.Template.Application.WeatherForecast.DTOs.List;
+using CleanArchitecture.Template.Application.WeatherForecast.UseCases.List;
 using CleanArchitecture.Template.SharedKernel.CommonTypes.Enums;
 using CleanArchitecture.Template.SharedKernel.Specification;
 using System.Linq.Expressions;
 
-namespace CleanArchitecture.Template.Application.WeatherForecast
+namespace CleanArchitecture.Template.Application.WeatherForecast.Specifications
 {
     public class WeatherForecastSpecification : BaseSpecification<Domain.Entities.WeatherForecast>
     {

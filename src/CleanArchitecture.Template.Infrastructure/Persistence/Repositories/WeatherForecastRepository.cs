@@ -1,7 +1,7 @@
-﻿using CleanArchitecture.Template.Application.WeatherForecast;
-using CleanArchitecture.Template.Application.WeatherForecast.DTOs.GetAll;
-using CleanArchitecture.Template.Application.WeatherForecast.DTOs.GetById;
-using CleanArchitecture.Template.Application.WeatherForecast.DTOs.List;
+﻿using CleanArchitecture.Template.Application.WeatherForecast.Repository;
+using CleanArchitecture.Template.Application.WeatherForecast.UseCases.GetAll;
+using CleanArchitecture.Template.Application.WeatherForecast.UseCases.GetById;
+using CleanArchitecture.Template.Application.WeatherForecast.UseCases.List;
 using CleanArchitecture.Template.Domain.Entities;
 using CleanArchitecture.Template.Infrastructure.Persistence.Repositories.Base;
 using CleanArchitecture.Template.SharedKernel.Specification;

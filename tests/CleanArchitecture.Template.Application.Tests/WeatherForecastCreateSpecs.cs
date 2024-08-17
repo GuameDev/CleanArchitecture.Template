@@ -1,5 +1,5 @@
-﻿using CleanArchitecture.Template.Application.WeatherForecast;
-using CleanArchitecture.Template.Application.WeatherForecast.DTOs.Create;
+﻿using CleanArchitecture.Template.Application.WeatherForecast.Repository;
+using CleanArchitecture.Template.Application.WeatherForecast.Services;
 using CleanArchitecture.Template.SharedKernel.CommonTypes.Enums;
 using CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects.Errors;
 using Moq;

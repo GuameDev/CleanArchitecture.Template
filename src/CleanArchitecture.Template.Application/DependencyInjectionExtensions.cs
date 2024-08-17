@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Template.Application.WeatherForecast;
+﻿using CleanArchitecture.Template.Application.WeatherForecast.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CleanArchitecture.Template.Application

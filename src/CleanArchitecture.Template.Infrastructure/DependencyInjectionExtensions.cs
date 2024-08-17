@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Template.Application.WeatherForecast;
+﻿using CleanArchitecture.Template.Application.WeatherForecast.Repository;
 using CleanArchitecture.Template.Infrastructure.Persistence;
 using CleanArchitecture.Template.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
