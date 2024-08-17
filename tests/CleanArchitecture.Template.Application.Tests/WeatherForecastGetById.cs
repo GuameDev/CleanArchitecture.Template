@@ -1,8 +1,9 @@
-using CleanArchitecture.Template.Application.WeatherForecast;
-using CleanArchitecture.Template.Application.WeatherForecast.DTOs.GetById;
-using CleanArchitecture.Template.SharedKernel.CommonTypes.Enums;
-using CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects;
-using CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects.Errors;
+using CleanArchitecture.Template.Application.WeatherForecast.Repository;
+using CleanArchitecture.Template.Application.WeatherForecast.Services;
+using CleanArchitecture.Template.Application.WeatherForecast.UseCases.GetById;
+using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
+using CleanArchitecture.Template.Domain.WeatherForecasts.Errors;
+using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects;
 using Moq;
 
 namespace CleanArchitecture.Template.Application.Tests
@@ -24,7 +25,7 @@ namespace CleanArchitecture.Template.Application.Tests
             // Arrange
             var request = new WeatherForecastGetByIdRequest(Guid.NewGuid());
 
-            var weatherForecast = Domain.Entities.WeatherForecast.Create(
+            var weatherForecast = Domain.WeatherForecasts.WeatherForecast.Create(
                 WeatherDate.Create(DateOnly.FromDateTime(DateTime.Now)).Value,
                 Temperature.FromCelsius(25).Value,
                 Summary.Mild
@@ -47,7 +48,7 @@ namespace CleanArchitecture.Template.Application.Tests
             // Arrange
             var request = new WeatherForecastGetByIdRequest(Guid.NewGuid());
 
-            _mockRepository.Setup(repo => repo.GetByIdAsync(request)).ReturnsAsync((Domain.Entities.WeatherForecast)null);
+            _mockRepository.Setup(repo => repo.GetByIdAsync(request)).ReturnsAsync((Domain.WeatherForecasts.WeatherForecast)null);
 
             // Act
             var result = await _service.GetById(request);

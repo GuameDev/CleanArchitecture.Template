@@ -5,16 +5,11 @@ namespace CleanArchitecture.Template.SharedKernel.Specification
     public class BaseSpecification<T> : ISpecification<T>
     {
         private readonly List<Expression<Func<T, bool>>> _criteria = new();
+        private readonly List<Expression<Func<T, object>>> _includes = new();
 
-        public BaseSpecification() { }
-
-        public BaseSpecification(Expression<Func<T, bool>> criteria)
-        {
-            _criteria.Add(criteria);
-        }
-
+        //Properties
         public IReadOnlyCollection<Expression<Func<T, bool>>> Criteria => _criteria.AsReadOnly();
-        public List<Expression<Func<T, object>>> Includes { get; } = new();
+        public IReadOnlyCollection<Expression<Func<T, object>>> Includes => _includes.AsReadOnly();
         public Expression<Func<T, object>> OrderBy { get; private set; }
         public Expression<Func<T, object>> OrderByDescending { get; private set; }
         public int Take { get; private set; }
@@ -23,34 +18,15 @@ namespace CleanArchitecture.Template.SharedKernel.Specification
         public int PageSize { get; set; }
         public bool IsPagingEnabled { get; private set; } = false;
 
-        protected void AddCriteria(Expression<Func<T, bool>> criteria)
-        {
-            _criteria.Add(criteria);
-        }
+        //Methods
+        protected void AddCriteria(Expression<Func<T, bool>> criteria) => _criteria.Add(criteria);
 
-        protected void AddInclude(Expression<Func<T, object>> includeExpression)
-        {
-            Includes.Add(includeExpression);
-        }
+        protected void AddInclude(Expression<Func<T, object>> includeExpression) => _includes.Add(includeExpression);
 
-        protected void AddOrderBy(Expression<Func<T, object>> orderByExpression)
-        {
-            OrderBy = orderByExpression;
-        }
+        protected void SetOrderBy(Expression<Func<T, object>> orderByExpression) => OrderBy = orderByExpression;
 
-        protected void AddOrderByDescending(Expression<Func<T, object>> orderByDescendingExpression)
-        {
-            OrderByDescending = orderByDescendingExpression;
-        }
+        protected void SetOrderByDescending(Expression<Func<T, object>> orderByDescendingExpression) => OrderByDescending = orderByDescendingExpression;
 
-        protected void ApplyPaging(int skip, int take, int page, int pageSize)
-        {
-            Skip = skip;
-            Take = take;
-            IsPagingEnabled = true;
-            Page = page;
-            PageSize = pageSize;
-        }
         protected void ApplyPaging(int? page, int? pageSize)
         {
             if (page is null || pageSize is null)
@@ -63,5 +39,8 @@ namespace CleanArchitecture.Template.SharedKernel.Specification
             PageSize = pageSize.Value;
         }
 
+        protected void AddCriteria(params Expression<Func<T, bool>>[] criteria) => _criteria.AddRange(criteria);
+
+        protected void AddIncludes(params Expression<Func<T, object>>[] includes) => _includes.AddRange(includes);
     }
 }

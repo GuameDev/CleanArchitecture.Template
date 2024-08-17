@@ -1,7 +1,7 @@
 ﻿namespace CleanArchitecture.Template.SharedKernel.Tests.Results
 {
+    using CleanArchitecture.Template.SharedKernel.CommonTypes;
     using CleanArchitecture.Template.SharedKernel.CommonTypes.Enums;
-    using CleanArchitecture.Template.SharedKernel.CommonTypes.ValueObjects.Errors.Base;
     using CleanArchitecture.Template.SharedKernel.Results;
     using Xunit;
 

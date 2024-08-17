@@ -1,4 +1,5 @@
-﻿using CleanArchitecture.Template.Domain.Entities;
+﻿using CleanArchitecture.Template.Domain.WeatherForecasts;
+using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
 using CleanArchitecture.Template.SharedKernel.CommonTypes.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
