@@ -1,6 +1,8 @@
+using CleanArchitecture.Template.Api.Requests.WeatherForecast;
 using CleanArchitecture.Template.Api.Results;
 using CleanArchitecture.Template.Application.WeatherForecast.Services;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.Create;
+using CleanArchitecture.Template.Application.WeatherForecast.UseCases.Delete;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.GetById;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.List;
 using CleanArchitecture.Template.SharedKernel.Results;
@@ -63,7 +65,11 @@ namespace CleanArchitecture.Template.Api.Controllers
             return result.Match(onSuccess: Ok, onFailure: ApiResults.Problem);
         }
 
-
+        /// <summary>
+        /// Create a weather forecast entity
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] WeatherForecastCreateRequest request)
         {
@@ -71,6 +77,24 @@ namespace CleanArchitecture.Template.Api.Controllers
 
             return result.Match(
                 onSuccess: () => CreatedAtAction(nameof(GetById), new { id = result.Value.Id }, result.Value),
+                onFailure: ApiResults.Problem
+            );
+        }
+
+        /// <summary>
+        /// Delete a Weather forecast entity by his ID
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] WeatherForecastDeleteApiRequest request)
+        {
+
+            var result = await _weatherForecastService.DeleteAsync(new WeatherForecastDeleteRequest(request.Id));
+
+            return result.Match(
+                onSuccess: Ok,
                 onFailure: ApiResults.Problem
             );
         }
