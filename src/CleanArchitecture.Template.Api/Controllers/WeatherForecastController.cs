@@ -90,7 +90,6 @@ namespace CleanArchitecture.Template.Api.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Delete([FromRoute] WeatherForecastDeleteApiRequest request)
         {
-
             var result = await _weatherForecastService.DeleteAsync(new WeatherForecastDeleteRequest(request.Id));
 
             return result.Match(

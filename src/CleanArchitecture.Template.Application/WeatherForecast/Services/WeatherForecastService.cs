@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Template.Application.WeatherForecast.Repository;
+﻿using CleanArchitecture.Template.Application.Base.UnitOfWork;
 using CleanArchitecture.Template.Application.WeatherForecast.Specifications;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.Create;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.Delete;
@@ -13,20 +13,20 @@ namespace CleanArchitecture.Template.Application.WeatherForecast.Services
 {
     public class WeatherForecastService : IWeatherForecastService
     {
-        private readonly IWeatherForecastRepository _weatherForecastRepository;
-
-        public WeatherForecastService(IWeatherForecastRepository weatherForecastRepository)
+        private readonly IUnitOfWork _unitOfWork;
+        public WeatherForecastService(IUnitOfWork unitOfWork)
         {
-            _weatherForecastRepository = weatherForecastRepository;
+            _unitOfWork = unitOfWork;
         }
+
 
         public async Task<Result<WeatherForecastCreateResponse>> CreateAsync(WeatherForecastCreateRequest request)
         {
-            //Try to create value objects
+            // Try to create value objects
             var temperatureResult = Temperature.Create(request.Temperature, request.TemperatureType);
             var dateResult = WeatherDate.Create(request.Date);
 
-            //Check of the result of the creation of value objects its a success
+            // Check if the creation of value objects is a success
             var weatherForecastResult = Domain.WeatherForecasts.WeatherForecast.Create(dateResult, temperatureResult, request.Summary);
 
             if (weatherForecastResult.IsFailure)
@@ -34,39 +34,44 @@ namespace CleanArchitecture.Template.Application.WeatherForecast.Services
 
             // Persist the entity in the repository
             var entity = weatherForecastResult.Value;
-            await _weatherForecastRepository.AddAsync(entity);
+            await _unitOfWork.WeatherForecastRepository.AddAsync(entity);
 
-            //TODO: AutoMapper
-            return Result.Success(new WeatherForecastCreateResponse
-                (entity.Id,
+            // Commit the transaction
+            await _unitOfWork.CommitAsync();
+
+            // TODO: AutoMapper
+            return Result.Success(new WeatherForecastCreateResponse(
+                entity.Id,
                 entity.Date.Value,
                 entity.Summary.ToString(),
                 entity.Temperature.ToCelsius(),
                 entity.Temperature.ToFahrenheit()
-                ));
+            ));
         }
 
         public async Task<Result> DeleteAsync(WeatherForecastDeleteRequest request)
         {
-            var entity = await _weatherForecastRepository.GetByIdAsync(new WeatherForecastGetByIdRequest(request.Id));
+            var entity = await _unitOfWork.WeatherForecastRepository.GetByIdAsync(new WeatherForecastGetByIdRequest(request.Id));
 
             if (entity is null)
                 return Result.Failure(WeatherForecastErrors.NotFound);
 
-            await _weatherForecastRepository.DeleteAsync(entity.Id);
+            await _unitOfWork.WeatherForecastRepository.DeleteAsync(entity.Id);
+
+            // Commit the transaction
+            await _unitOfWork.CommitAsync();
 
             return Result.Success();
         }
-
         public async Task<Result<WeatherForecastGetAllListResponse>> GetAllAsync()
         {
-            var elements = await _weatherForecastRepository.GetAllAsync();
+            var elements = await _unitOfWork.WeatherForecastRepository.GetAllAsync();
             return Result.Success(elements);
         }
 
         public async Task<Result<WeatherForecastGetByIdResponse>> GetById(WeatherForecastGetByIdRequest request)
         {
-            var entity = await _weatherForecastRepository.GetByIdAsync(request);
+            var entity = await _unitOfWork.WeatherForecastRepository.GetByIdAsync(request);
 
             return entity is not null
                 ? Result.Success(new WeatherForecastGetByIdResponse(
@@ -82,7 +87,7 @@ namespace CleanArchitecture.Template.Application.WeatherForecast.Services
 
         public async Task<Result<WeatherForecastGetListResponse>> GetListAsync(WeatherForecastGetListRequest request)
         {
-            var elements = await _weatherForecastRepository.GetListAsync(new WeatherForecastSpecification(request));
+            var elements = await _unitOfWork.WeatherForecastRepository.GetListAsync(new WeatherForecastSpecification(request));
             return Result.Success(elements);
         }
     }
