@@ -1,6 +1,7 @@
 ﻿using CleanArchitecture.Template.Application.WeatherForecast.Repository;
 using CleanArchitecture.Template.Application.WeatherForecast.Specifications;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.Create;
+using CleanArchitecture.Template.Application.WeatherForecast.UseCases.Delete;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.GetAll;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.GetById;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.List;
@@ -43,6 +44,18 @@ namespace CleanArchitecture.Template.Application.WeatherForecast.Services
                 entity.Temperature.ToCelsius(),
                 entity.Temperature.ToFahrenheit()
                 ));
+        }
+
+        public async Task<Result> DeleteAsync(WeatherForecastDeleteRequest request)
+        {
+            var entity = await _weatherForecastRepository.GetByIdAsync(new WeatherForecastGetByIdRequest(request.Id));
+
+            if (entity is null)
+                return Result.Failure(WeatherForecastErrors.NotFound);
+
+            await _weatherForecastRepository.DeleteAsync(entity.Id);
+
+            return Result.Success();
         }
 
         public async Task<Result<WeatherForecastGetAllListResponse>> GetAllAsync()

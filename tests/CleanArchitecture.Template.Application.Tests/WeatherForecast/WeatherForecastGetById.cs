@@ -6,7 +6,7 @@ using CleanArchitecture.Template.Domain.WeatherForecasts.Errors;
 using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects;
 using Moq;
 
-namespace CleanArchitecture.Template.Application.Tests
+namespace CleanArchitecture.Template.Application.Tests.WeatherForecast
 {
     public class WeatherForecastGetByIdSpecs
     {

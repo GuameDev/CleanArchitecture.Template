@@ -30,9 +30,9 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public Task DeleteAsync(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            await _context.WeatherForecasts.Where(x => x.Id == id).ExecuteDeleteAsync();
         }
 
         public async Task<WeatherForecastGetAllListResponse> GetAllAsync()
