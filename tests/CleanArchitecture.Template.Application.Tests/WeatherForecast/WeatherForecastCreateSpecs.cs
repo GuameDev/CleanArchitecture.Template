@@ -5,7 +5,7 @@ using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Errors;
 using Moq;
 
-namespace CleanArchitecture.Template.Application.Tests.WeatherForecast
+namespace CleanArchitecture.Template.Application.Tests
 {
     public class WeatherForecastCreateSpecs
     {

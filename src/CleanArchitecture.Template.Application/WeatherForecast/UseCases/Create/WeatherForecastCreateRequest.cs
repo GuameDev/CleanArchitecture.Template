@@ -1,5 +1,4 @@
 ﻿using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
-using CleanArchitecture.Template.SharedKernel.CommonTypes.Enums;
 namespace CleanArchitecture.Template.Application.WeatherForecast.UseCases.Create
 
 {

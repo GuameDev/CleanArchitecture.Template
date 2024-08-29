@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.Validators;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -9,16 +10,20 @@ namespace CleanArchitecture.Template.Api.Swagger
     {
         private readonly IServiceProvider _serviceProvider;
 
-        public FluentValidationSchemaFilter(IServiceProvider factory)
+        public FluentValidationSchemaFilter(IServiceProvider serviceProvider)
         {
-            _serviceProvider = factory;
+            _serviceProvider = serviceProvider;
         }
 
         public void Apply(OpenApiSchema model, SchemaFilterContext context)
         {
             var name = context.Type.Name;
 
-            if (_serviceProvider.GetService(typeof(IValidator<>).MakeGenericType(context.Type)) is not IValidator validator)
+            // Create a scope to resolve scoped services
+            using var scope = _serviceProvider.CreateScope();
+            var scopedServiceProvider = scope.ServiceProvider;
+
+            if (scopedServiceProvider.GetService(typeof(IValidator<>).MakeGenericType(context.Type)) is not IValidator validator)
                 return;
 
             var validatorDescriptor = validator.CreateDescriptor();

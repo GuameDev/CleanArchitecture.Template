@@ -7,6 +7,7 @@ using CleanArchitecture.Template.Application.WeatherForecast.UseCases.GetById;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.List;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Errors;
 using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects;
+using CleanArchitecture.Template.SharedKernel.CommonTypes;
 using CleanArchitecture.Template.SharedKernel.Results;
 
 namespace CleanArchitecture.Template.Application.WeatherForecast.Services
@@ -14,14 +15,21 @@ namespace CleanArchitecture.Template.Application.WeatherForecast.Services
     public class WeatherForecastService : IWeatherForecastService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public WeatherForecastService(IUnitOfWork unitOfWork)
+        public WeatherForecastService(
+            IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
-
         public async Task<Result<WeatherForecastCreateResponse>> CreateAsync(WeatherForecastCreateRequest request)
         {
+            //Fluent validation
+            var validator = new WeatherForecastCreateRequestValidator();
+            var validationResult = await validator.ValidateAsync(request);
+
+            if (!validationResult.IsValid)
+                return Result.Failure<WeatherForecastCreateResponse>(Error.RequestValidation(string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage))));
+
             // Try to create value objects
             var temperatureResult = Temperature.Create(request.Temperature, request.TemperatureType);
             var dateResult = WeatherDate.Create(request.Date);
@@ -63,6 +71,7 @@ namespace CleanArchitecture.Template.Application.WeatherForecast.Services
 
             return Result.Success();
         }
+
         public async Task<Result<WeatherForecastGetAllListResponse>> GetAllAsync()
         {
             var elements = await _unitOfWork.WeatherForecastRepository.GetAllAsync();
@@ -83,7 +92,6 @@ namespace CleanArchitecture.Template.Application.WeatherForecast.Services
                 ))
                 : Result.Failure<WeatherForecastGetByIdResponse>(WeatherForecastErrors.NotFound);
         }
-
 
         public async Task<Result<WeatherForecastGetListResponse>> GetListAsync(WeatherForecastGetListRequest request)
         {
