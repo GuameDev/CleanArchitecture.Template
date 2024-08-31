@@ -1,6 +1,7 @@
 
 using CleanArchitecture.Template.Api.Extensions;
 using CleanArchitecture.Template.Application;
+using CleanArchitecture.Template.Host.Extensions;
 using CleanArchitecture.Template.Infrastructure;
 using Serilog;
 
@@ -20,6 +21,8 @@ namespace CleanArchitecture.Template.Api
                       .AddApplicationServices()
                       .AddInfrastructureServices();
 
+            builder.Services.AddCustomHealthChecks();
+
             var app = builder.Build();
 
             app.UseStaticFiles();
@@ -28,7 +31,11 @@ namespace CleanArchitecture.Template.Api
 
             app.Configure();
 
+            app.UseHealthChecksEndpoints();
+
             app.Run();
         }
+
+
     }
 }

@@ -40,7 +40,6 @@ namespace CleanArchitecture.Template.Api.Extensions
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
-
             return services;
         }
     }

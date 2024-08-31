@@ -36,6 +36,7 @@ namespace CleanArchitecture.Template.Api.Swagger
             options.SupportNonNullableReferenceTypes();
             options.UseInlineDefinitionsForEnums();
 
+            options.DocumentFilter<HealthChecksDocumentFilter>();
             options.SchemaFilter<FluentValidationSchemaFilter>();
 
             // Define el schema JWT como esquema de seguridad de la API
@@ -57,6 +58,36 @@ namespace CleanArchitecture.Template.Api.Swagger
 
             options.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, securityScheme);
             options.OperationFilter<JwtBearerOperationFilter>();
+        }
+        public class HealthChecksDocumentFilter : IDocumentFilter
+        {
+            public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
+            {
+                var pathItem = new OpenApiPathItem();
+                pathItem.AddOperation(OperationType.Get, new OpenApiOperation
+                {
+                    Tags = new List<OpenApiTag> { new OpenApiTag { Name = "Health Checks" } },
+                    Summary = "Health Check Endpoint",
+                    Description = "Returns the health status of the application.",
+                    Responses = new OpenApiResponses
+            {
+                {
+                    "200", new OpenApiResponse
+                    {
+                        Description = "OK"
+                    }
+                },
+                {
+                    "503", new OpenApiResponse
+                    {
+                        Description = "Service Unavailable"
+                    }
+                }
+            }
+                });
+
+                swaggerDoc.Paths.Add("/health", pathItem);
+            }
         }
     }
 }
