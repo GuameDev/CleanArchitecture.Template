@@ -1,4 +1,12 @@
 namespace CleanArchitecture.Template.Application.WeatherForecast.UseCases.GetAll
 {
-    public record WeatherForecastGetAllListItemResponse(Guid Id, DateOnly Date, string Summary, double TemperatureC, double TemperatureF);
+    public record WeatherForecastGetAllListItemResponse
+    {
+        public Guid Id { get; init; }
+        public DateOnly Date { get; init; }
+        public string Summary { get; init; } = string.Empty;
+        public double TemperatureCelsius { get; init; }
+        public double TemperatureFahrenheit { get; init; }
+
+    }
 }

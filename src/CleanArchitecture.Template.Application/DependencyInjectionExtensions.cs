@@ -17,6 +17,9 @@ namespace CleanArchitecture.Template.Application
             services.AddFluentValidationAutoValidation();
             services.AddFluentValidationClientsideAdapters();
 
+            //Automapper
+            services.AddAutoMapper(typeof(DependencyInjectionExtensions).Assembly);
+
             return services;
         }
     }

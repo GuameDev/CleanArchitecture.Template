@@ -41,14 +41,16 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories
 
             return new WeatherForecastGetAllListResponse()
             {
-                Elements = entities.Select(x => new WeatherForecastGetAllListItemResponse(
-                 x.Id,
-                 x.Date.Value,
-                 x.Summary.ToString(),
-                 x.Temperature.ToCelsius(),
-                 x.Temperature.ToFahrenheit())),
+                TotalCount = entities.Count,
+                Elements = entities.Select(x => new WeatherForecastGetAllListItemResponse()
+                {
+                    Id = x.Id,
+                    Date = x.Date.Value,
+                    Summary = x.Summary.ToString(),
+                    TemperatureCelsius = x.Temperature.ToCelsius(),
+                    TemperatureFahrenheit = x.Temperature.ToFahrenheit()
+                }),
 
-                TotalCount = entities.Count
             };
         }
         public Task<WeatherForecast?> GetByIdAsync(WeatherForecastGetByIdRequest request) => _context.WeatherForecasts
@@ -60,13 +62,16 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories
 
             var totalItems = await query.CountAsync();
 
-            var items = await query.Select(x => new WeatherForecastGetListItemResponse(
-                                       x.Id,
-                                       x.Date.Value,
-                                       x.Summary.ToString(),
-                                       x.Temperature.ToCelsius(),
-                                       x.Temperature.ToFahrenheit()))
-                                   .ToListAsync();
+            var items = await query
+                .Select(x => new WeatherForecastGetListItemResponse()
+                {
+                    Id = x.Id,
+                    Date = x.Date.Value,
+                    Summary = x.Summary.ToString(),
+                    TemperatureCelsius = x.Temperature.ToCelsius(),
+                    TemperatureFahrenheit = x.Temperature.ToFahrenheit()
+                })
+                .ToListAsync();
 
             return new WeatherForecastGetListResponse
             {

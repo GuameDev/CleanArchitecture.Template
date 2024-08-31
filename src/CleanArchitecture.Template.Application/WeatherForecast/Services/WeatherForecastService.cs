@@ -1,4 +1,5 @@
-﻿using CleanArchitecture.Template.Application.Base.UnitOfWork;
+﻿using AutoMapper;
+using CleanArchitecture.Template.Application.Base.UnitOfWork;
 using CleanArchitecture.Template.Application.WeatherForecast.Specifications;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.Create;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.Delete;
@@ -16,10 +17,14 @@ namespace CleanArchitecture.Template.Application.WeatherForecast.Services
     public class WeatherForecastService : IWeatherForecastService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
+
         public WeatherForecastService(
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         public async Task<Result<WeatherForecastCreateResponse>> CreateAsync(WeatherForecastCreateRequest request)
@@ -48,14 +53,7 @@ namespace CleanArchitecture.Template.Application.WeatherForecast.Services
             // Commit the transaction
             await _unitOfWork.CommitAsync();
 
-            // TODO: AutoMapper
-            return Result.Success(new WeatherForecastCreateResponse(
-                entity.Id,
-                entity.Date.Value,
-                entity.Summary.ToString(),
-                entity.Temperature.ToCelsius(),
-                entity.Temperature.ToFahrenheit()
-            ));
+            return Result.Success(_mapper.Map<WeatherForecastCreateResponse>(entity));
         }
 
         public async Task<Result> DeleteAsync(WeatherForecastDeleteRequest request)
@@ -99,13 +97,7 @@ namespace CleanArchitecture.Template.Application.WeatherForecast.Services
             var entity = await _unitOfWork.WeatherForecastRepository.GetByIdAsync(request);
 
             return entity is not null
-                ? Result.Success(new WeatherForecastGetByIdResponse(
-                    entity.Id,
-                    entity.Date.Value,
-                    entity.Summary.ToString(),
-                    entity.Temperature.ToCelsius(),
-                    entity.Temperature.ToFahrenheit()
-                ))
+                ? Result.Success(_mapper.Map<WeatherForecastGetByIdResponse>(entity))
                 : Result.Failure<WeatherForecastGetByIdResponse>(WeatherForecastErrors.NotFound);
         }
 
@@ -143,13 +135,7 @@ namespace CleanArchitecture.Template.Application.WeatherForecast.Services
             await _unitOfWork.WeatherForecastRepository.UpdateAsync(entity);
             await _unitOfWork.CommitAsync();
 
-            //TODO:Automapper
-            return Result.Success(new WeatherForecastUpdateResponse(
-                entity.Id,
-                entity.Date.Value,
-                entity.Summary.ToString(),
-                entity.Temperature.ToCelsius(),
-                entity.Temperature.ToFahrenheit()));
+            return Result.Success(_mapper.Map<WeatherForecastUpdateResponse>(entity));
         }
     }
 }

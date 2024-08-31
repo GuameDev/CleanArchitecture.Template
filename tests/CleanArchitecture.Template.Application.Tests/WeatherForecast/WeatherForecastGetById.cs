@@ -1,4 +1,5 @@
-using CleanArchitecture.Template.Application.WeatherForecast.Repository;
+using AutoMapper;
+using CleanArchitecture.Template.Application.Base.UnitOfWork;
 using CleanArchitecture.Template.Application.WeatherForecast.Services;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.GetById;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
@@ -10,13 +11,15 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecast
 {
     public class WeatherForecastGetByIdSpecs
     {
-        private readonly Mock<IWeatherForecastRepository> _mockRepository;
+        private readonly Mock<IUnitOfWork> _mockUnitOfWork;
+        private readonly Mock<IMapper> _mockMapper;
         private readonly WeatherForecastService _service;
 
         public WeatherForecastGetByIdSpecs()
         {
-            _mockRepository = new Mock<IWeatherForecastRepository>();
-            _service = new WeatherForecastService(_mockRepository.Object);
+            _mockUnitOfWork = new Mock<IUnitOfWork>();
+            _mockMapper = new Mock<IMapper>();
+            _service = new WeatherForecastService(_mockUnitOfWork.Object, _mockMapper.Object);
         }
 
         [Fact]
@@ -25,13 +28,24 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecast
             // Arrange
             var request = new WeatherForecastGetByIdRequest(Guid.NewGuid());
 
-            var weatherForecast = Domain.WeatherForecasts.WeatherForecast.Create(
+            var entity = Domain.WeatherForecasts.WeatherForecast.Create(
                 WeatherDate.Create(DateOnly.FromDateTime(DateTime.Now)).Value,
                 Temperature.FromCelsius(25).Value,
                 Summary.Mild
             ).Value;
 
-            _mockRepository.Setup(repo => repo.GetByIdAsync(request)).ReturnsAsync(weatherForecast);
+            _mockUnitOfWork.Setup(uow => uow.WeatherForecastRepository.GetByIdAsync(request)).ReturnsAsync(entity);
+
+            _mockMapper.Setup(m => m.Map<WeatherForecastGetByIdResponse>(entity))
+                      .Returns(new WeatherForecastGetByIdResponse()
+                      {
+                          Id = entity.Id,
+                          Date = DateOnly.FromDateTime(DateTime.Now),
+                          Summary = "Mild",
+                          TemperatureCelsius = 25,
+                          TemperatureFahrenheit = 77
+                      }
+                       );
 
             // Act
             var result = await _service.GetById(request);
@@ -39,7 +53,7 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecast
             // Assert
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Value);
-            Assert.Equal(weatherForecast.Id, result.Value.Id);
+            Assert.Equal(entity.Id, result.Value.Id);
         }
 
         [Fact]
@@ -48,7 +62,7 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecast
             // Arrange
             var request = new WeatherForecastGetByIdRequest(Guid.NewGuid());
 
-            _mockRepository.Setup(repo => repo.GetByIdAsync(request)).ReturnsAsync((Domain.WeatherForecasts.WeatherForecast)null);
+            _mockUnitOfWork.Setup(uow => uow.WeatherForecastRepository.GetByIdAsync(request)).ReturnsAsync((Domain.WeatherForecasts.WeatherForecast)null);
 
             // Act
             var result = await _service.GetById(request);
