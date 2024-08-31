@@ -12,7 +12,7 @@ namespace CleanArchitecture.Template.Api.Swagger
     {
         internal static void Configure(SwaggerGenOptions options)
         {
-            var xmlDistributedServicesPath = Path.Combine(AppContext.BaseDirectory, $"{typeof(DependencyInjectionExtensions).Namespace}.xml");
+            var xmlDistributedServicesPath = Path.Combine(AppContext.BaseDirectory, $"{typeof(DependencyInjectionExtensions).Namespace!.Replace(".Extensions", string.Empty)}.xml");
             if (File.Exists(xmlDistributedServicesPath))
                 options.IncludeXmlComments(xmlDistributedServicesPath);
 

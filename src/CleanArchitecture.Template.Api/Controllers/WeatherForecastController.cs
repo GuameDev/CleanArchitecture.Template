@@ -3,7 +3,6 @@ using CleanArchitecture.Template.Api.Results;
 using CleanArchitecture.Template.Application.WeatherForecast.Services;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.Create;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.Delete;
-using CleanArchitecture.Template.Application.WeatherForecast.UseCases.GetById;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.List;
 using CleanArchitecture.Template.SharedKernel.Results;
 using Microsoft.AspNetCore.Mvc;
@@ -27,13 +26,13 @@ namespace CleanArchitecture.Template.Api.Controllers
         /// <summary>
         /// Get a weather forecast entity by his ID
         /// </summary>
-        /// <param name="request"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("{Id}")]
-        public async Task<IActionResult> GetById([FromRoute] WeatherForecastGetByIdRequest request)
+        [Route("{id}")]
+        public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
-            var result = await _weatherForecastService.GetById(request);
+            var result = await _weatherForecastService.GetById(new(id));
             return result.Match(onSuccess: Ok, onFailure: ApiResults.Problem);
         }
 

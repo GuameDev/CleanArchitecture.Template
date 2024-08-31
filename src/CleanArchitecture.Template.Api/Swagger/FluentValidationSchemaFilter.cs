@@ -17,18 +17,16 @@ namespace CleanArchitecture.Template.Api.Swagger
 
         public void Apply(OpenApiSchema model, SchemaFilterContext context)
         {
-            var name = context.Type.Name;
-
-            // Create a scope to resolve scoped services
             using var scope = _serviceProvider.CreateScope();
-            var scopedServiceProvider = scope.ServiceProvider;
+            var validator = scope.ServiceProvider.GetService(typeof(IValidator<>).MakeGenericType(context.Type)) as IValidator;
 
-            if (scopedServiceProvider.GetService(typeof(IValidator<>).MakeGenericType(context.Type)) is not IValidator validator)
+            if (validator == null)
                 return;
 
             var validatorDescriptor = validator.CreateDescriptor();
 
             foreach (var propertyValidators in validatorDescriptor.GetMembersWithValidators())
+            {
                 foreach (var propertyValidator in propertyValidators)
                 {
                     var key = model.Properties.First(x => x.Key.ToLower() == propertyValidators.Key.ToLower()).Key;
@@ -47,6 +45,7 @@ namespace CleanArchitecture.Template.Api.Swagger
                     if (propertyValidator.Validator is IRegularExpressionValidator expressionValidator)
                         model.Properties[key].Pattern = expressionValidator.Expression;
                 }
+            }
         }
     }
 }
