@@ -5,6 +5,7 @@ using CleanArchitecture.Template.Application.WeatherForecast.UseCases.Delete;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.GetAll;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.GetById;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.List;
+using CleanArchitecture.Template.Application.WeatherForecast.UseCases.Update;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Errors;
 using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects;
 using CleanArchitecture.Template.SharedKernel.CommonTypes;
@@ -59,6 +60,14 @@ namespace CleanArchitecture.Template.Application.WeatherForecast.Services
 
         public async Task<Result> DeleteAsync(WeatherForecastDeleteRequest request)
         {
+            //TODO: Refactor fluent validation with mediator pattern (MediatR)
+            var validator = new WeatherForecastDeleteRequestValidator();
+            var validationResult = await validator.ValidateAsync(request);
+
+            if (!validationResult.IsValid)
+                return Result.Failure<WeatherForecastCreateResponse>(Error.RequestValidation(string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage))));
+
+
             var entity = await _unitOfWork.WeatherForecastRepository.GetByIdAsync(new WeatherForecastGetByIdRequest(request.Id));
 
             if (entity is null)
@@ -80,6 +89,13 @@ namespace CleanArchitecture.Template.Application.WeatherForecast.Services
 
         public async Task<Result<WeatherForecastGetByIdResponse>> GetById(WeatherForecastGetByIdRequest request)
         {
+
+            var validator = new WeatherForecastGetByIdRequestValidator();
+            var validationResult = await validator.ValidateAsync(request);
+
+            if (!validationResult.IsValid)
+                return Result.Failure<WeatherForecastGetByIdResponse>(Error.RequestValidation(string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage))));
+
             var entity = await _unitOfWork.WeatherForecastRepository.GetByIdAsync(request);
 
             return entity is not null
@@ -97,6 +113,43 @@ namespace CleanArchitecture.Template.Application.WeatherForecast.Services
         {
             var elements = await _unitOfWork.WeatherForecastRepository.GetListAsync(new WeatherForecastSpecification(request));
             return Result.Success(elements);
+        }
+
+        public async Task<Result<WeatherForecastUpdateResponse>> UpdateAsync(WeatherForecastUpdateRequest request)
+        {
+            var validator = new WeatherForecastUpdateRequestValidator();
+            var validationResult = await validator.ValidateAsync(request);
+
+            if (!validationResult.IsValid)
+                return Result.Failure<WeatherForecastUpdateResponse>(Error.RequestValidation(string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage))));
+
+            var entity = await _unitOfWork.WeatherForecastRepository.GetByIdAsync(new(request.Id));
+
+            if (entity is null)
+                return Result.Failure<WeatherForecastUpdateResponse>(WeatherForecastErrors.NotFound);
+
+            var dateResult = WeatherDate.Create(request.Date);
+            var temperatureResult = Temperature.Create(request.Temperature, request.TemperatureType);
+
+            var result = Result.Combine(dateResult, temperatureResult);
+
+            if (result.IsFailure)
+                return Result.Failure<WeatherForecastUpdateResponse>(result.Error);
+
+            entity.UpdateSummary(request.Summary);
+            entity.UpdateTemperature(temperatureResult.Value);
+            entity.UpdateDate(dateResult.Value);
+
+            await _unitOfWork.WeatherForecastRepository.UpdateAsync(entity);
+            await _unitOfWork.CommitAsync();
+
+            //TODO:Automapper
+            return Result.Success(new WeatherForecastUpdateResponse(
+                entity.Id,
+                entity.Date.Value,
+                entity.Summary.ToString(),
+                entity.Temperature.ToCelsius(),
+                entity.Temperature.ToFahrenheit()));
         }
     }
 }

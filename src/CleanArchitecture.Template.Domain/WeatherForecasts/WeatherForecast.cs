@@ -9,7 +9,7 @@ namespace CleanArchitecture.Template.Domain.WeatherForecasts
     public class WeatherForecast : Entity<Guid>
     {
         //Properties
-        public WeatherDate Date { get; }
+        public WeatherDate Date { get; private set; }
         public Temperature Temperature { get; private set; }
         public Summary Summary { get; private set; }
 
@@ -35,16 +35,16 @@ namespace CleanArchitecture.Template.Domain.WeatherForecasts
             Summary = summary;
         }
 
+        //Factory methods
         public static Result<WeatherForecast> Create(Result<WeatherDate> dateResult, Result<Temperature> temperatureResult, Summary summary)
         {
             return Result.Combine(dateResult, temperatureResult)
                  .OnSuccess(() => new WeatherForecast(dateResult.Value, temperatureResult.Value, summary) { Id = Guid.NewGuid() });
         }
 
-
-        //Methods
+        //Setters with DDD terminology
         public void UpdateTemperature(Temperature temperature) => Temperature = temperature;
-
         public void UpdateSummary(Summary newSummary) => Summary = newSummary;
+        public void UpdateDate(WeatherDate date) => Date = date;
     }
 }

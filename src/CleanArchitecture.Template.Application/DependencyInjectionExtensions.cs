@@ -9,12 +9,13 @@ namespace CleanArchitecture.Template.Application
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-            //Add fluent validation 
+            //Services
+            services.AddScoped<IWeatherForecastService, WeatherForecastService>();
+
+            //Fluent Validation 
             services.AddValidatorsFromAssembly(typeof(DependencyInjectionExtensions).Assembly);
             services.AddFluentValidationAutoValidation();
-
-
-            services.AddScoped<IWeatherForecastService, WeatherForecastService>();
+            services.AddFluentValidationClientsideAdapters();
 
             return services;
         }

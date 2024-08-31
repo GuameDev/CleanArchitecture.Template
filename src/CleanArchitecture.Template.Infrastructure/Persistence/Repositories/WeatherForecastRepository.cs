@@ -80,9 +80,10 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories
         private IQueryable<WeatherForecast> ApplySpecification(ISpecification<WeatherForecast> specification) => SpecificationEvaluator<WeatherForecast>
             .GetQuery(_context.WeatherForecasts.AsQueryable(), specification);
 
-        public Task UpdateAsync(WeatherForecast weatherForecast)
+        public async Task UpdateAsync(WeatherForecast weatherForecast)
         {
-            throw new NotImplementedException();
+            _context.WeatherForecasts.Update(weatherForecast);
+            await _context.SaveChangesAsync();
         }
     }
 }

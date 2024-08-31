@@ -3,6 +3,7 @@ using CleanArchitecture.Template.Application.WeatherForecast.UseCases.Delete;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.GetAll;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.GetById;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.List;
+using CleanArchitecture.Template.Application.WeatherForecast.UseCases.Update;
 using CleanArchitecture.Template.SharedKernel.Results;
 
 namespace CleanArchitecture.Template.Application.WeatherForecast.Services
@@ -14,5 +15,6 @@ namespace CleanArchitecture.Template.Application.WeatherForecast.Services
         Task<Result<WeatherForecastCreateResponse>> CreateAsync(WeatherForecastCreateRequest request);
         Task<Result<WeatherForecastGetByIdResponse>> GetById(WeatherForecastGetByIdRequest request);
         Task<Result> DeleteAsync(WeatherForecastDeleteRequest request);
+        Task<Result<WeatherForecastUpdateResponse>> UpdateAsync(WeatherForecastUpdateRequest request);
     }
 }

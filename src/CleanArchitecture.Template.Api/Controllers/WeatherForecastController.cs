@@ -6,7 +6,6 @@ using CleanArchitecture.Template.Application.WeatherForecast.UseCases.Delete;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.GetById;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.List;
 using CleanArchitecture.Template.SharedKernel.Results;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitecture.Template.Api.Controllers
@@ -57,7 +56,6 @@ namespace CleanArchitecture.Template.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("all")]
-        [AllowAnonymous]
         public async Task<IActionResult> GetAll()
         {
             var result = await _weatherForecastService.GetAllAsync();
@@ -96,6 +94,26 @@ namespace CleanArchitecture.Template.Api.Controllers
                 onSuccess: Ok,
                 onFailure: ApiResults.Problem
             );
+        }
+
+        /// <summary>
+        /// Update an existing weather forecast entity
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] WeatherForecastUpdateApiRequest request)
+        {
+            var result = await _weatherForecastService.UpdateAsync(new(
+                id,
+                request.Date,
+                request.Temperature,
+                request.TemperatureType,
+                request.Summary));
+
+            return result.Match(onSuccess: Ok, onFailure: ApiResults.Problem);
         }
     }
 }
