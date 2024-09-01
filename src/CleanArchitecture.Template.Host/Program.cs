@@ -29,13 +29,11 @@ namespace CleanArchitecture.Template.Api
 
             app.UseSerilogRequestLogging(options => options.IncludeQueryInRequestPath = true);
 
-            app.Configure();
-
             app.UseHealthChecksEndpoints();
+
+            app.Configure();
 
             app.Run();
         }
-
-
     }
 }

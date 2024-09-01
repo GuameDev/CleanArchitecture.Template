@@ -7,29 +7,27 @@ namespace CleanArchitecture.Template.Host.Extensions
     {
         public static void AddCustomHealthChecks(this IServiceCollection services)
         {
-            services.AddHealthChecks();
+            services
+                .AddHealthChecks();
 
             services
-            .AddHealthChecksUI()
-            .AddInMemoryStorage();
-
+                .AddHealthChecksUI()
+                .AddInMemoryStorage();
         }
 
         public static void UseHealthChecksEndpoints(this WebApplication app)
         {
-
-            // Add health check endpoints
-            app.UseHealthChecks("/health", new HealthCheckOptions
+            app.MapHealthChecks("/health", new HealthCheckOptions
             {
                 Predicate = _ => true,
                 ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-            });
+            }).RequireAuthorization();
 
-            app.UseHealthChecksUI(config =>
+            app.MapHealthChecksUI(config =>
             {
                 config.UIPath = "/health-ui";
                 config.ApiPath = "/health-json";
-            });
+            }).RequireAuthorization();
         }
     }
 }
