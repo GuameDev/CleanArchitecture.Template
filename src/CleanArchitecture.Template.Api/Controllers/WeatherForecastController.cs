@@ -1,10 +1,11 @@
 using CleanArchitecture.Template.Api.Requests.WeatherForecast;
 using CleanArchitecture.Template.Api.Results;
+using CleanArchitecture.Template.Application.WeatherForecast.Commands.Create;
 using CleanArchitecture.Template.Application.WeatherForecast.Services;
-using CleanArchitecture.Template.Application.WeatherForecast.UseCases.Create;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.Delete;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.List;
 using CleanArchitecture.Template.SharedKernel.Results;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitecture.Template.Api.Controllers
@@ -15,12 +16,15 @@ namespace CleanArchitecture.Template.Api.Controllers
     {
 
         private readonly IWeatherForecastService _weatherForecastService;
+        private readonly ISender _sender;
 
         public WeatherForecastController(
 
-            IWeatherForecastService weatherForecastService)
+            IWeatherForecastService weatherForecastService, ISender sender
+            )
         {
             _weatherForecastService = weatherForecastService;
+            _sender = sender;
         }
 
         /// <summary>
@@ -68,9 +72,9 @@ namespace CleanArchitecture.Template.Api.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] WeatherForecastCreateRequest request)
+        public async Task<IActionResult> Create([FromBody] CreateWeatherForecastCommand request)
         {
-            var result = await _weatherForecastService.CreateAsync(request);
+            var result = await _sender.Send(request);
 
             return result.Match(
                 onSuccess: () => CreatedAtAction(nameof(GetById), new { id = result.Value.Id }, result.Value),

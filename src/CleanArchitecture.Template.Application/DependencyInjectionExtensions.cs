@@ -3,6 +3,7 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
 
+
 namespace CleanArchitecture.Template.Application
 {
     public static class DependencyInjectionExtensions
@@ -19,6 +20,9 @@ namespace CleanArchitecture.Template.Application
 
             //Automapper
             services.AddAutoMapper(typeof(DependencyInjectionExtensions).Assembly);
+
+            //MediatR
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(DependencyInjectionExtensions).Assembly));
 
             return services;
         }
