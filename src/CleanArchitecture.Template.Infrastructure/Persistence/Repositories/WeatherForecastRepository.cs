@@ -30,9 +30,9 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public Task DeleteAsync(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            await _context.WeatherForecasts.Where(x => x.Id == id).ExecuteDeleteAsync();
         }
 
         public async Task<WeatherForecastGetAllListResponse> GetAllAsync()
@@ -41,14 +41,16 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories
 
             return new WeatherForecastGetAllListResponse()
             {
-                Elements = entities.Select(x => new WeatherForecastGetAllListItemResponse(
-                 x.Id,
-                 x.Date.Value,
-                 x.Summary.ToString(),
-                 x.Temperature.ToCelsius(),
-                 x.Temperature.ToFahrenheit())),
+                TotalCount = entities.Count,
+                Elements = entities.Select(x => new WeatherForecastGetAllListItemResponse()
+                {
+                    Id = x.Id,
+                    Date = x.Date.Value,
+                    Summary = x.Summary.ToString(),
+                    TemperatureCelsius = x.Temperature.ToCelsius(),
+                    TemperatureFahrenheit = x.Temperature.ToFahrenheit()
+                }),
 
-                TotalCount = entities.Count
             };
         }
         public Task<WeatherForecast?> GetByIdAsync(WeatherForecastGetByIdRequest request) => _context.WeatherForecasts
@@ -60,13 +62,16 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories
 
             var totalItems = await query.CountAsync();
 
-            var items = await query.Select(x => new WeatherForecastGetListItemResponse(
-                                       x.Id,
-                                       x.Date.Value,
-                                       x.Summary.ToString(),
-                                       x.Temperature.ToCelsius(),
-                                       x.Temperature.ToFahrenheit()))
-                                   .ToListAsync();
+            var items = await query
+                .Select(x => new WeatherForecastGetListItemResponse()
+                {
+                    Id = x.Id,
+                    Date = x.Date.Value,
+                    Summary = x.Summary.ToString(),
+                    TemperatureCelsius = x.Temperature.ToCelsius(),
+                    TemperatureFahrenheit = x.Temperature.ToFahrenheit()
+                })
+                .ToListAsync();
 
             return new WeatherForecastGetListResponse
             {
@@ -80,9 +85,10 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories
         private IQueryable<WeatherForecast> ApplySpecification(ISpecification<WeatherForecast> specification) => SpecificationEvaluator<WeatherForecast>
             .GetQuery(_context.WeatherForecasts.AsQueryable(), specification);
 
-        public Task UpdateAsync(WeatherForecast weatherForecast)
+        public async Task UpdateAsync(WeatherForecast weatherForecast)
         {
-            throw new NotImplementedException();
+            _context.WeatherForecasts.Update(weatherForecast);
+            await _context.SaveChangesAsync();
         }
     }
 }

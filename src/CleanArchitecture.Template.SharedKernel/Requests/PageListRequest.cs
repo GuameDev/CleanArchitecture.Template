@@ -12,8 +12,8 @@ namespace CleanArchitecture.Template.SharedKernel.Requests
         public int? Page { get; set; } = PageListConstants.DefaultPage;
         public int? PageSize { get; set; } = PageListConstants.DefaultPageSize;
         public bool IsPaginated { get; set; } = PageListConstants.DefaultIsPaginated;
-        public TOrderBy? OrderBy { get; set; }
         public SortDirection SortDirection { get; set; } = PageListConstants.DefaultSortDirection;
+        public TOrderBy? OrderBy { get; set; }
 
     }
 }

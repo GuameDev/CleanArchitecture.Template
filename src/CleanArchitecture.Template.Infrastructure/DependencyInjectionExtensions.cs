@@ -1,6 +1,8 @@
-﻿using CleanArchitecture.Template.Application.WeatherForecast.Repository;
+﻿using CleanArchitecture.Template.Application.Base.UnitOfWork;
+using CleanArchitecture.Template.Application.WeatherForecast.Repository;
 using CleanArchitecture.Template.Infrastructure.Persistence;
 using CleanArchitecture.Template.Infrastructure.Persistence.Repositories;
+using CleanArchitecture.Template.Infrastructure.Persistence.Repositories.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,6 +23,7 @@ namespace CleanArchitecture.Template.Infrastructure
 
             });
 
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IWeatherForecastRepository, WeatherForecastRepository>();
 
 

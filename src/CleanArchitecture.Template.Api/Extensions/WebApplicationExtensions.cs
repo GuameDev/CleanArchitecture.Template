@@ -25,6 +25,7 @@ namespace CleanArchitecture.Template.Api.Extensions
 
             //app.MapControllers().RequireAuthorization();
             app.MapControllers();
+
         }
     }
 }

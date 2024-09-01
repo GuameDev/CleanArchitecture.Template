@@ -12,7 +12,7 @@ namespace CleanArchitecture.Template.Api.Swagger
     {
         internal static void Configure(SwaggerGenOptions options)
         {
-            var xmlDistributedServicesPath = Path.Combine(AppContext.BaseDirectory, $"{typeof(DependencyInjectionExtensions).Namespace}.xml");
+            var xmlDistributedServicesPath = Path.Combine(AppContext.BaseDirectory, $"{typeof(DependencyInjectionExtensions).Namespace!.Replace(".Extensions", string.Empty)}.xml");
             if (File.Exists(xmlDistributedServicesPath))
                 options.IncludeXmlComments(xmlDistributedServicesPath);
 
@@ -36,9 +36,11 @@ namespace CleanArchitecture.Template.Api.Swagger
             options.SupportNonNullableReferenceTypes();
             options.UseInlineDefinitionsForEnums();
 
+            options.DocumentFilter<HealthChecksDocumentFilter>();
             options.SchemaFilter<FluentValidationSchemaFilter>();
 
-            // Define el schema JWT como esquema de seguridad de la API
+
+            // Define JWT security schema
             OpenApiSecurityScheme securityScheme = new OpenApiSecurityScheme()
             {
                 Name = "Authorization",
@@ -46,8 +48,7 @@ namespace CleanArchitecture.Template.Api.Swagger
                 Scheme = JwtBearerDefaults.AuthenticationScheme,
                 BearerFormat = "JWT",
                 In = ParameterLocation.Header,
-                Description =
-                    "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 12345abcdef\"",
+                Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 12345abcdef\"",
                 Reference = new OpenApiReference()
                 {
                     Type = ReferenceType.SecurityScheme,
@@ -57,6 +58,38 @@ namespace CleanArchitecture.Template.Api.Swagger
 
             options.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, securityScheme);
             options.OperationFilter<JwtBearerOperationFilter>();
+
+            options.DocumentFilter<OrderByHttpVerbFilter>();
+        }
+        public class HealthChecksDocumentFilter : IDocumentFilter
+        {
+            public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
+            {
+                var pathItem = new OpenApiPathItem();
+                pathItem.AddOperation(OperationType.Get, new OpenApiOperation
+                {
+                    Tags = new List<OpenApiTag> { new OpenApiTag { Name = "Health Checks" } },
+                    Summary = "Health Check Endpoint",
+                    Description = "Returns the health status of the application.",
+                    Responses = new OpenApiResponses
+            {
+                {
+                    "200", new OpenApiResponse
+                    {
+                        Description = "OK"
+                    }
+                },
+                {
+                    "503", new OpenApiResponse
+                    {
+                        Description = "Service Unavailable"
+                    }
+                }
+            }
+                });
+
+                swaggerDoc.Paths.Add("/health", pathItem);
+            }
         }
     }
 }

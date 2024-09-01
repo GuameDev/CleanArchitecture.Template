@@ -26,6 +26,7 @@ namespace CleanArchitecture.Template.SharedKernel.CommonTypes
         public static Error None => new Error("NoneError", "None error message", ErrorType.None);
         public static Error NullValue => new Error("NullValue.Error", "Null value message", ErrorType.NullValue);
         public static Error Validation(string code, string message) => new Error(code, message, ErrorType.Validation);
+        public static Error RequestValidation(string message) => new Error("ValidationError", message, ErrorType.Validation);
         public static Error Problem(string code, string message) => new Error(code, message, ErrorType.Problem);
         public static Error NotFound(string code, string message) => new Error(code, message, ErrorType.NotFound);
         public static Error Conflict(string code, string message) => new Error(code, message, ErrorType.Conflict);

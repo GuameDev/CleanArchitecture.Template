@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using CleanArchitecture.Template.SharedKernel.Constants;
+using System.Linq.Expressions;
 
 namespace CleanArchitecture.Template.SharedKernel.Specification
 {
@@ -29,15 +30,14 @@ namespace CleanArchitecture.Template.SharedKernel.Specification
 
         protected void ApplyPaging(int? page, int? pageSize)
         {
-            if (page is null || pageSize is null)
-                return;
 
-            Skip = (page.Value - 1) * pageSize.Value;
-            Take = pageSize.Value;
+            Page = page ?? PageListConstants.DefaultPage;
+            PageSize = pageSize ?? PageListConstants.DefaultPageSize;
+            Skip = (this.Page - 1) * this.PageSize;
+            Take = this.PageSize;
             IsPagingEnabled = true;
-            Page = page.Value;
-            PageSize = pageSize.Value;
         }
+
 
         protected void AddCriteria(params Expression<Func<T, bool>>[] criteria) => _criteria.AddRange(criteria);
 

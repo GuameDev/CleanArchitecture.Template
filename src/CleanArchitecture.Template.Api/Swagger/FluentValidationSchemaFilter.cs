@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.Validators;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -9,21 +10,23 @@ namespace CleanArchitecture.Template.Api.Swagger
     {
         private readonly IServiceProvider _serviceProvider;
 
-        public FluentValidationSchemaFilter(IServiceProvider factory)
+        public FluentValidationSchemaFilter(IServiceProvider serviceProvider)
         {
-            _serviceProvider = factory;
+            _serviceProvider = serviceProvider;
         }
 
         public void Apply(OpenApiSchema model, SchemaFilterContext context)
         {
-            var name = context.Type.Name;
+            using var scope = _serviceProvider.CreateScope();
+            var validator = scope.ServiceProvider.GetService(typeof(IValidator<>).MakeGenericType(context.Type)) as IValidator;
 
-            if (_serviceProvider.GetService(typeof(IValidator<>).MakeGenericType(context.Type)) is not IValidator validator)
+            if (validator == null)
                 return;
 
             var validatorDescriptor = validator.CreateDescriptor();
 
             foreach (var propertyValidators in validatorDescriptor.GetMembersWithValidators())
+            {
                 foreach (var propertyValidator in propertyValidators)
                 {
                     var key = model.Properties.First(x => x.Key.ToLower() == propertyValidators.Key.ToLower()).Key;
@@ -42,6 +45,7 @@ namespace CleanArchitecture.Template.Api.Swagger
                     if (propertyValidator.Validator is IRegularExpressionValidator expressionValidator)
                         model.Properties[key].Pattern = expressionValidator.Expression;
                 }
+            }
         }
     }
 }

@@ -38,8 +38,6 @@ namespace CleanArchitecture.Template.Api.Extensions
             services.AddHttpContextAccessor();
 
             services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
-
 
             return services;
         }
