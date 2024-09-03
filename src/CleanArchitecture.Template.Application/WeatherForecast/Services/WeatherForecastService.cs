@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CleanArchitecture.Template.Application.Base.UnitOfWork;
+using CleanArchitecture.Template.Application.WeatherForecast.Commands.Create;
 using CleanArchitecture.Template.Application.WeatherForecast.Specifications;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.Create;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.Delete;
@@ -27,14 +28,14 @@ namespace CleanArchitecture.Template.Application.WeatherForecast.Services
             _mapper = mapper;
         }
 
-        public async Task<Result<WeatherForecastCreateResponse>> CreateAsync(WeatherForecastCreateRequest request)
+        public async Task<Result<CreateWeatherForecastResponse>> CreateAsync(WeatherForecastCreateRequest request)
         {
             //Fluent validation
             var validator = new WeatherForecastCreateRequestValidator();
             var validationResult = await validator.ValidateAsync(request);
 
             if (!validationResult.IsValid)
-                return Result.Failure<WeatherForecastCreateResponse>(Error.RequestValidation(string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage))));
+                return Result.Failure<CreateWeatherForecastResponse>(Error.RequestValidation(string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage))));
 
             // Try to create value objects
             var temperatureResult = Temperature.Create(request.Temperature, request.TemperatureType);
@@ -44,7 +45,7 @@ namespace CleanArchitecture.Template.Application.WeatherForecast.Services
             var weatherForecastResult = Domain.WeatherForecasts.WeatherForecast.Create(dateResult, temperatureResult, request.Summary);
 
             if (weatherForecastResult.IsFailure)
-                return Result.Failure<WeatherForecastCreateResponse>(weatherForecastResult.Error);
+                return Result.Failure<CreateWeatherForecastResponse>(weatherForecastResult.Error);
 
             // Persist the entity in the repository
             var entity = weatherForecastResult.Value;
@@ -53,7 +54,7 @@ namespace CleanArchitecture.Template.Application.WeatherForecast.Services
             // Commit the transaction
             await _unitOfWork.CommitAsync();
 
-            return Result.Success(_mapper.Map<WeatherForecastCreateResponse>(entity));
+            return Result.Success(_mapper.Map<CreateWeatherForecastResponse>(entity));
         }
 
         public async Task<Result> DeleteAsync(WeatherForecastDeleteRequest request)
@@ -63,7 +64,7 @@ namespace CleanArchitecture.Template.Application.WeatherForecast.Services
             var validationResult = await validator.ValidateAsync(request);
 
             if (!validationResult.IsValid)
-                return Result.Failure<WeatherForecastCreateResponse>(Error.RequestValidation(string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage))));
+                return Result.Failure<CreateWeatherForecastResponse>(Error.RequestValidation(string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage))));
 
 
             var entity = await _unitOfWork.WeatherForecastRepository.GetByIdAsync(new WeatherForecastGetByIdRequest(request.Id));

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CleanArchitecture.Template.Application.Base.UnitOfWork;
+using CleanArchitecture.Template.Application.WeatherForecast.Commands.Create;
 using CleanArchitecture.Template.Application.WeatherForecast.Services;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.Create;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
@@ -36,8 +37,8 @@ namespace CleanArchitecture.Template.Application.Tests
             _mockUnitOfWork.Setup(uow => uow.WeatherForecastRepository.AddAsync(It.IsAny<Domain.WeatherForecasts.WeatherForecast>()))
                            .Returns(Task.CompletedTask);
 
-            _mockMapper.Setup(m => m.Map<WeatherForecastCreateResponse>(It.IsAny<Domain.WeatherForecasts.WeatherForecast>()))
-                       .Returns(new WeatherForecastCreateResponse()
+            _mockMapper.Setup(m => m.Map<CreateWeatherForecastResponse>(It.IsAny<Domain.WeatherForecasts.WeatherForecast>()))
+                       .Returns(new CreateWeatherForecastResponse()
                        {
                            Id = Guid.NewGuid(),
                            Date = DateOnly.FromDateTime(DateTime.Now),

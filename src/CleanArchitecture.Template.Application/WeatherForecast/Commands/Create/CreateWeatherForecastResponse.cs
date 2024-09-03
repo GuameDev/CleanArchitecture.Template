@@ -1,7 +1,7 @@
-namespace CleanArchitecture.Template.Application.WeatherForecast.UseCases.Create
+namespace CleanArchitecture.Template.Application.WeatherForecast.Commands.Create
 
 {
-    public record WeatherForecastCreateResponse
+    public record CreateWeatherForecastResponse
     {
         public Guid Id { get; init; }
         public DateOnly Date { get; init; }

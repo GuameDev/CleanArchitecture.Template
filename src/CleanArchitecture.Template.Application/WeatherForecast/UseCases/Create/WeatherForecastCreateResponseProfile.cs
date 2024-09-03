@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CleanArchitecture.Template.Application.WeatherForecast.Commands.Create;
 
 namespace CleanArchitecture.Template.Application.WeatherForecast.UseCases.Create
 {
@@ -6,7 +7,7 @@ namespace CleanArchitecture.Template.Application.WeatherForecast.UseCases.Create
     {
         public WeatherForecastCreateResponseProfile()
         {
-            CreateMap<Domain.WeatherForecasts.WeatherForecast, WeatherForecastCreateResponse>()
+            CreateMap<Domain.WeatherForecasts.WeatherForecast, CreateWeatherForecastResponse>()
                .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.Date.Value))
                .ForMember(dest => dest.Summary, opt => opt.MapFrom(src => src.Summary.ToString()))
                .ForMember(dest => dest.TemperatureCelsius, opt => opt.MapFrom(src => src.Temperature.ToCelsius()))

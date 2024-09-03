@@ -1,6 +1,8 @@
-﻿using CleanArchitecture.Template.Application.WeatherForecast.Services;
+﻿using CleanArchitecture.Template.Application.Base.Behaviour;
+using CleanArchitecture.Template.Application.WeatherForecast.Services;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
 
@@ -23,6 +25,9 @@ namespace CleanArchitecture.Template.Application
 
             //MediatR
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(DependencyInjectionExtensions).Assembly));
+
+            // Register the pipeline behavior for validation
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
             return services;
         }
