@@ -1,6 +1,6 @@
-﻿using CleanArchitecture.Template.Application.WeatherForecast.Repository;
-using CleanArchitecture.Template.Application.WeatherForecast.UseCases.GetAll;
-using CleanArchitecture.Template.Application.WeatherForecast.UseCases.GetById;
+﻿using CleanArchitecture.Template.Application.WeatherForecast.Queries.GetAll;
+using CleanArchitecture.Template.Application.WeatherForecast.Queries.GetById;
+using CleanArchitecture.Template.Application.WeatherForecast.Repository;
 using CleanArchitecture.Template.Application.WeatherForecast.UseCases.List;
 using CleanArchitecture.Template.Domain.WeatherForecasts;
 using CleanArchitecture.Template.Infrastructure.Persistence.Repositories.Base;
@@ -35,14 +35,14 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories
             await _context.WeatherForecasts.Where(x => x.Id == id).ExecuteDeleteAsync();
         }
 
-        public async Task<WeatherForecastGetAllListResponse> GetAllAsync()
+        public async Task<GetAllWeatherForecastResponse> GetAllAsync()
         {
             var entities = await _context.WeatherForecasts.ToListAsync();
 
-            return new WeatherForecastGetAllListResponse()
+            return new GetAllWeatherForecastResponse()
             {
                 TotalCount = entities.Count,
-                Elements = entities.Select(x => new WeatherForecastGetAllListItemResponse()
+                Elements = entities.Select(x => new GetAllWeatherForecastListItemResponse()
                 {
                     Id = x.Id,
                     Date = x.Date.Value,
@@ -53,7 +53,7 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories
 
             };
         }
-        public Task<WeatherForecast?> GetByIdAsync(WeatherForecastGetByIdRequest request) => _context.WeatherForecasts
+        public Task<WeatherForecast?> GetByIdAsync(GetWeatherForecastByIdRequest request) => _context.WeatherForecasts
             .FirstOrDefaultAsync(x => x.Id.Equals(request.Id));
 
         public async Task<WeatherForecastGetListResponse> GetListAsync(ISpecification<WeatherForecast> specification)

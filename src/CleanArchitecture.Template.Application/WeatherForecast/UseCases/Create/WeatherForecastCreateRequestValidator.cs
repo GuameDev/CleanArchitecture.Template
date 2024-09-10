@@ -3,7 +3,7 @@ using FluentValidation;
 namespace CleanArchitecture.Template.Application.WeatherForecast.UseCases.Create
 
 {
-    public class WeatherForecastCreateRequestValidator : AbstractValidator<WeatherForecastCreateRequest>
+    public class WeatherForecastCreateRequestValidator : AbstractValidator<CreateWeatherForecastRequest>
     {
         public WeatherForecastCreateRequestValidator()
         {

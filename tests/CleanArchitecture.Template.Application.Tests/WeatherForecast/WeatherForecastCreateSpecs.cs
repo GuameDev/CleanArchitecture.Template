@@ -26,7 +26,7 @@ namespace CleanArchitecture.Template.Application.Tests
         public async Task CreateAsync_ShouldReturnSuccess_WhenValidRequest()
         {
             // Arrange
-            var request = new WeatherForecastCreateRequest
+            var request = new CreateWeatherForecastRequest
             {
                 Date = DateOnly.FromDateTime(DateTime.Now),
                 Temperature = 25,
@@ -62,7 +62,7 @@ namespace CleanArchitecture.Template.Application.Tests
         public async Task CreateAsync_ShouldReturnFailure_WhenInvalidTemperature()
         {
             // Arrange
-            var request = new WeatherForecastCreateRequest
+            var request = new CreateWeatherForecastRequest
             {
                 Date = DateOnly.FromDateTime(DateTime.Now),
                 Temperature = -300, // Invalid temperature below absolute zero
@@ -83,7 +83,7 @@ namespace CleanArchitecture.Template.Application.Tests
         public async Task CreateAsync_ShouldReturnFailure_WhenInvalidDate()
         {
             // Arrange
-            var request = new WeatherForecastCreateRequest
+            var request = new CreateWeatherForecastRequest
             {
                 Date = DateOnly.FromDateTime(DateTime.MinValue),
                 Temperature = 25,

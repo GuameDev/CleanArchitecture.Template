@@ -1,12 +1,11 @@
-namespace CleanArchitecture.Template.Application.WeatherForecast.UseCases.GetAll
+﻿namespace CleanArchitecture.Template.Application.WeatherForecast.Commands.Update
 {
-    public record WeatherForecastGetAllListItemResponse
+    public record UpdateWeatherForecastResponse
     {
         public Guid Id { get; init; }
         public DateOnly Date { get; init; }
         public string Summary { get; init; } = string.Empty;
         public double TemperatureCelsius { get; init; }
         public double TemperatureFahrenheit { get; init; }
-
     }
 }

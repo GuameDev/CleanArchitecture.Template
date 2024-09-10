@@ -1,7 +1,7 @@
 using AutoMapper;
 using CleanArchitecture.Template.Application.Base.UnitOfWork;
+using CleanArchitecture.Template.Application.WeatherForecast.Queries.GetById;
 using CleanArchitecture.Template.Application.WeatherForecast.Services;
-using CleanArchitecture.Template.Application.WeatherForecast.UseCases.GetById;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Errors;
 using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects;
@@ -26,7 +26,7 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecast
         public async Task GetById_ShouldReturnSuccess_WhenEntityExists()
         {
             // Arrange
-            var request = new WeatherForecastGetByIdRequest(Guid.NewGuid());
+            var request = new GetWeatherForecastByIdRequest(Guid.NewGuid());
 
             var entity = Domain.WeatherForecasts.WeatherForecast.Create(
                 WeatherDate.Create(DateOnly.FromDateTime(DateTime.Now)).Value,
@@ -36,8 +36,8 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecast
 
             _mockUnitOfWork.Setup(uow => uow.WeatherForecastRepository.GetByIdAsync(request)).ReturnsAsync(entity);
 
-            _mockMapper.Setup(m => m.Map<WeatherForecastGetByIdResponse>(entity))
-                      .Returns(new WeatherForecastGetByIdResponse()
+            _mockMapper.Setup(m => m.Map<GetWeatherForecastByIdResponse>(entity))
+                      .Returns(new GetWeatherForecastByIdResponse()
                       {
                           Id = entity.Id,
                           Date = DateOnly.FromDateTime(DateTime.Now),
@@ -60,7 +60,7 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecast
         public async Task GetById_ShouldReturnFailure_WhenEntityDoesNotExist()
         {
             // Arrange
-            var request = new WeatherForecastGetByIdRequest(Guid.NewGuid());
+            var request = new GetWeatherForecastByIdRequest(Guid.NewGuid());
 
             _mockUnitOfWork.Setup(uow => uow.WeatherForecastRepository.GetByIdAsync(request)).ReturnsAsync((Domain.WeatherForecasts.WeatherForecast)null);
 

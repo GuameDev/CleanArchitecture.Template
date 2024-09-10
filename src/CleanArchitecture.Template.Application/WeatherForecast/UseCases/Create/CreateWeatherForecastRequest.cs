@@ -2,7 +2,7 @@
 namespace CleanArchitecture.Template.Application.WeatherForecast.UseCases.Create
 
 {
-    public class WeatherForecastCreateRequest
+    public class CreateWeatherForecastRequest
     {
         public DateOnly Date { get; set; }
         public double Temperature { get; set; }

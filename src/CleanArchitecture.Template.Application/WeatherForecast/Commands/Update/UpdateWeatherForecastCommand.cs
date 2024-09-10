@@ -1,12 +1,13 @@
 ﻿using CleanArchitecture.Template.Application.Base.Messaging;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
 
-namespace CleanArchitecture.Template.Application.WeatherForecast.Commands.Create
+namespace CleanArchitecture.Template.Application.WeatherForecast.Commands.Update
 {
-    public record CreateWeatherForecastCommand(
+    public record UpdateWeatherForecastCommand(
+        Guid Id,
         DateOnly Date,
         double Temperature,
         TemperatureType TemperatureType,
-        Summary Summary) : ICommand<CreateWeatherForecastResponse>
+        Summary Summary) : ICommand<UpdateWeatherForecastResponse>
     { }
 }

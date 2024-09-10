@@ -21,4 +21,10 @@
     <ProjectReference Include="..\CleanArchitecture.Template.SharedKernel\CleanArchitecture.Template.SharedKernel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="WeatherForecast\Queries\GetAll\DTOs\" />
+    <Folder Include="WeatherForecast\UseCases\GetAll\" />
+    <Folder Include="WeatherForecast\UseCases\GetById\" />
+  </ItemGroup>
+
 </Project>
