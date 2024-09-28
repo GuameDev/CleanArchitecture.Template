@@ -1,5 +1,5 @@
 ﻿using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
-namespace CleanArchitecture.Template.Application.WeatherForecast.UseCases.Create
+namespace CleanArchitecture.Template.Application.WeatherForecast.Commands.Create
 
 {
     public class CreateWeatherForecastRequest

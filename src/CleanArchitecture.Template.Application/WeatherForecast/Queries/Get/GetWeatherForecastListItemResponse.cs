@@ -1,6 +1,6 @@
-namespace CleanArchitecture.Template.Application.WeatherForecast.UseCases.List
+namespace CleanArchitecture.Template.Application.WeatherForecast.Queries.Get
 {
-    public record WeatherForecastGetListItemResponse
+    public record GetWeatherForecastListItemResponse
     {
         public Guid Id { get; init; }
         public DateOnly Date { get; init; }

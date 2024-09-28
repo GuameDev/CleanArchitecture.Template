@@ -1,4 +1,5 @@
-﻿using CleanArchitecture.Template.SharedKernel.Constants;
+﻿using CleanArchitecture.Template.SharedKernel.CommonTypes.Enums;
+using CleanArchitecture.Template.SharedKernel.Constants;
 using System.Linq.Expressions;
 
 namespace CleanArchitecture.Template.SharedKernel.Specification
@@ -8,7 +9,7 @@ namespace CleanArchitecture.Template.SharedKernel.Specification
         private readonly List<Expression<Func<T, bool>>> _criteria = new();
         private readonly List<Expression<Func<T, object>>> _includes = new();
 
-        //Properties
+        // Properties
         public IReadOnlyCollection<Expression<Func<T, bool>>> Criteria => _criteria.AsReadOnly();
         public IReadOnlyCollection<Expression<Func<T, object>>> Includes => _includes.AsReadOnly();
         public Expression<Func<T, object>> OrderBy { get; private set; }
@@ -19,7 +20,7 @@ namespace CleanArchitecture.Template.SharedKernel.Specification
         public int PageSize { get; set; }
         public bool IsPagingEnabled { get; private set; } = false;
 
-        //Methods
+        // Methods
         protected void AddCriteria(Expression<Func<T, bool>> criteria) => _criteria.Add(criteria);
 
         protected void AddInclude(Expression<Func<T, object>> includeExpression) => _includes.Add(includeExpression);
@@ -28,16 +29,24 @@ namespace CleanArchitecture.Template.SharedKernel.Specification
 
         protected void SetOrderByDescending(Expression<Func<T, object>> orderByDescendingExpression) => OrderByDescending = orderByDescendingExpression;
 
-        protected void ApplyPaging(int? page, int? pageSize)
+        // Add sorting logic to the base specification
+        protected void ApplySorting(Expression<Func<T, object>> orderByExpression, SortDirection sortDirection)
         {
-
-            Page = page ?? PageListConstants.DefaultPage;
-            PageSize = pageSize ?? PageListConstants.DefaultPageSize;
-            Skip = (this.Page - 1) * this.PageSize;
-            Take = this.PageSize;
-            IsPagingEnabled = true;
+            if (sortDirection == SortDirection.Ascending)
+                SetOrderBy(orderByExpression);
+            else
+                SetOrderByDescending(orderByExpression);
         }
 
+        // Apply paging
+        protected void ApplyPaging(int? page, int? pageSize)
+        {
+            Page = page ?? PageListConstants.DefaultPage;
+            PageSize = pageSize ?? PageListConstants.DefaultPageSize;
+            Skip = (Page - 1) * PageSize;
+            Take = PageSize;
+            IsPagingEnabled = true;
+        }
 
         protected void AddCriteria(params Expression<Func<T, bool>>[] criteria) => _criteria.AddRange(criteria);
 

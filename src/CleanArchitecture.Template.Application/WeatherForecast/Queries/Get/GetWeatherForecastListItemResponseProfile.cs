@@ -1,12 +1,12 @@
 using AutoMapper;
 
-namespace CleanArchitecture.Template.Application.WeatherForecast.UseCases.List
+namespace CleanArchitecture.Template.Application.WeatherForecast.Queries.Get
 {
-    public class WeatherForecastGetListItemResponseProfile : Profile
+    public class GetWeatherForecastListItemResponseProfile : Profile
     {
-        public WeatherForecastGetListItemResponseProfile()
+        public GetWeatherForecastListItemResponseProfile()
         {
-            CreateMap<Domain.WeatherForecasts.WeatherForecast, WeatherForecastGetListItemResponse>()
+            CreateMap<Domain.WeatherForecasts.WeatherForecast, GetWeatherForecastListItemResponse>()
              .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.Date.Value))
              .ForMember(dest => dest.Summary, opt => opt.MapFrom(src => src.Summary.ToString()))
              .ForMember(dest => dest.TemperatureCelsius, opt => opt.MapFrom(src => src.Temperature.ToCelsius()))

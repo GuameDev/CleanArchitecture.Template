@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
-using CleanArchitecture.Template.Application.WeatherForecast.Commands.Create;
 
-namespace CleanArchitecture.Template.Application.WeatherForecast.UseCases.Create
+namespace CleanArchitecture.Template.Application.WeatherForecast.Commands.Create
 {
-    internal class WeatherForecastCreateResponseProfile : Profile
+    internal class CreateWeatherForecastResponseProfile : Profile
     {
-        public WeatherForecastCreateResponseProfile()
+        public CreateWeatherForecastResponseProfile()
         {
             CreateMap<Domain.WeatherForecasts.WeatherForecast, CreateWeatherForecastResponse>()
                .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.Date.Value))

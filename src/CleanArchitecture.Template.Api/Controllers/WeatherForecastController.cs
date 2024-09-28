@@ -1,9 +1,11 @@
 using CleanArchitecture.Template.Api.Requests.WeatherForecast;
 using CleanArchitecture.Template.Api.Results;
 using CleanArchitecture.Template.Application.WeatherForecast.Commands.Create;
+using CleanArchitecture.Template.Application.WeatherForecast.Commands.Delete;
 using CleanArchitecture.Template.Application.WeatherForecast.Commands.Update;
+using CleanArchitecture.Template.Application.WeatherForecast.Queries.Get;
+using CleanArchitecture.Template.Application.WeatherForecast.Queries.GetAll;
 using CleanArchitecture.Template.Application.WeatherForecast.Queries.GetById;
-using CleanArchitecture.Template.Application.WeatherForecast.UseCases.Create;
 using CleanArchitecture.Template.SharedKernel.Results;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -36,31 +38,46 @@ namespace CleanArchitecture.Template.Api.Controllers
             return result.Match(onSuccess: Ok, onFailure: ApiResults.Problem);
         }
 
-        ///// <summary>
-        ///// Get a list of weather forecasts paginated, filtered and sorted. By default, the attribute IsPaginated is true, page = 1 and page size = 15
-        ///// </summary>
-        ///// <param name="request"></param>
-        ///// <returns></returns>
-        //[HttpGet]
-        //public async Task<IActionResult> Get([FromQuery] WeatherForecastGetListRequest request)
-        //{
-        //    var result = await _sender.Send(new WeatherFOrecastQuery );
+        /// <summary>
+        /// Get a list of weather forecasts paginated, filtered and sorted. By default, the attribute IsPaginated is true, page = 1 and page size = 15
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> Get([FromQuery] GetWeatherForecastListRequest request)
+        {
+            var query = new GetWeatherForecastListQuery();
+            if (request is not null)
+            {
+                query.Id = request.Id;
+                query.StartDate = request.StartDate;
+                query.EndDate = request.EndDate;
+                query.TemperatureValue = request.TemperatureValue;
+                query.TemperatureType = request.TemperatureType;
+                query.Summary = request.Summary;
+                query.Page = request.Page;
+                query.PageSize = request.PageSize;
+                query.IsPaginated = request.IsPaginated;
+                query.SortDirection = request.SortDirection;
+                query.OrderBy = request.OrderBy;
+            }
 
-        //    return result.Match(onSuccess: Ok, onFailure: ApiResults.Problem);
-        //}
+            var result = await _sender.Send(query);
+            return result.Match(onSuccess: Ok, onFailure: ApiResults.Problem);
+        }
 
-        ///// <summary>
-        ///// Get a list of all weather forecasts
-        ///// </summary>
-        ///// <returns></returns>
-        //[HttpGet]
-        //[Route("all")]
-        //public async Task<IActionResult> GetAll()
-        //{
-        //    var result = await _sender.Send(new GetAllWeatherForecasts());
+        /// <summary>
+        /// Get a list of all weather forecasts
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("all")]
+        public async Task<IActionResult> GetAll()
+        {
+            var result = await _sender.Send(new GetAllWeatherForecastQuery());
 
-        //    return result.Match(onSuccess: Ok, onFailure: ApiResults.Problem);
-        //}
+            return result.Match(onSuccess: Ok, onFailure: ApiResults.Problem);
+        }
 
         /// <summary>
         /// Create a weather forecast entity
@@ -91,7 +108,7 @@ namespace CleanArchitecture.Template.Api.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Delete([FromRoute] WeatherForecastDeleteApiRequest request)
         {
-            //var result = await _weatherForecastService.DeleteAsync(new WeatherForecastDeleteRequest(request.Id));
+            var result = await _sender.Send(new DeleteWeatherForecastCommand(request.Id));
 
             return result.Match(
                 onSuccess: Ok,
