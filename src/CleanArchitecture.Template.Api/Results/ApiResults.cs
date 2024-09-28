@@ -14,24 +14,40 @@ namespace CleanArchitecture.Template.Api.Results
             {
                 throw new InvalidOperationException();
             }
+
+            // Check for validation errors and build ProblemDetails accordingly
+            if (result.Error.Type == ErrorType.Validation)
+            {
+                return new ObjectResult(new ProblemDetails
+                {
+                    Title = GetTitle(result.Error),
+                    Detail = GetDetail(result.Error),
+                    Type = GetType(result.Error),
+                    Status = GetStatusCode(result.Error.Type),
+                    Extensions = { ["Errors"] = GetErrors(result) }
+                })
+                {
+                    StatusCode = GetStatusCode(result.Error.Type)
+                };
+            }
+
+            // Handle other types of errors
             return new ObjectResult(new ProblemDetails
             {
                 Title = GetTitle(result.Error),
                 Detail = GetDetail(result.Error),
                 Type = GetType(result.Error),
-                Status = GetStatusCode(result.Error.Type),
-                Extensions = { ["Errors"] = GetErrors(result) }
+                Status = GetStatusCode(result.Error.Type)
             })
             {
                 StatusCode = GetStatusCode(result.Error.Type)
             };
         }
 
-
         private static string GetTitle(Error error) =>
             error.Type switch
             {
-                ErrorType.Validation => error.Code,
+                ErrorType.Validation => "Validation Error",
                 ErrorType.Problem => error.Code,
                 ErrorType.NotFound => error.Code,
                 ErrorType.Conflict => error.Code,
@@ -41,11 +57,8 @@ namespace CleanArchitecture.Template.Api.Results
         private static string GetDetail(Error error) =>
             error.Type switch
             {
-                ErrorType.Validation => error.Description,
-                ErrorType.Problem => error.Description,
-                ErrorType.NotFound => error.Description,
-                ErrorType.Conflict => error.Description,
-                _ => "Server failure"
+                ErrorType.Validation => "One or more validation errors occurred.",
+                _ => error.Description
             };
 
         private static string GetType(Error error) =>
@@ -70,13 +83,15 @@ namespace CleanArchitecture.Template.Api.Results
 
         private static IDictionary<string, object?>? GetErrors(Result result)
         {
-            if (result.Error.Type is not ErrorType.Validation)
+            if (result.Error.Type != ErrorType.Validation)
                 return null;
 
-            return new Dictionary<string, object?>
-            {
-                { "Error", result.Error },
-            };
+            // Create a dictionary of validation errors
+            var validationErrors = new Dictionary<string, object?>();
+
+            validationErrors["Errors"] = result.Error.Description;
+
+            return validationErrors;
         }
     }
 }

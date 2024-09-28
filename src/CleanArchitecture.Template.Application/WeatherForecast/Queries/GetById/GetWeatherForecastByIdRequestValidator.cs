@@ -2,7 +2,7 @@
 
 namespace CleanArchitecture.Template.Application.WeatherForecast.Queries.GetById
 {
-    public class GetWeatherForecastByIdRequestValidator : AbstractValidator<GetWeatherForecastByIdRequest>
+    public class GetWeatherForecastByIdRequestValidator : AbstractValidator<GetWeatherForecastByIdQuery>
     {
         public GetWeatherForecastByIdRequestValidator()
         {

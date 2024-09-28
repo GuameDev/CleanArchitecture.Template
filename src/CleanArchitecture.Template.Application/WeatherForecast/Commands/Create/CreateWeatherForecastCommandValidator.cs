@@ -1,4 +1,5 @@
 ﻿using CleanArchitecture.Template.Domain.WeatherForecasts.Constants;
+using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
 using FluentValidation;
 
 namespace CleanArchitecture.Template.Application.WeatherForecast.Commands.Create
@@ -20,6 +21,10 @@ namespace CleanArchitecture.Template.Application.WeatherForecast.Commands.Create
 
             RuleFor(x => x.Summary)
                 .IsInEnum();
+
+
+            RuleFor(x => x.Summary).NotEqual(Summary.Unknown).WithMessage($"Summary cannot be {Summary.Unknown}");
+
         }
     }
 }

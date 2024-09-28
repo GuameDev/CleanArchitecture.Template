@@ -7,52 +7,57 @@ using MediatR;
 namespace CleanArchitecture.Template.Application.Base.Behaviour
 {
     public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-          where TRequest : IRequest<TResponse>
-          where TResponse : Result
+        where TRequest : IRequest<TResponse>
+        where TResponse : Result
     {
         private readonly IEnumerable<IValidator<TRequest>> _validators;
 
-        public ValidationBehavior(IValidator<TRequest>[] validators)
+        public ValidationBehavior(IEnumerable<IValidator<TRequest>> validators)
         {
             _validators = validators;
         }
 
         public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
+            // If no validators found, proceed to next in the pipeline
             if (!_validators.Any())
                 return await next();
 
-            Error[] errors = _validators
-                .Select(validator => validator.Validate(request))
-                .SelectMany(validationResult => validationResult.Errors)
-                .Where(validationFailure => validationFailure is not null)
-                .Select(failure => new Error(
+            var context = new ValidationContext<TRequest>(request);
+
+            // Execute all the validators
+            var validationResults = _validators
+                .Select(v => v.Validate(context))
+                .SelectMany(result => result.Errors)
+                .Where(f => f != null)
+                .ToList();
+
+            if (validationResults.Any())
+            {
+                // If there are validation errors, convert them to `Error` and return failure result
+                var validationErrors = validationResults.Select(failure => new Error(
                     failure.PropertyName,
                     failure.ErrorMessage,
-                    ErrorType.Validation))
-                .Distinct()
-                .ToArray();
+                    ErrorType.Validation)).ToArray();
 
-            if (errors.Any())
-                return CreateValidationResult<TResponse>(errors);
+                // Return failure with all validation errors
+                return CreateValidationFailureResult(validationErrors);
+            }
 
-
+            // Proceed to the next behavior in the pipeline if no validation errors
             return await next();
         }
 
-        private static TResult CreateValidationResult<TResult>(Error[] errors) where TResult : Result
+        private static TResponse CreateValidationFailureResult(Error[] errors)
         {
-            if (typeof(TResult) == typeof(Result))
-                return (ValidationResult.WithErrors(errors) as TResult)!;
+            if (typeof(TResponse) == typeof(Result))
+            {
+                return (Result.Failure(errors.First()) as TResponse)!; // Single error as TResponse if it's a basic result
+            }
 
-            object validationResult = typeof(ValidationResult<>)
-                .GetGenericTypeDefinition()
-                .MakeGenericType(typeof(TResult).GenericTypeArguments[0])
-                .GetMethod(nameof(ValidationResult.WithErrors))!
-                .Invoke(null, [errors])!;
-
-            return (TResult)validationResult;
+            var genericResultType = typeof(TResponse).GetGenericTypeDefinition().MakeGenericType(typeof(TResponse).GenericTypeArguments[0]);
+            var resultInstance = Activator.CreateInstance(genericResultType, default, false, errors.First())!;
+            return (TResponse)resultInstance;
         }
     }
 }
-

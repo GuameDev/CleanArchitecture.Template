@@ -14,8 +14,8 @@ namespace CleanArchitecture.Template.Application
             // Add MediatR
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(DependencyInjectionExtensions).Assembly));
 
-            // Add FluentValidation - Explicitly target the assembly containing the validators
-            services.AddValidatorsFromAssemblyContaining<CreateWeatherForecastCommandValidator>(ServiceLifetime.Singleton);
+            // Add FluentValidation and ensure proper registration of validators
+            services.AddValidatorsFromAssembly(typeof(CreateWeatherForecastCommandValidator).Assembly);
 
             // Automapper setup
             services.AddAutoMapper(typeof(DependencyInjectionExtensions).Assembly);
