@@ -55,7 +55,7 @@ namespace CleanArchitecture.Template.Application.Base.Behaviour
                 var validationResultType = typeof(ValidationResult<>).MakeGenericType(resultType);
 
                 // Create an instance of ValidationResult<T> using the constructor with the Error[] parameter
-                var validationResult = Activator.CreateInstance(validationResultType, new object[] { default, false, errors });
+                var validationResult = Activator.CreateInstance(validationResultType, [default, false, errors]);
 
                 return (TResult)validationResult!;
             }
