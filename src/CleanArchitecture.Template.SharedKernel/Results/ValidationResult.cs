@@ -6,6 +6,7 @@ namespace CleanArchitecture.Template.SharedKernel.Results
     {
         public ValidationResult(Error[] errors) : base(false, IValidationResult.ValidationError)
         {
+            Errors = errors;
         }
 
         public Error[] Errors { get; }

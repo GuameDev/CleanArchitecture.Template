@@ -83,11 +83,15 @@ namespace CleanArchitecture.Template.Api.Results
 
         private static IDictionary<string, object?>? GetErrors(Result result)
         {
-            if (result.Error.Type != ErrorType.Validation)
-                return null;
-
-            // Create a dictionary of validation errors
             var validationErrors = new Dictionary<string, object?>();
+
+            if (result is IValidationResult validationResult)
+            {
+                return new Dictionary<string, object?>
+                    {
+                        { "Errors", validationResult.Errors.Select(e => new { e.Code, e.Description }).ToArray() }
+                    };
+            }
 
             validationErrors["Errors"] = result.Error.Description;
 

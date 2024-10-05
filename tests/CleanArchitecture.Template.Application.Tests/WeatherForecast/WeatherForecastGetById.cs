@@ -1,7 +1,6 @@
 using AutoMapper;
 using CleanArchitecture.Template.Application.Base.UnitOfWork;
 using CleanArchitecture.Template.Application.WeatherForecast.Queries.GetById;
-using CleanArchitecture.Template.Application.WeatherForecast.Services;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Errors;
 using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects;
