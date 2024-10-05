@@ -1,100 +1,154 @@
-# Clean Architecture Template
 
-This repository contains a template for building ASP.NET Core applications following the principles of Clean Architecture. The project is structured with separate layers for Domain, Application, Infrastructure, and API, ensuring separation of concerns and maintainability. The template also incorporates modern development practices like DDD (Domain-Driven Design), SOLID principles, and the use of the Specification Pattern.
+# Clean Architecture Template - .NET Core API
 
-## Project Structure
+## Overview
 
-The solution is organized into the following projects:
+This project serves as a **template** to implement the **Clean Architecture** pattern in .NET applications. The aim is to provide a scalable, maintainable, and testable foundation for building modern web APIs using industry-standard best practices. 
 
-- **CleanArchitecture.Template.Domain**: Contains the core business logic and domain entities. This layer is independent of other layers and represents the heart of the application.
-- **CleanArchitecture.Template.Application**: Implements the use cases of the system. This layer coordinates between the domain and infrastructure layers, handling application-specific logic.
-- **CleanArchitecture.Template.Infrastructure**: Contains the implementation of external services, database access (EF Core), and repositories. This layer depends on both the Application and Domain layers.
-- **CleanArchitecture.Template.Api**: Exposes the application via HTTP APIs. This layer depends on the Application layer and handles incoming HTTP requests.
+The design leverages **CQRS**, **MediatR**, and **DDD** patterns to ensure separation of concerns, decoupling of logic, and ease of extensibility. This template also offers pre-configured layers to handle API requests, application logic, domain rules, and infrastructure concerns independently.
 
-## Getting Started
+---
 
-### Prerequisites
+## Key Design Patterns
 
-- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
-- [Docker](https://www.docker.com/) (for database and containerized development)
-- [SQL Server](https://www.microsoft.com/en-us/sql-server) (or any other supported relational database)
+### 1. **Clean Architecture**
 
-### Installation
+- Clean Architecture is employed to decouple the core logic (domain and application) from external concerns (infrastructure, UI, or services). This keeps the application flexible for future adaptations such as using different databases or presenting data in various formats.
+- It ensures that the domain and business logic are central, with surrounding layers dependent on it, and not vice versa.
 
-1. **Clone the repository:**
+### 2. **Command Query Responsibility Segregation (CQRS)**
 
-   ```bash``````
-   git clone https://github.com/your-username/CleanArchitecture.Template.git
-   cd CleanArchitecture.Template
+- **CQRS** is used to separate the responsibilities of reading and writing data. 
+- Queries are handled separately from commands, ensuring that the logic is split between handling actions that change state (commands) and actions that retrieve data (queries).
 
-2. **Configure the Database:**
+### 3. **Domain-Driven Design (DDD)**
 
-If you're using Docker, you can run the SQL Server container:
+- The core **Domain** layer contains entities, value objects, and aggregates that encapsulate the business rules and logic.
+- The template is designed to handle complex business logic using DDD principles, providing structure and clarity.
 
-bash```
-docker-compose up -d```
+### 4. **MediatR**
 
-Alternatively, update the connection string in the appsettings.Development.json file under the CleanArchitecture.Template.Api project to match your local SQL Server setup.
+- **MediatR** is used to implement the **CQRS** pattern by decoupling the request from the actual implementation (handler).
+- It facilitates handling commands and queries through handlers, promoting separation of concerns and single responsibility.
 
-**Apply Migrations:**
+### 5. **Repository Pattern**
 
-Run the following command to apply the database migrations:
+- The **Repository Pattern** is implemented within the **Infrastructure** layer to handle data access. 
+- This isolates the database operations from the domain logic, allowing easy substitution of the data source.
 
-bash```
-dotnet ef database update --project CleanArchitecture.Template.Infrastructure --startup-project CleanArchitecture.Template.Api```
-
-Run the Application:
-
-Start the application by running the following command:
-
-bash```
-dotnet run --project CleanArchitecture.Template.Api```
-
-The API will be available at https://localhost:7058
+---
 
 ## Features
 
-- Clean Architecture: Follows the principles of Clean Architecture with clear separation of concerns between layers.
-DDD and SOLID Principles: Applies Domain-Driven Design and SOLID principles for maintainable and testable code.
+- **CQRS with MediatR**: Command-Query separation with MediatR for handling requests.
+- **Domain-Driven Design (DDD)**: Core business logic resides in the domain layer.
+- **Entity Framework Core**: The ORM is integrated for persistence in the infrastructure layer.
+- **Unit of Work Pattern**: Ensure atomicity when interacting with the database.
+- **Docker Support**: The project is containerized for easy deployment.
+- **Validation**: Uses FluentValidation for request validation.
 
-- Specification Pattern: Implements the Specification Pattern for flexible and reusable query logic.
-- Result Pattern: A robust pattern for handling success and failure across the application.
-- Entity Framework Core: Integrated with EF Core for database access, using repository and unit of work patterns.
-- Dependency Injection: Fully configured dependency injection using ASP.NET Core's built-in DI container.
-- Docker Support: Pre-configured Docker support for running SQL Server in a containerized environment.
+---
 
-## Usage
+## Project Structure
 
-- **API Endpoints**
-The project exposes several API endpoints for managing WeatherForecast entities. You can use tools like Postman or Swagger to interact with the API.
+```bash
+├── CleanArchitecture.Template.Api                # API layer (Controllers, Requests, DTOs)
+├── CleanArchitecture.Template.Application        # Application layer (Commands, Queries, Handlers, Services)
+├── CleanArchitecture.Template.Domain             # Domain layer (Entities, Aggregates, Value Objects, Specifications)
+├── CleanArchitecture.Template.Infrastructure     # Infrastructure layer (Persistence, Migrations, Repositories)
+├── CleanArchitecture.Template.SharedKernel       # Shared kernel (Common logic, Errors, Results)
+├── CleanArchitecture.Template.Tests              # Unit and Integration tests
+└── docker-compose.yml                            # Docker configuration
+```
 
-- GET /weatherforecast/{id}: Get a WeatherForecast by ID.
-- GET /weatherforecast: Get a paginated, filtered, and sorted list of WeatherForecasts.
-- GET /weatherforecast/all: Get all WeatherForecasts.
-- POST /weatherforecast: Create a new WeatherForecast.
+---
 
-- **Logging**
-The project uses ASP.NET Core's built-in logging system, with a future plan to integrate a more robust logging solution like Serilog.
+## Design Choices
 
-- **Testing**
-Unit tests are implemented using xUnit. To run the tests, use the following command:
+### Separation of Concerns
 
-bash```dotnet test```
+Each layer is responsible for its own task:
+- **API Layer**: This layer handles HTTP requests and serves as the gateway to the system. The controllers are lightweight and delegate the business logic to the **Application Layer**.
+- **Application Layer**: Contains all business use cases in the form of commands and queries. This layer is isolated from the infrastructure and manages operations through the use of MediatR.
+- **Domain Layer**: Implements the core business logic using **Entities**, **Value Objects**, and **Aggregates**. Business rules and policies reside here.
+- **Infrastructure Layer**: This layer contains the data persistence logic. By using repositories, it abstracts the database interactions and ensures persistence is decoupled from business logic.
 
-- **Future Enhancements**
-Integration of MediatR for command and query handling.
-Serilog integration for enhanced logging and structured log output.
-Improved error handling and validation.
-Contributing
-Contributions are welcome! Please follow these steps:
+### Result Pattern for Error Handling
 
-Fork the repository.
-Create a new branch (git checkout -b feature/my-feature).
-Commit your changes (git commit -am 'Add my feature').
-Push to the branch (git push origin feature/my-feature).
-Open a Pull Request.
-License
-This project is licensed under the MIT License. See the LICENSE file for details.
+The project follows a **Result<T> pattern** to handle success/failure scenarios across all operations. This pattern simplifies error handling, as every operation returns either a success or a failure result. 
 
-Contact
-If you have any questions or suggestions, feel free to reach out to the repository owner.
+```csharp
+public class Result<TValue>
+{
+    public TValue Value { get; }
+    public bool IsSuccess { get; }
+    public Error Error { get; }
+
+    public static Result<TValue> Success(TValue value) => new(value, true, Error.None);
+    public static Result<TValue> Failure(Error error) => new(default, false, error);
+}
+```
+
+### FluentValidation for Request Validation
+
+To ensure clean and robust request validation, **FluentValidation** is integrated. This pattern allows for a modular and maintainable approach to validate incoming data.
+
+---
+
+## Setting Up
+
+### Prerequisites
+
+- **.NET SDK 8.0+**
+- **Docker**
+- **SQL Server** (or use an in-memory database)
+
+### Running the Application
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/your-repo/CleanArchitecture.Template.git
+   cd CleanArchitecture.Template
+   ```
+
+2. Build and run the Docker containers (ensure Docker is running):
+
+   ```bash
+   docker-compose up --build
+   ```
+
+3. Access the API:
+
+   - **Swagger UI**: `http://localhost:8080/swagger`
+   - **API base URL**: `http://localhost:8080`
+
+---
+
+## Environment Configuration
+
+- Use `appsettings.{Environment}.json` for environment-specific settings (e.g., Development, Production).
+- The environment is set via the **ASPNETCORE_ENVIRONMENT** variable.
+
+---
+
+## Testing
+
+Unit tests are written using **xUnit**. Run tests with:
+
+```bash
+dotnet test
+```
+
+---
+
+## License
+
+This project is licensed under the MIT License.
+
+---
+
+## Contributing
+
+Feel free to submit issues or pull requests. Contributions are welcome to enhance the features and stability of this template.
+
