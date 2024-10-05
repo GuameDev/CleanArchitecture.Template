@@ -19,7 +19,7 @@ namespace CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects
 
         public static Result<Temperature> FromCelsius(double temperatureC)
         {
-            if (!EnsureIsValidCelsiusValue(temperatureC))
+            if (!EnsureIsValidTemperatureValue(temperatureC, TemperatureType.Celsius))
                 return Result.Failure<Temperature>(TemperatureErrors.UnderZeroCelsius);
 
             var temperature = new Temperature(temperatureC, TemperatureType.Celsius);
@@ -28,7 +28,7 @@ namespace CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects
 
         public static Result<Temperature> FromFahrenheit(double temperatureF)
         {
-            if (!EnsureIsValidFahrenheitValue(temperatureF))
+            if (!EnsureIsValidTemperatureValue(temperatureF, TemperatureType.Fahrenheit))
                 return Result.Failure<Temperature>(TemperatureErrors.UnderZeroFahrenheit);
 
             var temperature = new Temperature(temperatureF, TemperatureType.Fahrenheit);
@@ -49,8 +49,12 @@ namespace CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects
         public double ToFahrenheit() =>
             Type == TemperatureType.Fahrenheit ? Value : Value * 9 / 5 + 32;
 
-        private static bool EnsureIsValidCelsiusValue(double temperatureC) => temperatureC >= TemperatureConstants.AbsoluteZeroCelsius;
-        private static bool EnsureIsValidFahrenheitValue(double temperatureF) => temperatureF >= TemperatureConstants.AbsoluteZeroFahrenheit;
+        private static bool EnsureIsValidTemperatureValue(double temperatureValue, TemperatureType temperatureType) => temperatureType switch
+        {
+            TemperatureType.Celsius => temperatureValue >= TemperatureConstants.AbsoluteZeroCelsius,
+            TemperatureType.Fahrenheit => temperatureValue >= TemperatureConstants.AbsoluteZeroFahrenheit,
+            _ => false
+        };
 
         protected override IEnumerable<object> GetAtomicValues()
         {
