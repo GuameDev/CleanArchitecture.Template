@@ -25,4 +25,6 @@ RUN dotnet publish "./CleanArchitecture.Template.Host.csproj" -c $BUILD_CONFIGUR
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+
+# Keeping the ENTRYPOINT as before
 ENTRYPOINT ["dotnet", "CleanArchitecture.Template.Host.dll"]

@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using CleanArchitecture.Template.Application.Base.UnitOfWork;
-using CleanArchitecture.Template.Application.WeatherForecast.Services;
-using CleanArchitecture.Template.Application.WeatherForecast.UseCases.Create;
+using CleanArchitecture.Template.Application.WeatherForecast.Commands.Create.DTOs;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Errors;
 using Moq;
@@ -25,7 +24,7 @@ namespace CleanArchitecture.Template.Application.Tests
         public async Task CreateAsync_ShouldReturnSuccess_WhenValidRequest()
         {
             // Arrange
-            var request = new WeatherForecastCreateRequest
+            var request = new CreateWeatherForecastRequest
             {
                 Date = DateOnly.FromDateTime(DateTime.Now),
                 Temperature = 25,
@@ -36,8 +35,8 @@ namespace CleanArchitecture.Template.Application.Tests
             _mockUnitOfWork.Setup(uow => uow.WeatherForecastRepository.AddAsync(It.IsAny<Domain.WeatherForecasts.WeatherForecast>()))
                            .Returns(Task.CompletedTask);
 
-            _mockMapper.Setup(m => m.Map<WeatherForecastCreateResponse>(It.IsAny<Domain.WeatherForecasts.WeatherForecast>()))
-                       .Returns(new WeatherForecastCreateResponse()
+            _mockMapper.Setup(m => m.Map<CreateWeatherForecastResponse>(It.IsAny<Domain.WeatherForecasts.WeatherForecast>()))
+                       .Returns(new CreateWeatherForecastResponse()
                        {
                            Id = Guid.NewGuid(),
                            Date = DateOnly.FromDateTime(DateTime.Now),
@@ -61,7 +60,7 @@ namespace CleanArchitecture.Template.Application.Tests
         public async Task CreateAsync_ShouldReturnFailure_WhenInvalidTemperature()
         {
             // Arrange
-            var request = new WeatherForecastCreateRequest
+            var request = new CreateWeatherForecastRequest
             {
                 Date = DateOnly.FromDateTime(DateTime.Now),
                 Temperature = -300, // Invalid temperature below absolute zero
@@ -82,7 +81,7 @@ namespace CleanArchitecture.Template.Application.Tests
         public async Task CreateAsync_ShouldReturnFailure_WhenInvalidDate()
         {
             // Arrange
-            var request = new WeatherForecastCreateRequest
+            var request = new CreateWeatherForecastRequest
             {
                 Date = DateOnly.FromDateTime(DateTime.MinValue),
                 Temperature = 25,

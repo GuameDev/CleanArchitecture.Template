@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using CleanArchitecture.Template.Application.Base.UnitOfWork;
-using CleanArchitecture.Template.Application.WeatherForecast.Services;
-using CleanArchitecture.Template.Application.WeatherForecast.UseCases.Delete;
-using CleanArchitecture.Template.Application.WeatherForecast.UseCases.GetById;
+using CleanArchitecture.Template.Application.WeatherForecast.Queries.GetById;
 using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects;
 using Moq;
 
@@ -32,7 +30,7 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecast
                 Temperature.FromCelsius(25),
                 Domain.WeatherForecasts.Enums.Summary.Mild);
 
-            _mockUnitOfWork.Setup(uow => uow.WeatherForecastRepository.GetByIdAsync(It.Is<WeatherForecastGetByIdRequest>(r => r.Id == requestId)))
+            _mockUnitOfWork.Setup(uow => uow.WeatherForecastRepository.GetByIdAsync(It.Is<GetWeatherForecastByIdRequest>(r => r.Id == requestId)))
                            .ReturnsAsync(entity.Value);
 
             //Act

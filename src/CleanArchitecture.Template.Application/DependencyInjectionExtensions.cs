@@ -1,7 +1,9 @@
-﻿using CleanArchitecture.Template.Application.WeatherForecast.Services;
+﻿using CleanArchitecture.Template.Application.Base.Behaviour;
+using CleanArchitecture.Template.Application.WeatherForecast.Commands.Create;
 using FluentValidation;
-using FluentValidation.AspNetCore;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+
 
 namespace CleanArchitecture.Template.Application
 {
@@ -9,16 +11,17 @@ namespace CleanArchitecture.Template.Application
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-            //Services
-            services.AddScoped<IWeatherForecastService, WeatherForecastService>();
+            // Add MediatR
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(DependencyInjectionExtensions).Assembly));
 
-            //Fluent Validation 
-            services.AddValidatorsFromAssembly(typeof(DependencyInjectionExtensions).Assembly);
-            services.AddFluentValidationAutoValidation();
-            services.AddFluentValidationClientsideAdapters();
+            // Add FluentValidation and ensure proper registration of validators
+            services.AddValidatorsFromAssembly(typeof(CreateWeatherForecastCommandValidator).Assembly);
 
-            //Automapper
+            // Automapper setup
             services.AddAutoMapper(typeof(DependencyInjectionExtensions).Assembly);
+
+            // Register ValidationBehavior for pipeline validation
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
             return services;
         }

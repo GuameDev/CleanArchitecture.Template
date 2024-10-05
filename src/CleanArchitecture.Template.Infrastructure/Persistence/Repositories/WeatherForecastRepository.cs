@@ -1,7 +1,7 @@
-﻿using CleanArchitecture.Template.Application.WeatherForecast.Repository;
-using CleanArchitecture.Template.Application.WeatherForecast.UseCases.GetAll;
-using CleanArchitecture.Template.Application.WeatherForecast.UseCases.GetById;
-using CleanArchitecture.Template.Application.WeatherForecast.UseCases.List;
+﻿using CleanArchitecture.Template.Application.WeatherForecast.Queries.Get.DTOs;
+using CleanArchitecture.Template.Application.WeatherForecast.Queries.GetAll.DTOs;
+using CleanArchitecture.Template.Application.WeatherForecast.Queries.GetById;
+using CleanArchitecture.Template.Application.WeatherForecast.Repository;
 using CleanArchitecture.Template.Domain.WeatherForecasts;
 using CleanArchitecture.Template.Infrastructure.Persistence.Repositories.Base;
 using CleanArchitecture.Template.SharedKernel.Specification;
@@ -35,14 +35,14 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories
             await _context.WeatherForecasts.Where(x => x.Id == id).ExecuteDeleteAsync();
         }
 
-        public async Task<WeatherForecastGetAllListResponse> GetAllAsync()
+        public async Task<GetAllWeatherForecastResponse> GetAllAsync()
         {
             var entities = await _context.WeatherForecasts.ToListAsync();
 
-            return new WeatherForecastGetAllListResponse()
+            return new GetAllWeatherForecastResponse()
             {
                 TotalCount = entities.Count,
-                Elements = entities.Select(x => new WeatherForecastGetAllListItemResponse()
+                Elements = entities.Select(x => new GetAllWeatherForecastListItemResponse()
                 {
                     Id = x.Id,
                     Date = x.Date.Value,
@@ -53,17 +53,17 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories
 
             };
         }
-        public Task<WeatherForecast?> GetByIdAsync(WeatherForecastGetByIdRequest request) => _context.WeatherForecasts
+        public Task<WeatherForecast?> GetByIdAsync(GetWeatherForecastByIdRequest request) => _context.WeatherForecasts
             .FirstOrDefaultAsync(x => x.Id.Equals(request.Id));
 
-        public async Task<WeatherForecastGetListResponse> GetListAsync(ISpecification<WeatherForecast> specification)
+        public async Task<GetWeatherForecastListResponse> GetListAsync(ISpecification<WeatherForecast> specification)
         {
             var query = ApplySpecification(specification).AsNoTracking();
 
             var totalItems = await query.CountAsync();
 
             var items = await query
-                .Select(x => new WeatherForecastGetListItemResponse()
+                .Select(x => new GetWeatherForecastListItemResponse()
                 {
                     Id = x.Id,
                     Date = x.Date.Value,
@@ -73,7 +73,7 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories
                 })
                 .ToListAsync();
 
-            return new WeatherForecastGetListResponse
+            return new GetWeatherForecastListResponse
             {
                 Elements = items,
                 TotalCount = totalItems,

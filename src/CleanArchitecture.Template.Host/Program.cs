@@ -3,6 +3,7 @@ using CleanArchitecture.Template.Api.Extensions;
 using CleanArchitecture.Template.Application;
 using CleanArchitecture.Template.Host.Extensions;
 using CleanArchitecture.Template.Infrastructure;
+using FluentValidation;
 using Serilog;
 
 namespace CleanArchitecture.Template.Api

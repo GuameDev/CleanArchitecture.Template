@@ -1,0 +1,16 @@
+version: '3.4'
+
+services:
+  cleanarchitecture:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production  
+    volumes:
+      - ./CleanArchitecture.Template.Host/appsettings.Development.json:/app/appsettings.json 
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"

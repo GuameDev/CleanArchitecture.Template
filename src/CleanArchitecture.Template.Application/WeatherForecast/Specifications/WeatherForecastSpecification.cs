@@ -1,7 +1,6 @@
 ﻿using CleanArchitecture.Template.Application.WeatherForecast.DTOs;
-using CleanArchitecture.Template.Application.WeatherForecast.UseCases.List;
+using CleanArchitecture.Template.Application.WeatherForecast.Queries.Get;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Criterias;
-using CleanArchitecture.Template.SharedKernel.CommonTypes.Enums;
 using CleanArchitecture.Template.SharedKernel.Specification;
 using System.Linq.Expressions;
 
@@ -9,45 +8,35 @@ namespace CleanArchitecture.Template.Application.WeatherForecast.Specifications
 {
     public class WeatherForecastSpecification : BaseSpecification<Domain.WeatherForecasts.WeatherForecast>
     {
-        public WeatherForecastSpecification(WeatherForecastGetListRequest request)
+        public WeatherForecastSpecification(GetWeatherForecastListQuery query)
         {
-            BuildCriteria(request);
-            ApplySorting(request.OrderBy, request.SortDirection);
+            BuildCriteria(query);
+            ApplySorting(GetOrderByExpression(query.OrderBy), query.SortDirection);
 
-            if (request.IsPaginated)
-                ApplyPaging(request.Page, request.PageSize);
+            if (query.IsPaginated)
+                ApplyPaging(query.Page, query.PageSize);
         }
 
-        private void BuildCriteria(WeatherForecastGetListRequest request)
+        private void BuildCriteria(GetWeatherForecastListQuery query)
         {
             var criterias = new List<Expression<Func<Domain.WeatherForecasts.WeatherForecast, bool>>>();
 
-            if (request.Id is not null && !request.Id.Equals(Guid.Empty))
-                criterias.Add(weatherForecast => weatherForecast.Id.Equals(request.Id));
+            if (query.Id is not null && !query.Id.Equals(Guid.Empty))
+                criterias.Add(weatherForecast => weatherForecast.Id.Equals(query.Id));
 
-            if (request.StartDate.HasValue && request.EndDate.HasValue)
-                criterias.Add(new DateRangeCriteria(DateOnly.FromDateTime(request.StartDate.Value), DateOnly.FromDateTime(request.EndDate.Value)).ToExpression());
+            if (query.StartDate.HasValue && query.EndDate.HasValue)
+                criterias.Add(new WeatherDateInRangeCriteria(DateOnly.FromDateTime(query.StartDate.Value), DateOnly.FromDateTime(query.EndDate.Value)).ToExpression());
 
-            if (request.Summary is not null)
-                criterias.Add(new SummaryCriteria(request.Summary.Value).ToExpression());
+            if (query.Summary is not null)
+                criterias.Add(new SummaryEqualsCriteria(query.Summary.Value).ToExpression());
 
-            if (request.TemperatureType.HasValue)
-                criterias.Add(weatherForecast => weatherForecast.Temperature.Type == request.TemperatureType.Value);
+            if (query.TemperatureType.HasValue)
+                criterias.Add(weatherForecast => weatherForecast.Temperature.Type == query.TemperatureType.Value);
 
-            if (request.TemperatureValue.HasValue)
-                criterias.Add(weatherForecast => weatherForecast.Temperature.Value >= request.TemperatureValue.Value);
+            if (query.TemperatureValue.HasValue)
+                criterias.Add(weatherForecast => weatherForecast.Temperature.Value >= query.TemperatureValue.Value);
 
-            AddCriteria([.. criterias]);
-        }
-
-        private void ApplySorting(WeatherForecastOrderBy? orderBy, SortDirection sortDirection)
-        {
-            var orderByExpression = GetOrderByExpression(orderBy);
-
-            if (sortDirection == SortDirection.Ascending)
-                SetOrderBy(orderByExpression);
-            else
-                SetOrderByDescending(orderByExpression);
+            AddCriteria(criterias.ToArray());
         }
 
         private static Expression<Func<Domain.WeatherForecasts.WeatherForecast, object>> GetOrderByExpression(WeatherForecastOrderBy? orderBy)

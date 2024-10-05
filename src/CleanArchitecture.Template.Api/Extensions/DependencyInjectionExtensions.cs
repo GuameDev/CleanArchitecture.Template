@@ -25,6 +25,9 @@ namespace CleanArchitecture.Template.Api.Extensions
             {
                 // https://learn.microsoft.com/es-es/dotnet/core/compatibility/aspnet-core/7.0/api-controller-action-parameters-di
                 options.DisableImplicitFromServicesParameters = true;
+
+                //This ensures that validation is only handled via your MediatR pipeline.
+                options.SuppressModelStateInvalidFilter = true;
             });
 
             services.Configure<RouteOptions>(options => options.LowercaseUrls = true);

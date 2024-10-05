@@ -1,10 +1,15 @@
 using CleanArchitecture.Template.Api.Requests.WeatherForecast;
 using CleanArchitecture.Template.Api.Results;
-using CleanArchitecture.Template.Application.WeatherForecast.Services;
-using CleanArchitecture.Template.Application.WeatherForecast.UseCases.Create;
-using CleanArchitecture.Template.Application.WeatherForecast.UseCases.Delete;
-using CleanArchitecture.Template.Application.WeatherForecast.UseCases.List;
+using CleanArchitecture.Template.Application.WeatherForecast.Commands.Create;
+using CleanArchitecture.Template.Application.WeatherForecast.Commands.Create.DTOs;
+using CleanArchitecture.Template.Application.WeatherForecast.Commands.Delete;
+using CleanArchitecture.Template.Application.WeatherForecast.Commands.Update;
+using CleanArchitecture.Template.Application.WeatherForecast.Queries.Get;
+using CleanArchitecture.Template.Application.WeatherForecast.Queries.Get.DTOs;
+using CleanArchitecture.Template.Application.WeatherForecast.Queries.GetAll;
+using CleanArchitecture.Template.Application.WeatherForecast.Queries.GetById;
 using CleanArchitecture.Template.SharedKernel.Results;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitecture.Template.Api.Controllers
@@ -13,14 +18,11 @@ namespace CleanArchitecture.Template.Api.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
+        private readonly ISender _sender;
 
-        private readonly IWeatherForecastService _weatherForecastService;
-
-        public WeatherForecastController(
-
-            IWeatherForecastService weatherForecastService)
+        public WeatherForecastController(ISender sender)
         {
-            _weatherForecastService = weatherForecastService;
+            _sender = sender;
         }
 
         /// <summary>
@@ -32,7 +34,7 @@ namespace CleanArchitecture.Template.Api.Controllers
         [Route("{id}")]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
-            var result = await _weatherForecastService.GetById(new(id));
+            var result = await _sender.Send(new GetWeatherForecastByIdQuery(id));
             return result.Match(onSuccess: Ok, onFailure: ApiResults.Problem);
         }
 
@@ -42,10 +44,25 @@ namespace CleanArchitecture.Template.Api.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] WeatherForecastGetListRequest request)
+        public async Task<IActionResult> Get([FromQuery] GetWeatherForecastListRequest request)
         {
-            var result = await _weatherForecastService.GetListAsync(request);
+            var query = new GetWeatherForecastListQuery();
+            if (request is not null)
+            {
+                query.Id = request.Id;
+                query.StartDate = request.StartDate;
+                query.EndDate = request.EndDate;
+                query.TemperatureValue = request.TemperatureValue;
+                query.TemperatureType = request.TemperatureType;
+                query.Summary = request.Summary;
+                query.Page = request.Page;
+                query.PageSize = request.PageSize;
+                query.IsPaginated = request.IsPaginated;
+                query.SortDirection = request.SortDirection;
+                query.OrderBy = request.OrderBy;
+            }
 
+            var result = await _sender.Send(query);
             return result.Match(onSuccess: Ok, onFailure: ApiResults.Problem);
         }
 
@@ -57,7 +74,7 @@ namespace CleanArchitecture.Template.Api.Controllers
         [Route("all")]
         public async Task<IActionResult> GetAll()
         {
-            var result = await _weatherForecastService.GetAllAsync();
+            var result = await _sender.Send(new GetAllWeatherForecastQuery());
 
             return result.Match(onSuccess: Ok, onFailure: ApiResults.Problem);
         }
@@ -68,9 +85,13 @@ namespace CleanArchitecture.Template.Api.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] WeatherForecastCreateRequest request)
+        public async Task<IActionResult> Create([FromBody] CreateWeatherForecastRequest request)
         {
-            var result = await _weatherForecastService.CreateAsync(request);
+            var result = await _sender.Send(new CreateWeatherForecastCommand(
+                request.Date,
+                request.Temperature,
+                request.TemperatureType,
+                request.Summary));
 
             return result.Match(
                 onSuccess: () => CreatedAtAction(nameof(GetById), new { id = result.Value.Id }, result.Value),
@@ -87,7 +108,7 @@ namespace CleanArchitecture.Template.Api.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Delete([FromRoute] WeatherForecastDeleteApiRequest request)
         {
-            var result = await _weatherForecastService.DeleteAsync(new WeatherForecastDeleteRequest(request.Id));
+            var result = await _sender.Send(new DeleteWeatherForecastCommand(request.Id));
 
             return result.Match(
                 onSuccess: Ok,
@@ -105,7 +126,7 @@ namespace CleanArchitecture.Template.Api.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] WeatherForecastUpdateApiRequest request)
         {
-            var result = await _weatherForecastService.UpdateAsync(new(
+            var result = await _sender.Send(new UpdateWeatherForecastCommand(
                 id,
                 request.Date,
                 request.Temperature,
