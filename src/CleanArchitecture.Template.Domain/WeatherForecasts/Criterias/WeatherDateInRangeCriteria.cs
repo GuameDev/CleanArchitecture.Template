@@ -3,12 +3,12 @@ using System.Linq.Expressions;
 
 namespace CleanArchitecture.Template.Domain.WeatherForecasts.Criterias
 {
-    public class DateRangeCriteria : Criteria<WeatherForecast>
+    public class WeatherDateInRangeCriteria : Criteria<WeatherForecast>
     {
         private readonly DateOnly _startDate;
         private readonly DateOnly _endDate;
 
-        public DateRangeCriteria(DateOnly startDate, DateOnly endDate)
+        public WeatherDateInRangeCriteria(DateOnly startDate, DateOnly endDate)
         {
             _startDate = startDate;
             _endDate = endDate;

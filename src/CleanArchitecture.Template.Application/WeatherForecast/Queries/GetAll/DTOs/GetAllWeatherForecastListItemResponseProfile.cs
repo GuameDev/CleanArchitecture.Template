@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
-using CleanArchitecture.Template.Application.WeatherForecast.Commands.Update;
 
-namespace CleanArchitecture.Template.Application.WeatherForecast.UseCases.Update
+namespace CleanArchitecture.Template.Application.WeatherForecast.Queries.GetAll.DTOs
 {
-    internal class WeatherForecastUpdateResponseProfile : Profile
+    internal class GetAllWeatherForecastListItemResponseProfile : Profile
     {
-        public WeatherForecastUpdateResponseProfile()
+        public GetAllWeatherForecastListItemResponseProfile()
         {
-            CreateMap<Domain.WeatherForecasts.WeatherForecast, UpdateWeatherForecastResponse>()
+            CreateMap<Domain.WeatherForecasts.WeatherForecast, GetAllWeatherForecastListItemResponse>()
                 .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.Date.Value))
                 .ForMember(dest => dest.Summary, opt => opt.MapFrom(src => src.Summary.ToString()))
                 .ForMember(dest => dest.TemperatureCelsius, opt => opt.MapFrom(src => src.Temperature.ToCelsius()))

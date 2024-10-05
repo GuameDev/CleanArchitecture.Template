@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace CleanArchitecture.Template.Application.WeatherForecast.Commands.Create
+namespace CleanArchitecture.Template.Application.WeatherForecast.Commands.Create.DTOs
 {
     internal class CreateWeatherForecastResponseProfile : Profile
     {

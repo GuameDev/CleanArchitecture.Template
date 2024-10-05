@@ -2,7 +2,7 @@
 using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
 using CleanArchitecture.Template.SharedKernel.Requests;
 
-namespace CleanArchitecture.Template.Application.WeatherForecast.Queries.Get
+namespace CleanArchitecture.Template.Application.WeatherForecast.Queries.Get.DTOs
 {
     public class GetWeatherForecastListRequest : PageListRequest<WeatherForecastOrderBy>
     {

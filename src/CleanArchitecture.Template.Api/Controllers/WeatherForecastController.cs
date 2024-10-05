@@ -1,9 +1,11 @@
 using CleanArchitecture.Template.Api.Requests.WeatherForecast;
 using CleanArchitecture.Template.Api.Results;
 using CleanArchitecture.Template.Application.WeatherForecast.Commands.Create;
+using CleanArchitecture.Template.Application.WeatherForecast.Commands.Create.DTOs;
 using CleanArchitecture.Template.Application.WeatherForecast.Commands.Delete;
 using CleanArchitecture.Template.Application.WeatherForecast.Commands.Update;
 using CleanArchitecture.Template.Application.WeatherForecast.Queries.Get;
+using CleanArchitecture.Template.Application.WeatherForecast.Queries.Get.DTOs;
 using CleanArchitecture.Template.Application.WeatherForecast.Queries.GetAll;
 using CleanArchitecture.Template.Application.WeatherForecast.Queries.GetById;
 using CleanArchitecture.Template.SharedKernel.Results;
@@ -18,9 +20,7 @@ namespace CleanArchitecture.Template.Api.Controllers
     {
         private readonly ISender _sender;
 
-        public WeatherForecastController(
-             ISender sender
-            )
+        public WeatherForecastController(ISender sender)
         {
             _sender = sender;
         }

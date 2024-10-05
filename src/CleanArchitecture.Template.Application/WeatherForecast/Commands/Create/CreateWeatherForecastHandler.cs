@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CleanArchitecture.Template.Application.Base.UnitOfWork;
+using CleanArchitecture.Template.Application.WeatherForecast.Commands.Create.DTOs;
 using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects;
 using CleanArchitecture.Template.SharedKernel.Results;
 using MediatR;

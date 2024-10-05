@@ -9,19 +9,16 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories.Bas
         {
             var query = inputQuery;
 
-            // Apply criteria
+            // Apply criterias
             foreach (var criteria in specification.Criteria)
             {
                 query = query.Where(criteria);
             }
 
-            // Apply sorting
             query = ApplySorting(query, specification);
 
-            // Apply includes
             query = ApplyIncludes(query, specification);
 
-            // Apply paging
             if (specification.IsPagingEnabled)
             {
                 query = query.Skip(specification.Skip).Take(specification.Take);

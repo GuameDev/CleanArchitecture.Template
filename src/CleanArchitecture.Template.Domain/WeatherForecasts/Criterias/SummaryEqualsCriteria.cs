@@ -4,11 +4,11 @@ using System.Linq.Expressions;
 
 namespace CleanArchitecture.Template.Domain.WeatherForecasts.Criterias
 {
-    public class SummaryCriteria : Criteria<WeatherForecast>
+    public class SummaryEqualsCriteria : Criteria<WeatherForecast>
     {
         private readonly Summary _summary;
 
-        public SummaryCriteria(Summary summary)
+        public SummaryEqualsCriteria(Summary summary)
         {
             _summary = summary;
         }

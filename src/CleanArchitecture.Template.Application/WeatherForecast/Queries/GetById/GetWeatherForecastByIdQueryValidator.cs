@@ -2,9 +2,9 @@
 
 namespace CleanArchitecture.Template.Application.WeatherForecast.Queries.GetById
 {
-    public class GetWeatherForecastByIdRequestValidator : AbstractValidator<GetWeatherForecastByIdQuery>
+    public class GetWeatherForecastByIdQueryValidator : AbstractValidator<GetWeatherForecastByIdQuery>
     {
-        public GetWeatherForecastByIdRequestValidator()
+        public GetWeatherForecastByIdQueryValidator()
         {
             RuleFor(x => x.Id)
                 .NotEmpty();

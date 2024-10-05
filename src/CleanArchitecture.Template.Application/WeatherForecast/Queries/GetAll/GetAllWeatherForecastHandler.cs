@@ -1,4 +1,5 @@
 ﻿using CleanArchitecture.Template.Application.Base.UnitOfWork;
+using CleanArchitecture.Template.Application.WeatherForecast.Queries.GetAll.DTOs;
 using CleanArchitecture.Template.SharedKernel.Results;
 using MediatR;
 

@@ -22,10 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="WeatherForecast\UseCases\Delete\" />
-    <Folder Include="WeatherForecast\UseCases\GetAll\" />
-    <Folder Include="WeatherForecast\UseCases\GetById\" />
-    <Folder Include="WeatherForecast\UseCases\List\" />
+    <Folder Include="WeatherForecast\Queries\GetById\DTOs\" />
   </ItemGroup>
 
 </Project>

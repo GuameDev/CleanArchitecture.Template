@@ -25,10 +25,10 @@ namespace CleanArchitecture.Template.Application.WeatherForecast.Specifications
                 criterias.Add(weatherForecast => weatherForecast.Id.Equals(query.Id));
 
             if (query.StartDate.HasValue && query.EndDate.HasValue)
-                criterias.Add(new DateRangeCriteria(DateOnly.FromDateTime(query.StartDate.Value), DateOnly.FromDateTime(query.EndDate.Value)).ToExpression());
+                criterias.Add(new WeatherDateInRangeCriteria(DateOnly.FromDateTime(query.StartDate.Value), DateOnly.FromDateTime(query.EndDate.Value)).ToExpression());
 
             if (query.Summary is not null)
-                criterias.Add(new SummaryCriteria(query.Summary.Value).ToExpression());
+                criterias.Add(new SummaryEqualsCriteria(query.Summary.Value).ToExpression());
 
             if (query.TemperatureType.HasValue)
                 criterias.Add(weatherForecast => weatherForecast.Temperature.Type == query.TemperatureType.Value);
@@ -36,7 +36,7 @@ namespace CleanArchitecture.Template.Application.WeatherForecast.Specifications
             if (query.TemperatureValue.HasValue)
                 criterias.Add(weatherForecast => weatherForecast.Temperature.Value >= query.TemperatureValue.Value);
 
-            AddCriteria(criterias.ToArray()); // Apply the criteria
+            AddCriteria(criterias.ToArray());
         }
 
         private static Expression<Func<Domain.WeatherForecasts.WeatherForecast, object>> GetOrderByExpression(WeatherForecastOrderBy? orderBy)

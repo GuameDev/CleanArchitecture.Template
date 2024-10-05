@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CleanArchitecture.Template.Application.Base.UnitOfWork;
+using CleanArchitecture.Template.Application.WeatherForecast.Commands.Update.DTOs;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Errors;
 using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects;
 using CleanArchitecture.Template.SharedKernel.Results;

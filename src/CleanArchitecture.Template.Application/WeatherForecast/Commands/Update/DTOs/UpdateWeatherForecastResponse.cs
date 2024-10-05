@@ -1,6 +1,6 @@
-namespace CleanArchitecture.Template.Application.WeatherForecast.Queries.Get
+﻿namespace CleanArchitecture.Template.Application.WeatherForecast.Commands.Update.DTOs
 {
-    public record GetWeatherForecastListItemResponse
+    public record UpdateWeatherForecastResponse
     {
         public Guid Id { get; init; }
         public DateOnly Date { get; init; }
