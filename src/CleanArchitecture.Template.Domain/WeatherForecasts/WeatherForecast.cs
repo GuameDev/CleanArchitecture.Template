@@ -1,4 +1,5 @@
 ﻿using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
+using CleanArchitecture.Template.Domain.WeatherForecasts.Events;
 using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects;
 using CleanArchitecture.Template.SharedKernel.Entities;
 using CleanArchitecture.Template.SharedKernel.Results;
@@ -6,9 +7,10 @@ using CleanArchitecture.Template.SharedKernel.Results;
 namespace CleanArchitecture.Template.Domain.WeatherForecasts
 {
 
-    public class WeatherForecast : Entity<Guid>
+    public class WeatherForecast : Entity
     {
         //Properties
+        public Guid Id { get; set; }
         public WeatherDate Date { get; private set; }
         public Temperature Temperature { get; private set; }
         public Summary Summary { get; private set; }
@@ -38,8 +40,14 @@ namespace CleanArchitecture.Template.Domain.WeatherForecasts
         //Factory methods
         public static Result<WeatherForecast> Create(Result<WeatherDate> dateResult, Result<Temperature> temperatureResult, Summary summary)
         {
-            return Result.Combine(dateResult, temperatureResult)
+            var entityResult = Result.Combine(dateResult, temperatureResult)
                  .OnSuccess(() => new WeatherForecast(dateResult.Value, temperatureResult.Value, summary) { Id = Guid.NewGuid() });
+
+            if (entityResult.IsSuccess)
+                entityResult.Value.Raise(new WeatherForecastCreatedDomainEvent(entityResult.Value.Id));
+
+            return entityResult;
+
         }
 
         //Setters with DDD terminology

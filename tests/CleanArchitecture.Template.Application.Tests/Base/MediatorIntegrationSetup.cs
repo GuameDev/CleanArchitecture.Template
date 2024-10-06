@@ -10,7 +10,7 @@ namespace CleanArchitecture.Template.Application.Tests.Base
 {
     public class MediatorIntegrationSetup
     {
-        public ServiceProvider ServiceProvider { get; private set; }
+        public ServiceProvider? ServiceProvider { get; private set; }
 
         // Factory method to create a new service provider and mediator
         public IMediator CreateMediator(Mock<IUnitOfWork> mockUnitOfWork, Mock<IMapper> mockMapper)

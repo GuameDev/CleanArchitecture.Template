@@ -1,7 +1,16 @@
-﻿namespace CleanArchitecture.Template.SharedKernel.Entities
+﻿using CleanArchitecture.Template.SharedKernel.Entities.Events;
+
+namespace CleanArchitecture.Template.SharedKernel.Entities
 {
-    public class Entity<Tkey>
+    public class Entity
     {
-        public required Tkey Id { get; set; }
+        private List<DomainEvent> _domainEvents { get; set; } = new List<DomainEvent>();
+        public ICollection<DomainEvent> DomainEvents => _domainEvents;
+
+        protected void Raise(DomainEvent domainEvent)
+        {
+            _domainEvents.Add(domainEvent);
+        }
+
     }
 }
