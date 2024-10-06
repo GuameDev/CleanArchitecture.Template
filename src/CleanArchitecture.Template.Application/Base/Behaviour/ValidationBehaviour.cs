@@ -37,13 +37,9 @@ namespace CleanArchitecture.Template.Application.Base.Behaviour
                 .ToArray();
 
             if (errors.Any())
-            {
                 return CreateValidationFailureResult<TResponse>(errors);
-            }
 
             return await next();
-
-
         }
 
         private static TResult CreateValidationFailureResult<TResult>(Error[] errors)
