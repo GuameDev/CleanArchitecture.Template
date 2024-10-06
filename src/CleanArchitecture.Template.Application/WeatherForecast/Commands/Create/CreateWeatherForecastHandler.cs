@@ -22,23 +22,29 @@ namespace CleanArchitecture.Template.Application.WeatherForecast.Commands.Create
 
         public async Task<Result<CreateWeatherForecastResponse>> Handle(CreateWeatherForecastCommand request, CancellationToken cancellationToken)
         {
-            // Try to create value objects
+            // Validate temperature
             var temperatureResult = Temperature.Create(request.Temperature, request.TemperatureType);
+            if (temperatureResult.IsFailure)
+                return Result.Failure<CreateWeatherForecastResponse>(temperatureResult.Error);
+
+            // Validate date
             var dateResult = WeatherDate.Create(request.Date);
+            if (dateResult.IsFailure)
+                return Result.Failure<CreateWeatherForecastResponse>(dateResult.Error);
 
-            // Check if the creation of value objects is a success
+            // Validate other business rules by creating the WeatherForecast entity
             var weatherForecastResult = Domain.WeatherForecasts.WeatherForecast.Create(dateResult, temperatureResult, request.Summary);
-
             if (weatherForecastResult.IsFailure)
                 return Result.Failure<CreateWeatherForecastResponse>(weatherForecastResult.Error);
 
-            // Persist the entity in the repository
+            // Persist the valid entity in the repository
             var entity = weatherForecastResult.Value;
             await _unitOfWork.WeatherForecastRepository.AddAsync(entity);
 
             // Commit the transaction
-            await _unitOfWork.CommitAsync();
+            await _unitOfWork.CommitAsync(cancellationToken);
 
+            // Map the entity to response DTO and return success
             return Result.Success(_mapper.Map<CreateWeatherForecastResponse>(entity));
         }
     }

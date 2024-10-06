@@ -1,41 +1,30 @@
-﻿using CleanArchitecture.Template.Application.Base.UnitOfWork;
+﻿using AutoMapper;
+using CleanArchitecture.Template.Application.Base.UnitOfWork;
+using CleanArchitecture.Template.Application.Tests.Base;
 using CleanArchitecture.Template.Application.WeatherForecast.Commands.Delete;
 using CleanArchitecture.Template.Application.WeatherForecast.Queries.GetById;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Errors;
 using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects;
-using FluentValidation;
 using MediatR;
-using Microsoft.Extensions.DependencyInjection;
 using Moq;
-namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.IntegrationTests
+
+namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Commands
 {
-    public class DeleteWeatherForecastIntegrationSpecs
+    public class DeleteWeatherForecastHandlerSpecs : IClassFixture<MediatorIntegrationSetup>
     {
         private readonly IMediator _mediator;
         private readonly Mock<IUnitOfWork> _mockUnitOfWork;
-        private readonly ServiceProvider _serviceProvider;
+        private readonly Mock<IMapper> _mockMapper;
 
-        public DeleteWeatherForecastIntegrationSpecs()
+        public DeleteWeatherForecastHandlerSpecs(MediatorIntegrationSetup fixture)
         {
-            var services = new ServiceCollection();
+            // Use the factory methods from the fixture to create fresh mocks for each test
+            _mockUnitOfWork = fixture.CreateMockUnitOfWork();
+            _mockMapper = fixture.CreateMockMapper();
 
-            // Register MediatR
-            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(DeleteWeatherForecastHandler).Assembly));
-
-            // Mocking external dependencies
-            _mockUnitOfWork = new Mock<IUnitOfWork>();
-
-            services.AddSingleton(_mockUnitOfWork.Object); // Use mocked UnitOfWork
-
-            // Register Validators
-            services.AddValidatorsFromAssemblyContaining<DeleteWeatherForecastCommand>();
-
-            // Build the service provider
-            _serviceProvider = services.BuildServiceProvider();
-
-            // Get the mediator instance
-            _mediator = _serviceProvider.GetRequiredService<IMediator>();
+            // Create a fresh mediator for each test using the mocks
+            _mediator = fixture.CreateMediator(_mockUnitOfWork, _mockMapper);
         }
 
         [Fact]
@@ -85,11 +74,9 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Integrat
 
             // Assert
             Assert.False(result.IsSuccess);
-            // Update the expected error code to match "WeatherForecast.NotFound"
             Assert.Equal(WeatherForecastErrors.NotFound.Code, result.Error.Code);
             _mockUnitOfWork.Verify(uow => uow.WeatherForecastRepository.DeleteAsync(It.IsAny<Guid>()), Times.Never);
             _mockUnitOfWork.Verify(uow => uow.CommitAsync(It.IsAny<CancellationToken>()), Times.Never);
         }
-
     }
 }

@@ -1,45 +1,29 @@
 using AutoMapper;
 using CleanArchitecture.Template.Application.Base.UnitOfWork;
+using CleanArchitecture.Template.Application.Tests.Base;
 using CleanArchitecture.Template.Application.WeatherForecast.Queries.GetById;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Errors;
 using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects;
-using FluentValidation;
 using MediatR;
-using Microsoft.Extensions.DependencyInjection;
 using Moq;
 
-namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.IntegrationTests
+namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Queries
 {
-    public class GetByIdWeatherForecastIntegrationSpecs
+    public class GetByIdWeatherForecastHandlerSpecs : IClassFixture<MediatorIntegrationSetup>
     {
-        private readonly ServiceProvider _serviceProvider;
+        private readonly IMediator _mediator;
         private readonly Mock<IUnitOfWork> _mockUnitOfWork;
         private readonly Mock<IMapper> _mockMapper;
-        private readonly ISender _mediator;
 
-        public GetByIdWeatherForecastIntegrationSpecs()
+        public GetByIdWeatherForecastHandlerSpecs(MediatorIntegrationSetup fixture)
         {
-            var services = new ServiceCollection();
+            // Use the factory methods from the fixture to create fresh mocks for each test
+            _mockUnitOfWork = fixture.CreateMockUnitOfWork();
+            _mockMapper = fixture.CreateMockMapper();
 
-            // Register MediatR and other dependencies
-            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetWeatherForecastByIdHandler).Assembly));
-
-            // Mock external dependencies
-            _mockUnitOfWork = new Mock<IUnitOfWork>();
-            _mockMapper = new Mock<IMapper>();
-
-            services.AddSingleton(_mockUnitOfWork.Object); // Use mocked UnitOfWork
-            services.AddSingleton(_mockMapper.Object);     // Use mocked Mapper
-
-            // Register Validators (if any)
-            services.AddValidatorsFromAssemblyContaining<GetWeatherForecastByIdQuery>();
-
-            // Build the service provider
-            _serviceProvider = services.BuildServiceProvider();
-
-            // Get the mediator instance
-            _mediator = _serviceProvider.GetRequiredService<IMediator>();
+            // Create a fresh mediator for each test using the mocks
+            _mediator = fixture.CreateMediator(_mockUnitOfWork, _mockMapper);
         }
 
         [Fact]
