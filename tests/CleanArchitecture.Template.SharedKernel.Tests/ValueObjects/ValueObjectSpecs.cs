@@ -53,7 +53,7 @@
         {
             // Arrange
             var vo1 = new TestValueObject(1, "Test");
-            TestValueObject vo2 = null;
+            TestValueObject vo2 = null!;
 
             // Act & Assert
             Assert.False(vo1 == vo2);

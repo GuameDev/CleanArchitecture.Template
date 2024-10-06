@@ -180,7 +180,7 @@
         public void ImplicitOperator_ShouldReturnFailureResult_WhenValueIsNull()
         {
             // Arrange
-            string value = null;
+            string value = null!;
 
             // Act
             Result<string> result = value;
