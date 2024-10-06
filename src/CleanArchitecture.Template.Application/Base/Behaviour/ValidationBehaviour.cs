@@ -37,13 +37,9 @@ namespace CleanArchitecture.Template.Application.Base.Behaviour
                 .ToArray();
 
             if (errors.Any())
-            {
                 return CreateValidationFailureResult<TResponse>(errors);
-            }
 
             return await next();
-
-
         }
 
         private static TResult CreateValidationFailureResult<TResult>(Error[] errors)
@@ -55,7 +51,7 @@ namespace CleanArchitecture.Template.Application.Base.Behaviour
                 var validationResultType = typeof(ValidationResult<>).MakeGenericType(resultType);
 
                 // Create an instance of ValidationResult<T> using the constructor with the Error[] parameter
-                var validationResult = Activator.CreateInstance(validationResultType, new object[] { default, false, errors });
+                var validationResult = Activator.CreateInstance(validationResultType, [default, false, errors]);
 
                 return (TResult)validationResult!;
             }

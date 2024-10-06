@@ -17,13 +17,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArchitecture.Template.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArchitecture.Template.SharedKernel", "CleanArchitecture.Template.SharedKernel\CleanArchitecture.Template.SharedKernel.csproj", "{4D6DACA2-E7FB-400D-8611-4C1C39716D10}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchitecture.Template.Domain.Tests", "..\tests\CleanArchitecture.Template.Domain.Tests\CleanArchitecture.Template.Domain.Tests.csproj", "{19AD2C35-40E9-48FF-9F5A-CFD94FDF6969}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArchitecture.Template.Domain.Tests", "..\tests\CleanArchitecture.Template.Domain.Tests\CleanArchitecture.Template.Domain.Tests.csproj", "{19AD2C35-40E9-48FF-9F5A-CFD94FDF6969}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{5C682BB5-A191-46CE-99A0-1803F2643A0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchitecture.Template.Application.Tests", "..\tests\CleanArchitecture.Template.Application.Tests\CleanArchitecture.Template.Application.Tests.csproj", "{B41B9691-939F-4B4D-A2F4-33D1215AF09B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArchitecture.Template.Application.Tests", "..\tests\CleanArchitecture.Template.Application.Tests\CleanArchitecture.Template.Application.Tests.csproj", "{B41B9691-939F-4B4D-A2F4-33D1215AF09B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchitecture.Template.SharedKernel.Tests", "..\tests\CleanArchitecture.Template.SharedKernel.Tests\CleanArchitecture.Template.SharedKernel.Tests.csproj", "{94597ED5-1079-44DA-A881-1A1E42C0AC4B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArchitecture.Template.SharedKernel.Tests", "..\tests\CleanArchitecture.Template.SharedKernel.Tests\CleanArchitecture.Template.SharedKernel.Tests.csproj", "{94597ED5-1079-44DA-A881-1A1E42C0AC4B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

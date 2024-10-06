@@ -25,7 +25,7 @@ namespace CleanArchitecture.Template.Application.WeatherForecast.Commands.Delete
             await _unitOfWork.WeatherForecastRepository.DeleteAsync(entity.Id);
 
             // Commit the transaction
-            await _unitOfWork.CommitAsync();
+            await _unitOfWork.CommitAsync(cancellationToken);
 
             return Result.Success();
         }

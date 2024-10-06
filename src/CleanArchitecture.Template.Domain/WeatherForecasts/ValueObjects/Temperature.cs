@@ -17,6 +17,15 @@ namespace CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects
             Type = type;
         }
 
+        //Factory Method
+        public static Result<Temperature> Create(double temperatureValue, TemperatureType temperatureType) =>
+          temperatureType switch
+          {
+              TemperatureType.Celsius => FromCelsius(temperatureValue),
+              TemperatureType.Fahrenheit => FromFahrenheit(temperatureValue),
+              _ => Result.Failure<Temperature>(TemperatureErrors.InvalidTemperatureType)
+          };
+
         public static Result<Temperature> FromCelsius(double temperatureC)
         {
             if (!EnsureIsValidTemperatureValue(temperatureC, TemperatureType.Celsius))
@@ -34,14 +43,6 @@ namespace CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects
             var temperature = new Temperature(temperatureF, TemperatureType.Fahrenheit);
             return Result.Success(temperature);
         }
-
-        public static Result<Temperature> Create(double temperatureValue, TemperatureType temperatureType) =>
-            temperatureType switch
-            {
-                TemperatureType.Celsius => FromCelsius(temperatureValue),
-                TemperatureType.Fahrenheit => FromFahrenheit(temperatureValue),
-                _ => Result.Failure<Temperature>(TemperatureErrors.InvalidTemperatureType)
-            };
 
         public double ToCelsius() =>
             Type == TemperatureType.Celsius ? Value : (Value - 32) * 5 / 9;
