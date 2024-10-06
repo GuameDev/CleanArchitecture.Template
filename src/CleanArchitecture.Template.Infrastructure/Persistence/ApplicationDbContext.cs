@@ -37,7 +37,6 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence
             }
 
             return result;
-
         }
     }
 }
