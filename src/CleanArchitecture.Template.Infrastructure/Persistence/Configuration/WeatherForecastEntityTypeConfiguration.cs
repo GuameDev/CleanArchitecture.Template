@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration
 {
-    public class WeatherForecastEntityTypeConfiguration : IEntityTypeConfiguration<WeatherForecast>
+    public class WeatherForecastEntityTypeConfiguration : BaseEntityConfiguration<WeatherForecast, Guid>
     {
-        public void Configure(EntityTypeBuilder<WeatherForecast> builder)
+        public override void Configure(EntityTypeBuilder<WeatherForecast> builder)
         {
             builder.HasKey(weatherForecast => weatherForecast.Id);
 
@@ -32,17 +32,6 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration
                 date.Property(d => d.Value).HasColumnName("Date");
             });
 
-            //builder.OwnsOne(wf => wf.Date, date =>
-            //{
-            //    date.Property(d => d.Value)
-            //        .HasColumnName("Date")
-            //        .HasConversion(
-            //            v => v.ToString(),
-            //            v => DateOnly.Parse(v)); // or another way to convert if necessary
-
-            //    date.WithOwner(); // Ensures EF knows this is an owned entity
-            //});
-
             SeedDefaultData(builder);
         }
 
@@ -60,11 +49,14 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration
                 var temperatureValue = (double)random.Next(-5, 35);
                 var temperatureType = (TemperatureType)random.Next(0, 2);
                 var dateValue = DateOnly.FromDateTime(DateTime.Now.AddDays(random.Next(-1000, 1000)));
+                var now = DateTime.Now;
 
                 weatherForecasts.Add(new
                 {
                     Id = id,
-                    Summary = summary
+                    Summary = summary,
+                    CreatedDate = now,
+                    UpdatedDate = now,
                 });
 
                 temperatures.Add(new
