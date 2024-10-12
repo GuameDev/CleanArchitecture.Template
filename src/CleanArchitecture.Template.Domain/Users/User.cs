@@ -30,26 +30,12 @@ namespace CleanArchitecture.Template.Domain.Users.Aggregates
         }
 
         // Factory Method
-        public static Result<User> Create(string username, string email, string passwordHash, string firstName, string lastName1, string? lastName2)
-        {
-            var usernameResult = Username.Create(username);
-            var emailResult = Email.Create(email);
-            var fullNameResult = FullName.Create(firstName, lastName1, lastName2);
-
-            if (usernameResult.IsFailure || emailResult.IsFailure || fullNameResult.IsFailure)
-                return Result.Failure<User>(UserErrors.InvalidUserDetails);
-
-            if (string.IsNullOrWhiteSpace(passwordHash))
-                return Result.Failure<User>(UserErrors.InvalidPasswordHash);
-
-            return Result.Success(new User(Guid.NewGuid(), usernameResult.Value, emailResult.Value, fullNameResult.Value, passwordHash));
-        }
-        public static Result<User> Create(Username username, Email email, FullName fullname, string passwordHash)
+        public static Result<User> Create(Username username, Email email, FullName fullName, string passwordHash)
         {
             if (string.IsNullOrWhiteSpace(passwordHash))
                 return Result.Failure<User>(UserErrors.InvalidPasswordHash);
 
-            return Result.Success(new User(Guid.NewGuid(), username, email, fullname, passwordHash));
+            return Result.Success(new User(Guid.NewGuid(), username, email, fullName, passwordHash));
         }
 
         // Role management
@@ -67,8 +53,36 @@ namespace CleanArchitecture.Template.Domain.Users.Aggregates
             if (!_roles.Any(r => r.RoleName == role.RoleName))
                 return Result.Failure(RoleErrors.RoleNotAssigned);
 
+            // Remove role from the user's list
             _roles.Remove(role);
+
+            // Check if the user has permissions from this role that aren't provided by other roles
+            var permissionsFromRole = role.Permissions.ToList();
+            foreach (var permission in permissionsFromRole)
+            {
+                bool hasPermissionFromOtherRoles = _roles.Any(r => r.Permissions.Any(p => p.Name == permission.Name));
+                if (!hasPermissionFromOtherRoles)
+                {
+                    // If no other role grants this permission, remove the permission
+                    RemovePermission(permission);
+                }
+            }
+
             return Result.Success();
+        }
+
+        public bool HasPermission(string permissionName)
+        {
+            return _roles.Any(r => r.Permissions.Any(p => p.Name == permissionName));
+        }
+
+        // Private helper to remove a permission
+        private void RemovePermission(Permission permission)
+        {
+            foreach (var role in _roles)
+            {
+                role.RemovePermission(permission);
+            }
         }
 
         public void Deactivate() => IsActive = false;

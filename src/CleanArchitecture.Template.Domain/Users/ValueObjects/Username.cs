@@ -5,7 +5,7 @@ namespace CleanArchitecture.Template.Domain.Users.ValueObjects
 {
     public class Username : ValueObject
     {
-        public string Value { get; }
+        public string Value { get; init; }
 
         private Username(string value)
         {

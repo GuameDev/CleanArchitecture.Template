@@ -1,16 +1,12 @@
-﻿using CleanArchitecture.Template.Domain.Users.Aggregates;
-using CleanArchitecture.Template.Domain.Users.Constants;
+﻿using CleanArchitecture.Template.Domain.Users.Constants;
+using CleanArchitecture.Template.Domain.Users.Errors;
 using CleanArchitecture.Template.SharedKernel.Entities;
 using CleanArchitecture.Template.SharedKernel.Results;
 
 public class Role : Entity
 {
     private readonly List<Permission> _permissions = new List<Permission>();
-    private readonly List<User> _users = new List<User>();
-
     public IReadOnlyCollection<Permission> Permissions => _permissions.AsReadOnly();
-    public IReadOnlyCollection<User> Users => _users.AsReadOnly();
-
     public Guid Id { get; private set; }
     public RoleName RoleName { get; private set; }
 
@@ -28,16 +24,21 @@ public class Role : Entity
         return Result.Success(new Role(id, roleName));
     }
 
-    public void AddPermission(Permission permission)
+    public Result AddPermission(Permission permission)
     {
         if (_permissions.Any(p => p.Name == permission.Name))
-            throw new InvalidOperationException("Role already has this permission.");
+            return Result.Failure(PermissionErrors.PermissionAlreadyAssigned);
 
         _permissions.Add(permission);
+        return Result.Success();
     }
 
-    public void RemovePermission(Permission permission)
+    public Result RemovePermission(Permission permission)
     {
+        if (!_permissions.Any(p => p.Name == permission.Name))
+            return Result.Failure(PermissionErrors.PermissionNotAssigned);
+
         _permissions.Remove(permission);
+        return Result.Success();
     }
 }

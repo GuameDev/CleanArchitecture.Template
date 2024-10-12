@@ -5,9 +5,9 @@ namespace CleanArchitecture.Template.Domain.Users.ValueObjects
 {
     public class FullName : ValueObject
     {
-        public string FirstName { get; }
-        public string LastName1 { get; }
-        public string? LastName2 { get; }
+        public string FirstName { get; init; }
+        public string LastName1 { get; init; }
+        public string? LastName2 { get; init; }
 
         private FullName(string firstName, string lastName1, string? lastName2)
         {
@@ -28,7 +28,7 @@ namespace CleanArchitecture.Template.Domain.Users.ValueObjects
         {
             yield return FirstName;
             yield return LastName1;
-            yield return LastName2;
+            yield return LastName2 ?? string.Empty;
         }
     }
 }

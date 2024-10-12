@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 public class Email : ValueObject
 {
-    public string Value { get; }
+    public string Value { get; init; }
 
     private Email(string value)
     {
