@@ -1,7 +1,6 @@
-﻿using CleanArchitecture.Template.Domain.Users.Aggregates;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration
+namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration.Users
 {
     public class PermissionEntityTypeConfiguration : BaseEntityConfiguration<Permission, Guid>
     {

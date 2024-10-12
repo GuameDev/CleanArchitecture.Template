@@ -3,7 +3,7 @@ using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration
+namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration.WeatherForecasts
 {
     public class WeatherForecastEntityTypeConfiguration : BaseEntityConfiguration<WeatherForecast, Guid>
     {

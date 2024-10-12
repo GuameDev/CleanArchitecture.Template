@@ -3,7 +3,7 @@ using CleanArchitecture.Template.Domain.Users.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration
+namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration.Users
 {
     public class UserEntityTypeConfiguration : BaseEntityConfiguration<User, Guid>
     {
@@ -24,16 +24,16 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration
             builder.OwnsOne(u => u.FullName, fullName =>
             {
                 fullName.Property(fn => fn.FirstName)
-                    .HasColumnName("FirstName")
+                    .HasColumnName(nameof(FullName.FirstName))
                     .IsRequired();
 
                 fullName.Property(fn => fn.LastName1)
-                    .HasColumnName("LastName1")
+                    .HasColumnName(nameof(FullName.LastName1))
                     .IsRequired();
 
                 fullName.Property(fn => fn.LastName2)
-                    .HasColumnName("LastName2")
-                    .IsRequired(false); // Nullable for LastName2
+                    .HasColumnName(nameof(FullName.LastName2))
+                    .IsRequired(false);
             });
 
             builder.Property(u => u.PasswordHash)
@@ -42,13 +42,13 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration
             builder.Property(u => u.IsActive)
                 .HasDefaultValue(true);
 
-            // Correct the many-to-many relationship with roles using a join table
+            // Configure the many-to-many relationship between User and Role
             builder.HasMany(u => u.Roles)
-                .WithMany(r => r.Users) // This creates a many-to-many relationship
+                .WithMany()
                 .UsingEntity<Dictionary<string, object>>(
-                    "UserRoles", // The join table name
-                    j => j.HasOne<Role>().WithMany().HasForeignKey("RoleId"),
-                    j => j.HasOne<User>().WithMany().HasForeignKey("UserId")
+                    UserConstantsEntityTypeConfiguration.UserRolesTableName, // The join table name remains as a string
+                    j => j.HasOne<Role>().WithMany().HasForeignKey(UserConstantsEntityTypeConfiguration.RoleIdColumnName),
+                    j => j.HasOne<User>().WithMany().HasForeignKey(UserConstantsEntityTypeConfiguration.UserIdColumnName)
                 );
         }
     }

@@ -1,7 +1,7 @@
 ﻿using CleanArchitecture.Template.Domain.Users.Constants;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration
+namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration.Users
 {
     public class RoleEntityTypeConfiguration : BaseEntityConfiguration<Role, Guid>
     {
@@ -9,20 +9,20 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration
         {
             base.Configure(builder);
 
-            // Configure RoleName to be stored as string
+            // Configure RoleName to be stored as a string using expression-based conversion
             builder.Property(r => r.RoleName)
                 .HasConversion(
-                    roleName => roleName.ToString(),      // To database as string
-                    roleName => (RoleName)Enum.Parse(typeof(RoleName), roleName)) // From string to enum
+                    roleName => roleName.ToString(),
+                    roleName => (RoleName)Enum.Parse(typeof(RoleName), roleName))
                 .IsRequired();
 
-            // Many-to-many relationship with Permissions
+            // Configure many-to-many relationship between Roles and Permissions
             builder.HasMany(r => r.Permissions)
                 .WithMany(p => p.Roles)
                 .UsingEntity<Dictionary<string, object>>(
-                    "RolePermissions", // The join table name
-                    rp => rp.HasOne<Permission>().WithMany().HasForeignKey("PermissionId"),
-                    rp => rp.HasOne<Role>().WithMany().HasForeignKey("RoleId")
+                    UserConstantsEntityTypeConfiguration.RolePermissionsTableName,
+                    j => j.HasOne<Permission>().WithMany().HasForeignKey(UserConstantsEntityTypeConfiguration.PermissionIdColumnName),
+                    j => j.HasOne<Role>().WithMany().HasForeignKey(UserConstantsEntityTypeConfiguration.RoleIdColumnName)
                 );
 
             SeedDefaultRoles(builder);
