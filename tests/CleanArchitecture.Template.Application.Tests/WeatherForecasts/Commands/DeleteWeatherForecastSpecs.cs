@@ -11,13 +11,13 @@ using Moq;
 
 namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Commands
 {
-    public class DeleteWeatherForecastHandlerSpecs : IClassFixture<MediatorIntegrationSetup>
+    public class DeleteWeatherForecastSpecs : IClassFixture<MediatorIntegrationSetup>
     {
         private readonly IMediator _mediator;
         private readonly Mock<IUnitOfWork> _mockUnitOfWork;
         private readonly Mock<IMapper> _mockMapper;
 
-        public DeleteWeatherForecastHandlerSpecs(MediatorIntegrationSetup fixture)
+        public DeleteWeatherForecastSpecs(MediatorIntegrationSetup fixture)
         {
             // Use the factory methods from the fixture to create fresh mocks for each test
             _mockUnitOfWork = fixture.CreateMockUnitOfWork();
@@ -40,13 +40,13 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Commands
                 Summary.Mild).Value;
 
             // Mock repository method to return the existing forecast
-            _mockUnitOfWork.Setup(uow => uow.WeatherForecastRepository.GetByIdAsync(It.IsAny<GetWeatherForecastByIdRequest>()))
+            _mockUnitOfWork.Setup(unitOfWork => unitOfWork.WeatherForecastRepository.GetByIdAsync(It.IsAny<GetWeatherForecastByIdRequest>()))
                            .ReturnsAsync(weatherForecast);
 
             // Mock delete and commit
-            _mockUnitOfWork.Setup(uow => uow.WeatherForecastRepository.DeleteAsync(It.IsAny<Guid>()))
+            _mockUnitOfWork.Setup(unitOfWork => unitOfWork.WeatherForecastRepository.DeleteAsync(It.IsAny<Guid>()))
                            .Returns(Task.CompletedTask);
-            _mockUnitOfWork.Setup(uow => uow.CommitAsync(It.IsAny<CancellationToken>()))
+            _mockUnitOfWork.Setup(unitOfWork => unitOfWork.CommitAsync(It.IsAny<CancellationToken>()))
                            .ReturnsAsync(1);
 
             // Act
@@ -54,7 +54,7 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Commands
 
             // Assert
             Assert.True(result.IsSuccess);
-            _mockUnitOfWork.Verify(uow => uow.WeatherForecastRepository.DeleteAsync(It.IsAny<Guid>()), Times.Once);
+            _mockUnitOfWork.Verify(unitOfWork => unitOfWork.WeatherForecastRepository.DeleteAsync(It.IsAny<Guid>()), Times.Once);
             _mockUnitOfWork.Verify(uow => uow.CommitAsync(It.IsAny<CancellationToken>()), Times.Once);
         }
 
@@ -66,7 +66,7 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Commands
             var command = new DeleteWeatherForecastCommand(requestId);
 
             // Mock repository method to return null, simulating entity not found
-            _mockUnitOfWork.Setup(uow => uow.WeatherForecastRepository.GetByIdAsync(It.IsAny<GetWeatherForecastByIdRequest>()))
+            _mockUnitOfWork.Setup(unitOfWork => unitOfWork.WeatherForecastRepository.GetByIdAsync(It.IsAny<GetWeatherForecastByIdRequest>()))
                            .ReturnsAsync((Domain.WeatherForecasts.WeatherForecast)null!);
 
             // Act
@@ -75,7 +75,7 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Commands
             // Assert
             Assert.False(result.IsSuccess);
             Assert.Equal(WeatherForecastErrors.NotFound.Code, result.Error.Code);
-            _mockUnitOfWork.Verify(uow => uow.WeatherForecastRepository.DeleteAsync(It.IsAny<Guid>()), Times.Never);
+            _mockUnitOfWork.Verify(unitOfWork => unitOfWork.WeatherForecastRepository.DeleteAsync(It.IsAny<Guid>()), Times.Never);
             _mockUnitOfWork.Verify(uow => uow.CommitAsync(It.IsAny<CancellationToken>()), Times.Never);
         }
     }

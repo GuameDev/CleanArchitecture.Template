@@ -10,13 +10,13 @@ using Moq;
 
 namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Queries
 {
-    public class GetByIdWeatherForecastHandlerSpecs : IClassFixture<MediatorIntegrationSetup>
+    public class GetByIdWeatherForecastSpecs : IClassFixture<MediatorIntegrationSetup>
     {
         private readonly IMediator _mediator;
         private readonly Mock<IUnitOfWork> _mockUnitOfWork;
         private readonly Mock<IMapper> _mockMapper;
 
-        public GetByIdWeatherForecastHandlerSpecs(MediatorIntegrationSetup fixture)
+        public GetByIdWeatherForecastSpecs(MediatorIntegrationSetup fixture)
         {
             // Use the factory methods from the fixture to create fresh mocks for each test
             _mockUnitOfWork = fixture.CreateMockUnitOfWork();
@@ -48,7 +48,7 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Queries
             };
 
             // Mock repository and mapper
-            _mockUnitOfWork.Setup(uow => uow.WeatherForecastRepository.GetByIdAsync(It.IsAny<GetWeatherForecastByIdRequest>()))
+            _mockUnitOfWork.Setup(unitOfWork => unitOfWork.WeatherForecastRepository.GetByIdAsync(It.IsAny<GetWeatherForecastByIdRequest>()))
                            .ReturnsAsync(entity);
 
             _mockMapper.Setup(m => m.Map<GetWeatherForecastByIdResponse>(It.IsAny<Domain.WeatherForecasts.WeatherForecast>()))
@@ -62,7 +62,7 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Queries
             Assert.NotNull(result.Value);
             Assert.Equal(entity.Id, result.Value.Id);
             Assert.Equal(mappedResponse.TemperatureCelsius, result.Value.TemperatureCelsius);
-            _mockUnitOfWork.Verify(uow => uow.WeatherForecastRepository.GetByIdAsync(It.IsAny<GetWeatherForecastByIdRequest>()), Times.Once);
+            _mockUnitOfWork.Verify(unitOfWork => unitOfWork.WeatherForecastRepository.GetByIdAsync(It.IsAny<GetWeatherForecastByIdRequest>()), Times.Once);
         }
 
         [Fact]
@@ -71,7 +71,7 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Queries
             // Arrange
             var request = new GetWeatherForecastByIdQuery(Guid.NewGuid());
 
-            _mockUnitOfWork.Setup(uow => uow.WeatherForecastRepository.GetByIdAsync(It.IsAny<GetWeatherForecastByIdRequest>()))
+            _mockUnitOfWork.Setup(unitOfWork => unitOfWork.WeatherForecastRepository.GetByIdAsync(It.IsAny<GetWeatherForecastByIdRequest>()))
                            .ReturnsAsync((Domain.WeatherForecasts.WeatherForecast)null!);
 
             // Act

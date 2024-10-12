@@ -53,7 +53,7 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Queries
                 Elements = weatherForecasts
             };
 
-            _mockUnitOfWork.Setup(uow => uow.WeatherForecastRepository.GetAllAsync())
+            _mockUnitOfWork.Setup(unitOfWork => unitOfWork.WeatherForecastRepository.GetAllAsync())
                            .ReturnsAsync(response);
 
             // Act
@@ -77,7 +77,7 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Queries
                 Elements = new List<GetAllWeatherForecastListItemResponse>()
             };
 
-            _mockUnitOfWork.Setup(uow => uow.WeatherForecastRepository.GetAllAsync())
+            _mockUnitOfWork.Setup(unitOfWork => unitOfWork.WeatherForecastRepository.GetAllAsync())
                            .ReturnsAsync(response);
 
             // Act
