@@ -1,4 +1,5 @@
-﻿using CleanArchitecture.Template.Domain.Users.Aggregates;
+﻿using CleanArchitecture.Template.Domain.Users;
+using CleanArchitecture.Template.Domain.Users.Aggregates;
 using CleanArchitecture.Template.Domain.WeatherForecasts;
 using CleanArchitecture.Template.SharedKernel.Entities;
 using CleanArchitecture.Template.SharedKernel.Entities.Events;
@@ -8,19 +9,20 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence
 {
     public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-                : base(options)
-        {
-
-        }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         public DbSet<WeatherForecast> WeatherForecasts { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<Permission> Permissions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+
+            //Seed default data for users
+            UserDefaultDataSeeder.Seed(modelBuilder);
 
             modelBuilder.Ignore<DomainEvent>();
         }

@@ -1,9 +1,11 @@
 ﻿using CleanArchitecture.Template.Application.Base.UnitOfWork;
-using CleanArchitecture.Template.Application.User.Services;
-using CleanArchitecture.Template.Application.WeatherForecast.Repository;
+using CleanArchitecture.Template.Application.Users.Repository;
+using CleanArchitecture.Template.Application.Users.Services;
+using CleanArchitecture.Template.Application.WeatherForecasts.Repository;
 using CleanArchitecture.Template.Infrastructure.Persistence;
-using CleanArchitecture.Template.Infrastructure.Persistence.Repositories;
 using CleanArchitecture.Template.Infrastructure.Persistence.Repositories.Base;
+using CleanArchitecture.Template.Infrastructure.Persistence.Repositories.Users;
+using CleanArchitecture.Template.Infrastructure.Persistence.Repositories.WeatherForecasts;
 using CleanArchitecture.Template.Infrastructure.Services.Security;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -25,10 +27,16 @@ namespace CleanArchitecture.Template.Infrastructure
 
             });
 
+            //Persistence
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IWeatherForecastRepository, WeatherForecastRepository>();
 
+            //Users
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IUserPasswordHasher, RfcPasswordHasher>();
+
+            //WeatherForecast
+            services.AddScoped<IWeatherForecastRepository, WeatherForecastRepository>();
 
             return services;
         }

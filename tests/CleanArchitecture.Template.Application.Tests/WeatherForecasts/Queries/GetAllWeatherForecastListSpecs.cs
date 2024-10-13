@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using CleanArchitecture.Template.Application.Base.UnitOfWork;
 using CleanArchitecture.Template.Application.Tests.Base;
-using CleanArchitecture.Template.Application.WeatherForecast.Queries.GetAll;
-using CleanArchitecture.Template.Application.WeatherForecast.Queries.GetAll.DTOs;
+using CleanArchitecture.Template.Application.WeatherForecasts.Queries.GetAll;
+using CleanArchitecture.Template.Application.WeatherForecasts.Queries.GetAll.DTOs;
 using MediatR;
 using Moq;
 

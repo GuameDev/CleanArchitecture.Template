@@ -1,7 +1,7 @@
 ﻿using CleanArchitecture.Template.Application.Tests.Base;
-using CleanArchitecture.Template.Application.WeatherForecast.Commands.Update;
-using CleanArchitecture.Template.Application.WeatherForecast.Commands.Update.DTOs;
-using CleanArchitecture.Template.Application.WeatherForecast.Queries.GetById;
+using CleanArchitecture.Template.Application.WeatherForecasts.Commands.Update;
+using CleanArchitecture.Template.Application.WeatherForecasts.Commands.Update.DTOs;
+using CleanArchitecture.Template.Application.WeatherForecasts.Queries.GetById;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Errors;
 using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects;

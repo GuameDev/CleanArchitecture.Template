@@ -1,6 +1,6 @@
 ﻿using CleanArchitecture.Template.Application.Tests.Base;
-using CleanArchitecture.Template.Application.WeatherForecast.Commands.Create;
-using CleanArchitecture.Template.Application.WeatherForecast.Commands.Create.DTOs;
+using CleanArchitecture.Template.Application.WeatherForecasts.Commands.Create;
+using CleanArchitecture.Template.Application.WeatherForecasts.Commands.Create.DTOs;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Errors;
 using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects;

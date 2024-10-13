@@ -3,6 +3,7 @@ using CleanArchitecture.Template.Domain.Users.Errors;
 using CleanArchitecture.Template.SharedKernel.Entities;
 using CleanArchitecture.Template.SharedKernel.Results;
 
+namespace CleanArchitecture.Template.Domain.Users.Aggregates;
 public class Role : Entity
 {
     private readonly List<Permission> _permissions = new List<Permission>();

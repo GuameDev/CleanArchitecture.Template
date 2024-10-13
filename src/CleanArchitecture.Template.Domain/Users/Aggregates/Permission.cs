@@ -2,6 +2,7 @@
 using CleanArchitecture.Template.SharedKernel.Entities;
 using CleanArchitecture.Template.SharedKernel.Results;
 
+namespace CleanArchitecture.Template.Domain.Users.Aggregates;
 public class Permission : Entity
 {
     private readonly List<Role> _roles = new List<Role>();

@@ -1,5 +1,6 @@
 ﻿using CleanArchitecture.Template.Domain.Users.Aggregates;
 using CleanArchitecture.Template.Domain.Users.Constants;
+using CleanArchitecture.Template.Domain.Users.Errors;
 
 namespace CleanArchitecture.Template.Domain.Tests.Users
 {
@@ -62,8 +63,11 @@ namespace CleanArchitecture.Template.Domain.Tests.Users
             var permission = Permission.Create("Read", "Allows read access").Value;
             role.AddPermission(permission);
 
+            var result = role.AddPermission(permission);
+
             // Act & Assert
-            Assert.Throws<InvalidOperationException>(() => role.AddPermission(permission));
+            Assert.True(result.IsFailure);
+            Assert.Equal(result.Error, PermissionErrors.PermissionAlreadyAssigned);
         }
     }
 }

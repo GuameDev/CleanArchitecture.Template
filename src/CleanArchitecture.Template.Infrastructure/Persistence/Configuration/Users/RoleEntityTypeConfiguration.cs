@@ -1,4 +1,5 @@
-﻿using CleanArchitecture.Template.Domain.Users.Constants;
+﻿using CleanArchitecture.Template.Domain.Users.Aggregates;
+using CleanArchitecture.Template.Domain.Users.Constants;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration.Users
@@ -22,26 +23,14 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration.Us
                 .UsingEntity<Dictionary<string, object>>(
                     UserConstantsEntityTypeConfiguration.RolePermissionsTableName,
                     j => j.HasOne<Permission>().WithMany().HasForeignKey(UserConstantsEntityTypeConfiguration.PermissionIdColumnName),
-                    j => j.HasOne<Role>().WithMany().HasForeignKey(UserConstantsEntityTypeConfiguration.RoleIdColumnName)
+                    j => j.HasOne<Role>().WithMany().HasForeignKey(UserConstantsEntityTypeConfiguration.RoleIdColumnName),
+                    j =>
+                    {
+                        j.Property<int>(UserConstantsEntityTypeConfiguration.RolePermissionPrimaryKeyColumnName)
+                            .ValueGeneratedOnAdd();
+                        j.HasKey(UserConstantsEntityTypeConfiguration.RolePermissionPrimaryKeyColumnName);
+                    }
                 );
-
-            SeedDefaultRoles(builder);
-        }
-
-        private void SeedDefaultRoles(EntityTypeBuilder<Role> builder)
-        {
-            var now = DateTime.UtcNow;
-            var adminRoleId = Guid.NewGuid();
-            var userRoleId = Guid.NewGuid();
-
-            // Seed using string representation of the enum
-            var roles = new List<object>
-            {
-                new { Id = adminRoleId, RoleName = RoleName.Admin, CreatedDate = now, UpdatedDate = now },
-                new { Id = userRoleId, RoleName = RoleName.User, CreatedDate = now, UpdatedDate = now }
-            };
-
-            builder.HasData(roles);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using CleanArchitecture.Template.Domain.Users.Aggregates;
+﻿using CleanArchitecture.Template.Domain.Users;
+using CleanArchitecture.Template.Domain.Users.Aggregates;
 using CleanArchitecture.Template.Domain.Users.Constants;
 using CleanArchitecture.Template.Domain.Users.Errors;
 

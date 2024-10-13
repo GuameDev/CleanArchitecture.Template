@@ -1,4 +1,5 @@
-﻿using CleanArchitecture.Template.SharedKernel.CommonTypes;
+﻿using CleanArchitecture.Template.Domain.Users.Aggregates;
+using CleanArchitecture.Template.SharedKernel.CommonTypes;
 
 namespace CleanArchitecture.Template.Domain.Users.Errors
 {

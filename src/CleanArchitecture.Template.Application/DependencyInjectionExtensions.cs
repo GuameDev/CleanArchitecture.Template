@@ -1,5 +1,5 @@
 ﻿using CleanArchitecture.Template.Application.Base.Behaviour;
-using CleanArchitecture.Template.Application.WeatherForecast.Commands.Create;
+using CleanArchitecture.Template.Application.WeatherForecasts.Commands.Create;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;

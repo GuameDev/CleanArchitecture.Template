@@ -11,5 +11,7 @@
         public const string RoleIdColumnName = "RoleId";
         public const string UserIdColumnName = "UserId";
         public const string PermissionIdColumnName = "PermissionId";
+        public const string RolePermissionPrimaryKeyColumnName = "Id";
+        public const string UserRolePrimaryKeyColumnName = "Id";
     }
 }

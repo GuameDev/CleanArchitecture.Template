@@ -1,9 +1,10 @@
-﻿using CleanArchitecture.Template.Domain.Users.Errors;
+﻿using CleanArchitecture.Template.Domain.Users.Aggregates;
+using CleanArchitecture.Template.Domain.Users.Errors;
 using CleanArchitecture.Template.Domain.Users.ValueObjects;
 using CleanArchitecture.Template.SharedKernel.Entities;
 using CleanArchitecture.Template.SharedKernel.Results;
 
-namespace CleanArchitecture.Template.Domain.Users.Aggregates
+namespace CleanArchitecture.Template.Domain.Users
 {
     public class User : Entity, IAggregateRoot
     {
@@ -27,6 +28,20 @@ namespace CleanArchitecture.Template.Domain.Users.Aggregates
             FullName = fullName;
             PasswordHash = passwordHash;
             IsActive = true;
+        }
+        public static Result<User> Create(string username, string email, string passwordHash, string firstName, string lastName1, string? lastName2)
+        {
+            var usernameResult = Username.Create(username);
+            var emailResult = Email.Create(email);
+            var fullNameResult = FullName.Create(firstName, lastName1, lastName2);
+
+            if (usernameResult.IsFailure || emailResult.IsFailure || fullNameResult.IsFailure)
+                return Result.Failure<User>(UserErrors.InvalidUserDetails);
+
+            if (string.IsNullOrWhiteSpace(passwordHash))
+                return Result.Failure<User>(UserErrors.InvalidPasswordHash);
+
+            return Result.Success(new User(Guid.NewGuid(), usernameResult.Value, emailResult.Value, fullNameResult.Value, passwordHash));
         }
 
         // Factory Method

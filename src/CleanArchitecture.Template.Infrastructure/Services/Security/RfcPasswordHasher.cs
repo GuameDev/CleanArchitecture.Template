@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Template.Application.User.Services;
+﻿using CleanArchitecture.Template.Application.Users.Services;
 using System.Security.Cryptography;
 
 namespace CleanArchitecture.Template.Infrastructure.Services.Security

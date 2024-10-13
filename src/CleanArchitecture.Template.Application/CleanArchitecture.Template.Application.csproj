@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="WeatherForecast\Queries\GetById\DTOs\" />
+    <Folder Include="WeatherForecasts\Queries\GetById\DTOs\" />
   </ItemGroup>
 
 </Project>

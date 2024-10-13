@@ -24,7 +24,7 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration.We
                 temp.Property(t => t.Type).HasColumnName("TemperatureType").HasConversion(
                        summary => summary.ToString(),
                        summary => (TemperatureType)Enum.Parse(typeof(TemperatureType), summary))
-                   .IsRequired(); ;
+                   .IsRequired();
             });
 
             builder.OwnsOne(weatherForecast => weatherForecast.Date, date =>
