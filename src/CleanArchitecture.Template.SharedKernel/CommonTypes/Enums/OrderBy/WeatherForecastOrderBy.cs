@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.Template.Application.WeatherForecast.DTOs
+﻿namespace CleanArchitecture.Template.Application.WeatherForecasts.DTOs
 {
     public enum WeatherForecastOrderBy
     {

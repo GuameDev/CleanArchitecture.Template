@@ -1,5 +1,6 @@
 ﻿using CleanArchitecture.Template.Application.Base.UnitOfWork;
-using CleanArchitecture.Template.Application.WeatherForecast.Repository;
+using CleanArchitecture.Template.Application.Users.Repository;
+using CleanArchitecture.Template.Application.WeatherForecasts.Repository;
 
 namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories.Base
 {
@@ -9,12 +10,22 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories.Bas
         private bool _disposed = false;
 
         public IWeatherForecastRepository WeatherForecastRepository { get; }
+        public IUserRepository UserRepository { get; }
+        public IRoleRepository RoleRepository { get; }
 
-        public UnitOfWork(ApplicationDbContext context, IWeatherForecastRepository weatherForecastRepository)
+        public UnitOfWork(
+            ApplicationDbContext context,
+            IWeatherForecastRepository weatherForecastRepository,
+            IUserRepository userRepository,
+            IRoleRepository roleRepository)
         {
             _context = context;
             WeatherForecastRepository = weatherForecastRepository;
+            UserRepository = userRepository;
+            RoleRepository = roleRepository;
         }
+
+
 
         public async Task<int> CommitAsync(CancellationToken cancellationToken = default)
         {
