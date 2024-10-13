@@ -23,7 +23,7 @@ namespace CleanArchitecture.Template.Application.Tests.Users.Commands
             // Arrange
             var mockUnitOfWork = _fixture.CreateMockUnitOfWork();
             var mockPasswordHasher = new Mock<IUserPasswordHasher>();
-            var mediator = _fixture.CreateMediator(mockUnitOfWork, null);
+            var mediator = _fixture.CreateMediator(mockUnitOfWork, null!);
             var handler = new RegisterUserHandler(mockUnitOfWork.Object, mockPasswordHasher.Object);
 
             var request = new RegisterUserCommand(

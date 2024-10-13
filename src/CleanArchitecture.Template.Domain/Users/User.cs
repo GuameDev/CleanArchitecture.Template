@@ -11,14 +11,15 @@ namespace CleanArchitecture.Template.Domain.Users
         private readonly List<Role> _roles = new List<Role>();
         public IReadOnlyCollection<Role> Roles => _roles.AsReadOnly();
 
-        public Guid Id { get; private set; }
-        public Username Username { get; private set; }
-        public Email Email { get; private set; }
-        public FullName FullName { get; private set; }
-        public string PasswordHash { get; private set; }
-        public bool IsActive { get; private set; }
+        public required Guid Id { get; init; }
+        public required Username Username { get; init; }
+        public required Email Email { get; init; }
+        public required FullName FullName { get; init; }
+        public required string PasswordHash { get; init; }
+        public bool IsActive { get; private set; } = true;
 
-        private User() { } // For EF
+
+        private User() { }
 
         private User(Guid id, Username username, Email email, FullName fullName, string passwordHash)
         {
@@ -29,6 +30,7 @@ namespace CleanArchitecture.Template.Domain.Users
             PasswordHash = passwordHash;
             IsActive = true;
         }
+
         public static Result<User> Create(string username, string email, string passwordHash, string firstName, string lastName1, string? lastName2)
         {
             var usernameResult = Username.Create(username);
@@ -41,19 +43,31 @@ namespace CleanArchitecture.Template.Domain.Users
             if (string.IsNullOrWhiteSpace(passwordHash))
                 return Result.Failure<User>(UserErrors.InvalidPasswordHash);
 
-            return Result.Success(new User(Guid.NewGuid(), usernameResult.Value, emailResult.Value, fullNameResult.Value, passwordHash));
+            return Result.Success(new User()
+            {
+                Id = Guid.NewGuid(),
+                Username = usernameResult.Value,
+                Email = emailResult.Value,
+                FullName = fullNameResult.Value,
+                PasswordHash = passwordHash
+            });
         }
 
-        // Factory Method
         public static Result<User> Create(Username username, Email email, FullName fullName, string passwordHash)
         {
             if (string.IsNullOrWhiteSpace(passwordHash))
                 return Result.Failure<User>(UserErrors.InvalidPasswordHash);
 
-            return Result.Success(new User(Guid.NewGuid(), username, email, fullName, passwordHash));
+            return Result.Success(new User()
+            {
+                Id = Guid.NewGuid(),
+                Username = username,
+                Email = email,
+                FullName = fullName,
+                PasswordHash = passwordHash
+            });
         }
 
-        // Role management
         public Result AddRole(Role role)
         {
             if (_roles.Any(r => r.RoleName == role.RoleName))
@@ -68,17 +82,15 @@ namespace CleanArchitecture.Template.Domain.Users
             if (!_roles.Any(r => r.RoleName == role.RoleName))
                 return Result.Failure(RoleErrors.RoleNotAssigned);
 
-            // Remove role from the user's list
             _roles.Remove(role);
 
-            // Check if the user has permissions from this role that aren't provided by other roles
+            // Remove associated permissions not provided by other roles
             var permissionsFromRole = role.Permissions.ToList();
             foreach (var permission in permissionsFromRole)
             {
                 bool hasPermissionFromOtherRoles = _roles.Any(r => r.Permissions.Any(p => p.Name == permission.Name));
                 if (!hasPermissionFromOtherRoles)
                 {
-                    // If no other role grants this permission, remove the permission
                     RemovePermission(permission);
                 }
             }
@@ -91,7 +103,6 @@ namespace CleanArchitecture.Template.Domain.Users
             return _roles.Any(r => r.Permissions.Any(p => p.Name == permissionName));
         }
 
-        // Private helper to remove a permission
         private void RemovePermission(Permission permission)
         {
             foreach (var role in _roles)

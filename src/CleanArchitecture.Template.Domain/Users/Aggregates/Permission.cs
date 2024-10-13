@@ -8,11 +8,11 @@ public class Permission : Entity
     private readonly List<Role> _roles = new List<Role>();
     public IReadOnlyCollection<Role> Roles => _roles.AsReadOnly();
 
-    public Guid Id { get; private set; }
-    public string Name { get; private set; }
-    public string Description { get; private set; }
+    public required Guid Id { get; init; }
+    public required string Name { get; init; }
+    public required string Description { get; init; }
 
-    private Permission() { } // For EF
+    private Permission() { }
 
     private Permission(string name, string description)
     {
@@ -29,6 +29,11 @@ public class Permission : Entity
         if (string.IsNullOrWhiteSpace(description))
             return Result.Failure<Permission>(PermissionErrors.InvalidDescription);
 
-        return Result.Success(new Permission(name, description));
+        return Result.Success(new Permission()
+        {
+            Id = Guid.NewGuid(),
+            Description = description,
+            Name = name
+        });
     }
 }
