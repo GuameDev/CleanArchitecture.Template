@@ -1,4 +1,4 @@
-namespace CleanArchitecture.Template.Application.WeatherForecasts.Queries.GetById
+namespace CleanArchitecture.Template.Application.WeatherForecasts.Queries.GetById.DTOs
 {
     public record GetWeatherForecastByIdResponse
     {

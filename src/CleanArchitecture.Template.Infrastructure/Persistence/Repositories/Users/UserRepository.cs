@@ -40,5 +40,12 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories.Use
                  || x.Email.Value.Equals(email));
 
         }
+        public async Task<User?> GetById(Guid id)
+        {
+            return await _context.Users
+                .Include(user => user.Roles)
+                .ThenInclude(roles => roles.Permissions)
+                .FirstOrDefaultAsync(x => x.Id == id);
+        }
     }
 }

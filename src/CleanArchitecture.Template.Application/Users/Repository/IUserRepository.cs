@@ -12,5 +12,6 @@ namespace CleanArchitecture.Template.Application.Users.Repository
         Task<User?> GetByEmailAsync(string Email);
         Task AddUserAsync(User user);
         Task<bool> Exist(string username, string email);
+        Task<User?> GetById(Guid id);
     }
 }

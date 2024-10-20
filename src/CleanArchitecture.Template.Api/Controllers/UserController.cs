@@ -1,6 +1,7 @@
 ﻿using CleanArchitecture.Template.Api.Results;
 using CleanArchitecture.Template.Application.Users.Commands.RegisterUser;
 using CleanArchitecture.Template.Application.Users.Commands.RegisterUser.DTOs;
+using CleanArchitecture.Template.Application.Users.Query.GetById;
 using CleanArchitecture.Template.SharedKernel.Results;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -38,9 +39,9 @@ namespace CleanArchitecture.Template.Api.Controllers
         [Route("{id}")]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
-            //var result = await _sender.Send(new GetUserByIdQuery(id));
-            //return result.Match(onSuccess: Ok, onFailure: ApiResults.Problem);
-            return Ok();
+            var result = await _sender.Send(new GetUserByIdQuery(id));
+            return result.Match(onSuccess: Ok, onFailure: ApiResults.Problem);
+
         }
     }
 }
