@@ -1,14 +1,19 @@
 ﻿using CleanArchitecture.Template.Api.Filters;
 using CleanArchitecture.Template.Api.Swagger;
+using CleanArchitecture.Template.SharedKernel.Options.Security;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using System.Text.Json.Serialization;
 
 namespace CleanArchitecture.Template.Api.Extensions
 {
     public static class DependencyInjectionExtensions
     {
-        public static IServiceCollection AddApiServices(this IServiceCollection services)
+        public static IServiceCollection AddApiServices(this IServiceCollection services, IConfiguration configuration)
         {
 
             services.AddControllers(options =>
@@ -28,7 +33,7 @@ namespace CleanArchitecture.Template.Api.Extensions
 
                 //This ensures that validation is only handled via your MediatR pipeline.
                 options.SuppressModelStateInvalidFilter = true;
-            });
+            }).AddApplicationPart(typeof(DependencyInjectionExtensions).Assembly);
 
             services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 
@@ -36,7 +41,26 @@ namespace CleanArchitecture.Template.Api.Extensions
 
             services.AddSwaggerGen(SwaggerGenHelpers.Configure);
 
-            services.AddAuthentication().AddJwtBearer();
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                //TODO: find an approach to ensure the options pattern dtos always has data in any environment.
+                JwtSettings jwtSettings = configuration.GetSection(nameof(JwtSettings)).Get<JwtSettings>()!;
+
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = jwtSettings.Issuer,
+                    ValidAudience = jwtSettings.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Key))
+                };
+            });
             services.AddAuthorization();
             services.AddHttpContextAccessor();
 

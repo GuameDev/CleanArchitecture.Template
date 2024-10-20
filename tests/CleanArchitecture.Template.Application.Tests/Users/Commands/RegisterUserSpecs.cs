@@ -1,6 +1,6 @@
 ﻿using CleanArchitecture.Template.Application.Tests.Base;
 using CleanArchitecture.Template.Application.Users.Commands.RegisterUser;
-using CleanArchitecture.Template.Application.Users.Services;
+using CleanArchitecture.Template.Application.Users.Services.Authentication;
 using CleanArchitecture.Template.Domain.Users.Aggregates; // Correct namespace for Role
 using CleanArchitecture.Template.Domain.Users.Constants;
 using CleanArchitecture.Template.Domain.Users.Errors;

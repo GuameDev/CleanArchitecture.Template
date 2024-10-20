@@ -1,6 +1,6 @@
 ﻿using CleanArchitecture.Template.Application.WeatherForecasts.Queries.Get.DTOs;
 using CleanArchitecture.Template.Application.WeatherForecasts.Queries.GetAll.DTOs;
-using CleanArchitecture.Template.Application.WeatherForecasts.Queries.GetById;
+using CleanArchitecture.Template.Application.WeatherForecasts.Queries.GetById.DTOs;
 using CleanArchitecture.Template.Application.WeatherForecasts.Repository;
 using CleanArchitecture.Template.Domain.WeatherForecasts;
 using CleanArchitecture.Template.Infrastructure.Persistence.Repositories.Base;
