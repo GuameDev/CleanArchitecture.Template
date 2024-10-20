@@ -18,7 +18,8 @@ namespace CleanArchitecture.Template.Api
             builder.Host.UseSerilog((context, config) => config.ReadFrom.Configuration(context.Configuration));
 
             builder.Services
-                      .AddApiServices()
+                      .AddSettings(builder.Configuration)
+                      .AddApiServices(builder.Configuration)
                       .AddApplicationServices()
                       .AddInfrastructureServices();
 

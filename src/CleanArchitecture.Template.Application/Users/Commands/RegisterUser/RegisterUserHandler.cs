@@ -1,8 +1,9 @@
 ﻿using CleanArchitecture.Template.Application.Base.UnitOfWork;
 using CleanArchitecture.Template.Application.Users.Commands.RegisterUser.DTOs;
-using CleanArchitecture.Template.Application.Users.Services;
+using CleanArchitecture.Template.Application.Users.Services.Authentication;
 using CleanArchitecture.Template.Domain.Users.Constants;
 using CleanArchitecture.Template.Domain.Users.Errors;
+using CleanArchitecture.Template.Domain.Users.Specifications;
 using CleanArchitecture.Template.Domain.Users.ValueObjects;
 using CleanArchitecture.Template.SharedKernel.Results;
 using MediatR;
@@ -23,7 +24,8 @@ namespace CleanArchitecture.Template.Application.Users.Commands.RegisterUser
         }
         public async Task<Result<RegisterUserResponse>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
-            bool userAlreadyExist = await _unitOfWork.UserRepository.Exist(request.Username, request.Email);
+            var specification = new UserByEmailOrUsernameSpecification(request.Email, request.Username);
+            bool userAlreadyExist = await _unitOfWork.UserRepository.ExistAsync(specification);
 
             if (userAlreadyExist)
                 return Result.Failure<RegisterUserResponse>(UserErrors.UserAlreadyExist);

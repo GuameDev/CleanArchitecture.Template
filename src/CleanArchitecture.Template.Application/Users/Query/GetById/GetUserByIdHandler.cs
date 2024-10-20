@@ -1,6 +1,7 @@
 ﻿using CleanArchitecture.Template.Application.Users.Query.GetById.DTOs;
 using CleanArchitecture.Template.Application.Users.Repository;
 using CleanArchitecture.Template.Domain.Users.Errors;
+using CleanArchitecture.Template.Domain.Users.Specifications;
 using CleanArchitecture.Template.SharedKernel.Results;
 using MediatR;
 
@@ -16,7 +17,8 @@ namespace CleanArchitecture.Template.Application.Users.Query.GetById
         }
         public async Task<Result<GetUserByIdResponse>> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
         {
-            var entity = await _userRepository.GetById(request.Id);
+            var specification = new UserByIdSpecification(request.Id);
+            var entity = await _userRepository.GetBySpecificationAsync(specification);
 
             if (entity is null)
                 return Result.Failure<GetUserByIdResponse>(UserErrors.UserAlreadyExist);

@@ -23,8 +23,8 @@ namespace CleanArchitecture.Template.Api.Extensions
             app.UseAuthentication();
             app.UseAuthorization();
 
-            //app.MapControllers().RequireAuthorization();
-            app.MapControllers();
+            app.MapControllers().RequireAuthorization();
+
 
         }
     }

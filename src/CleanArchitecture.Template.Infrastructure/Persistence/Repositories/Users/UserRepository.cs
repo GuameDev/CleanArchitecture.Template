@@ -1,5 +1,7 @@
 ﻿using CleanArchitecture.Template.Application.Users.Repository;
 using CleanArchitecture.Template.Domain.Users;
+using CleanArchitecture.Template.Infrastructure.Persistence.Repositories.Base;
+using CleanArchitecture.Template.SharedKernel.Specification;
 using Microsoft.EntityFrameworkCore;
 
 namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories.Users
@@ -18,34 +20,16 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories.Use
             await _context.Users.AddAsync(user);
         }
 
-        public async Task<User?> GetByEmailAsync(string email)
+        public async Task<bool> ExistAsync(ISpecification<User> specification)
         {
-            return await _context.Users
-                .Where(x => x.Email.Value.Equals(email))
-                .FirstOrDefaultAsync();
+            var query = SpecificationEvaluator<User>.GetQuery(_context.Users.AsQueryable(), specification);
+            return await query.AnyAsync();
         }
 
-        public async Task<User?> GetByUsernameAsync(string username)
+        public async Task<User?> GetBySpecificationAsync(ISpecification<User> specification)
         {
-            return await _context.Users
-                 .Where(x => x.Username.Value.Equals(username))
-                .FirstOrDefaultAsync();
-        }
-
-        public async Task<bool> Exist(string username, string email)
-        {
-            return await _context.Users
-                 .AnyAsync(x =>
-                    x.Username.Value.Equals(username)
-                 || x.Email.Value.Equals(email));
-
-        }
-        public async Task<User?> GetById(Guid id)
-        {
-            return await _context.Users
-                .Include(user => user.Roles)
-                .ThenInclude(roles => roles.Permissions)
-                .FirstOrDefaultAsync(x => x.Id == id);
+            var query = SpecificationEvaluator<User>.GetQuery(_context.Users.AsQueryable(), specification);
+            return await query.FirstOrDefaultAsync();
         }
     }
 }

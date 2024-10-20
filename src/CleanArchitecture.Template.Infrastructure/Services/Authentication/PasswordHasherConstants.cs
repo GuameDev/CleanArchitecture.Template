@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace CleanArchitecture.Template.Infrastructure.Services.Security
+namespace CleanArchitecture.Template.Infrastructure.Services.Authentication
 {
     //TODO: implement options for this
     public static class PasswordHasherConstants

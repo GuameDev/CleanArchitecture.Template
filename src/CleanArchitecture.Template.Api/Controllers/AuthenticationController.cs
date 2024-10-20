@@ -1,5 +1,7 @@
 ﻿using CleanArchitecture.Template.Api.Constants;
 using CleanArchitecture.Template.Api.Results;
+using CleanArchitecture.Template.Application.Users.Commands.LoginUser;
+using CleanArchitecture.Template.Application.Users.Commands.LoginUser.DTOs;
 using CleanArchitecture.Template.Application.Users.Commands.RegisterUser;
 using CleanArchitecture.Template.Application.Users.Commands.RegisterUser.DTOs;
 using CleanArchitecture.Template.SharedKernel.Results;
@@ -33,6 +35,17 @@ namespace CleanArchitecture.Template.Api.Controllers
                     controllerName: RoutesConstants.UserControllerRoute,
                     routeValues: new { id = result.Value.Id },
                     value: result.Value),
+                onFailure: ApiResults.Problem
+            );
+        }
+        [HttpPost("login")]
+        public async Task<IActionResult> LoginUser([FromBody] LoginUserRequest request)
+        {
+            var command = new LoginUserCommand(request.UsernameOrEmail, request.Password);
+            var result = await _sender.Send(command);
+
+            return result.Match(
+                onSuccess: Ok,
                 onFailure: ApiResults.Problem
             );
         }
