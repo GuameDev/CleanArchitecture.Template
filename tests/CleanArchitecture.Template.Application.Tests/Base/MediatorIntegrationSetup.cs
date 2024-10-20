@@ -22,7 +22,7 @@ namespace CleanArchitecture.Template.Application.Tests.Base
         }
 
         // This method sets up the Mediator with mock services and registers handlers
-        public IMediator CreateMediator(Mock<IUnitOfWork> mockUnitOfWork, Mock<IMapper> mockMapper = null)
+        public IMediator CreateMediator(Mock<IUnitOfWork> mockUnitOfWork, Mock<IMapper> mockMapper = null!)
         {
             // Ensure that required dependencies are not null
             if (mockUnitOfWork == null) throw new ArgumentNullException(nameof(mockUnitOfWork));
@@ -30,7 +30,7 @@ namespace CleanArchitecture.Template.Application.Tests.Base
             // Create a ServiceProvider with required services for Mediator and handlers
             var serviceProvider = new ServiceCollection()
                 .AddSingleton<IMediator, Mediator>() // Add the Mediator itself
-                .AddTransient<Func<Type, object>>(sp => sp.GetService) // ServiceFactory delegate to resolve handlers
+                .AddTransient<Func<Type, object>>(sp => sp.GetService!) // ServiceFactory delegate to resolve handlers
                 .AddSingleton(mockUnitOfWork.Object) // Register mock UnitOfWork
                 .AddSingleton(mockMapper?.Object ?? Mock.Of<IMapper>()) // If mockMapper is null, use a default mock
                 .AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<GetAllWeatherForecastHandler>()) // Add handlers from the same assembly

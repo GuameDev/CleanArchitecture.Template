@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 
 namespace CleanArchitecture.Template.Application.WeatherForecasts.Specifications
 {
-    public class WeatherForecastSpecification : BaseSpecification<Domain.WeatherForecasts.WeatherForecast>
+    public class WeatherForecastSpecification : Specification<Domain.WeatherForecasts.WeatherForecast>
     {
         public WeatherForecastSpecification(GetWeatherForecastListQuery query)
         {
@@ -19,24 +19,20 @@ namespace CleanArchitecture.Template.Application.WeatherForecasts.Specifications
 
         private void BuildCriteria(GetWeatherForecastListQuery query)
         {
-            var criterias = new List<Expression<Func<Domain.WeatherForecasts.WeatherForecast, bool>>>();
-
             if (query.Id is not null && !query.Id.Equals(Guid.Empty))
-                criterias.Add(weatherForecast => weatherForecast.Id.Equals(query.Id));
+                AddCriteria(weatherForecast => weatherForecast.Id.Equals(query.Id));
 
             if (query.StartDate.HasValue && query.EndDate.HasValue)
-                criterias.Add(new WeatherDateInRangeCriteria(DateOnly.FromDateTime(query.StartDate.Value), DateOnly.FromDateTime(query.EndDate.Value)).ToExpression());
+                AddCriteria(new WeatherDateInRangeCriteria(DateOnly.FromDateTime(query.StartDate.Value), DateOnly.FromDateTime(query.EndDate.Value)).ToExpression());
 
             if (query.Summary is not null)
-                criterias.Add(new SummaryEqualsCriteria(query.Summary.Value).ToExpression());
+                AddCriteria(new SummaryEqualsCriteria(query.Summary.Value).ToExpression());
 
             if (query.TemperatureType.HasValue)
-                criterias.Add(weatherForecast => weatherForecast.Temperature.Type == query.TemperatureType.Value);
+                AddCriteria(weatherForecast => weatherForecast.Temperature.Type == query.TemperatureType.Value);
 
             if (query.TemperatureValue.HasValue)
-                criterias.Add(weatherForecast => weatherForecast.Temperature.Value >= query.TemperatureValue.Value);
-
-            AddCriteria(criterias.ToArray());
+                AddCriteria(weatherForecast => weatherForecast.Temperature.Value >= query.TemperatureValue.Value);
         }
 
         private static Expression<Func<Domain.WeatherForecasts.WeatherForecast, object>> GetOrderByExpression(WeatherForecastOrderBy? orderBy)

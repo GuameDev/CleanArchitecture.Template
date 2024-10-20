@@ -1,4 +1,5 @@
 ﻿using CleanArchitecture.Template.Domain.Users;
+using CleanArchitecture.Template.SharedKernel.Specification;
 
 namespace CleanArchitecture.Template.Application.Users.Repository
 {
@@ -8,9 +9,8 @@ namespace CleanArchitecture.Template.Application.Users.Repository
 
     public interface IUserRepository
     {
-        Task<User?> GetByUsernameAsync(string username);
-        Task<User?> GetByEmailAsync(string Email);
         Task AddUserAsync(User user);
-        Task<bool> Exist(string username, string email);
+        Task<bool> ExistAsync(ISpecification<User> specification);
+        Task<User?> GetBySpecificationAsync(ISpecification<User> specification);
     }
 }

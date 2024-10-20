@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.Template.Application.Users.Services
+﻿namespace CleanArchitecture.Template.Application.Users.Services.Authentication
 {
     public interface IUserPasswordHasher
     {

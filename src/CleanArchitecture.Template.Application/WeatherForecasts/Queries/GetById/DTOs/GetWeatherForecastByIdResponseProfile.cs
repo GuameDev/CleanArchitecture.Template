@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace CleanArchitecture.Template.Application.WeatherForecasts.Queries.GetById
+namespace CleanArchitecture.Template.Application.WeatherForecasts.Queries.GetById.DTOs
 {
     internal class GetWeatherForecastByIdResponseProfile : Profile
     {
