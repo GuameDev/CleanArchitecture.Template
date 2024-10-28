@@ -6,6 +6,7 @@ using CleanArchitecture.Template.Application.Users.Commands.RegisterUser;
 using CleanArchitecture.Template.Application.Users.Commands.RegisterUser.DTOs;
 using CleanArchitecture.Template.SharedKernel.Results;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitecture.Template.Api.Controllers
@@ -24,6 +25,7 @@ namespace CleanArchitecture.Template.Api.Controllers
         }
 
         [HttpPost("register")]
+        [AllowAnonymous]
         public async Task<IActionResult> RegisterUser([FromBody] RegisterUserRequest request)
         {
             var command = new RegisterUserCommand(request.Username, request.Email, request.FirstName, request.LastName1, request.LastName2, request.Password);
@@ -39,6 +41,7 @@ namespace CleanArchitecture.Template.Api.Controllers
             );
         }
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<IActionResult> LoginUser([FromBody] LoginUserRequest request)
         {
             var command = new LoginUserCommand(request.UsernameOrEmail, request.Password);
