@@ -1,4 +1,6 @@
 ﻿using CleanArchitecture.Template.SharedKernel.CommonTypes.Enums;
+using CleanArchitecture.Template.SharedKernel.Constants;
+using CleanArchitecture.Template.SharedKernel.Requests;
 using CleanArchitecture.Template.SharedKernel.Specification;
 
 namespace CleanArchitecture.Template.SharedKernel.Tests.Specifications
@@ -10,7 +12,7 @@ namespace CleanArchitecture.Template.SharedKernel.Tests.Specifications
         public void AddCriteria_ShouldAddCriteriaToSpecification()
         {
             // Arrange
-            var specification = new Specification<TestEntity>();
+            var specification = new Specification<TestSpecificationEntity>();
 
             // Act
             specification.AddCriteria(x => x.Id > 0);
@@ -24,7 +26,7 @@ namespace CleanArchitecture.Template.SharedKernel.Tests.Specifications
         public void AddInclude_ShouldAddIncludeToSpecification()
         {
             // Arrange
-            var specification = new Specification<TestEntity>();
+            var specification = new Specification<TestSpecificationEntity>();
 
             // Act
             specification.AddInclude(x => x.Name);
@@ -38,7 +40,7 @@ namespace CleanArchitecture.Template.SharedKernel.Tests.Specifications
         public void ApplyPaging_ShouldSetPagingValues()
         {
             // Arrange
-            var specification = new Specification<TestEntity>();
+            var specification = new Specification<TestSpecificationEntity>();
 
             // Act
             specification.ApplyPaging(2, 10);
@@ -48,12 +50,35 @@ namespace CleanArchitecture.Template.SharedKernel.Tests.Specifications
             Assert.Equal(10, specification.Take);
             Assert.Equal(10, specification.Skip);
         }
+        [Fact]
+        public void ApplyPaging_ShouldSetDefaults_WhenPageAndPageSizeAreNull()
+        {
+            // Arrange
+            var specification = new Specification<TestSpecificationEntity>();
 
+            // Act
+            specification.ApplyPaging(null, null);
+
+            // Assert
+            Assert.True(specification.IsPagingEnabled);
+            Assert.Equal(PageListConstants.DefaultPageSize, specification.Take);
+            Assert.Equal((PageListConstants.DefaultPage - 1) * PageListConstants.DefaultPageSize, specification.Skip);
+        }
+        [Fact]
+        public void ApplyPaging_ShouldThrowArgumentException_WhenPageOrPageSizeIsNonPositive()
+        {
+            // Arrange
+            var specification = new Specification<TestSpecificationEntity>();
+
+            // Act & Assert
+            Assert.Throws<ArgumentException>(() => specification.ApplyPaging(0, 10));
+            Assert.Throws<ArgumentException>(() => specification.ApplyPaging(1, -5));
+        }
         [Fact]
         public void ApplySorting_ShouldSetOrderByForAscending()
         {
             // Arrange
-            var specification = new Specification<TestEntity>();
+            var specification = new Specification<TestSpecificationEntity>();
 
             // Act
             specification.ApplySorting(x => x.Name, SortDirection.Ascending);
@@ -68,7 +93,7 @@ namespace CleanArchitecture.Template.SharedKernel.Tests.Specifications
         public void ApplySorting_ShouldSetOrderByDescendingForDescending()
         {
             // Arrange
-            var specification = new Specification<TestEntity>();
+            var specification = new Specification<TestSpecificationEntity>();
 
             // Act
             specification.ApplySorting(x => x.Name, SortDirection.Descending);
@@ -83,19 +108,19 @@ namespace CleanArchitecture.Template.SharedKernel.Tests.Specifications
         public void And_ShouldCombineTwoCriteriasWithAnd()
         {
             // Arrange
-            var specification = new Specification<TestEntity>();
+            var specification = new Specification<TestSpecificationEntity>();
             specification.AddCriteria(x => x.Age > 18);
 
             // Act
-            specification.And(new TestCriteria<TestEntity>(x => x.Name == "John"));
+            specification.And(new TestCriteria<TestSpecificationEntity>(x => x.Name == "John"));
 
             // Assert
             var combinedCriteria = specification.Criteria.First().Compile();
 
             // Test data
-            var matchingEntity = new TestEntity { Age = 20, Name = "John" };
-            var nonMatchingEntity1 = new TestEntity { Age = 16, Name = "John" };
-            var nonMatchingEntity2 = new TestEntity { Age = 20, Name = "Doe" };
+            var matchingEntity = new TestSpecificationEntity { Age = 20, Name = "John" };
+            var nonMatchingEntity1 = new TestSpecificationEntity { Age = 16, Name = "John" };
+            var nonMatchingEntity2 = new TestSpecificationEntity { Age = 20, Name = "Doe" };
 
             Assert.True(combinedCriteria(matchingEntity));
             Assert.False(combinedCriteria(nonMatchingEntity1));
@@ -106,19 +131,19 @@ namespace CleanArchitecture.Template.SharedKernel.Tests.Specifications
         public void Or_ShouldCombineTwoCriteriasWithOr()
         {
             // Arrange
-            var specification = new Specification<TestEntity>();
+            var specification = new Specification<TestSpecificationEntity>();
             specification.AddCriteria(x => x.Age > 18);
 
             // Act
-            specification.Or(new TestCriteria<TestEntity>(x => x.Name == "John"));
+            specification.Or(new TestCriteria<TestSpecificationEntity>(x => x.Name == "John"));
 
             // Assert
             var combinedCriteria = specification.Criteria.First().Compile();
 
             // Test data
-            var matchingEntity1 = new TestEntity { Age = 20, Name = "Doe" };
-            var matchingEntity2 = new TestEntity { Age = 16, Name = "John" };
-            var nonMatchingEntity = new TestEntity { Age = 16, Name = "Doe" };
+            var matchingEntity1 = new TestSpecificationEntity { Age = 20, Name = "Doe" };
+            var matchingEntity2 = new TestSpecificationEntity { Age = 16, Name = "John" };
+            var nonMatchingEntity = new TestSpecificationEntity { Age = 16, Name = "Doe" };
 
             Assert.True(combinedCriteria(matchingEntity1));
             Assert.True(combinedCriteria(matchingEntity2));
@@ -129,8 +154,8 @@ namespace CleanArchitecture.Template.SharedKernel.Tests.Specifications
         public void Not_ShouldNegateCriteria()
         {
             // Arrange
-            var specification = new Specification<TestEntity>();
-            var criteria = new TestCriteria<TestEntity>(x => x.Age > 18);
+            var specification = new Specification<TestSpecificationEntity>();
+            var criteria = new TestCriteria<TestSpecificationEntity>(x => x.Age > 18);
 
             // Act
             specification.Not(criteria);
@@ -138,6 +163,92 @@ namespace CleanArchitecture.Template.SharedKernel.Tests.Specifications
             // Assert
             Assert.Single(specification.Criteria);
             Assert.Equal("x => Not((x.Age > 18))", specification.Criteria.First().ToString());
+        }
+        [Fact]
+        public void ClearCriteria_ShouldClearAllCriterias()
+        {
+            // Arrange
+            var specification = new Specification<TestSpecificationEntity>();
+            specification.AddCriteria(x => x.Age > 18);
+
+            // Act
+            specification.ClearCriteria();
+
+            // Assert
+            Assert.Empty(specification.Criteria);
+        }
+
+        [Fact]
+        public void ClearIncludes_ShouldClearAllIncludes()
+        {
+            // Arrange
+            var specification = new Specification<TestSpecificationEntity>();
+            specification.AddInclude(x => x.Name);
+
+            // Act
+            specification.ClearIncludes();
+
+            // Assert
+            Assert.Empty(specification.Includes);
+        }
+
+        [Fact]
+        public void ClearSorting_ShouldClearOrderByAndOrderByDescending()
+        {
+            // Arrange
+            var specification = new Specification<TestSpecificationEntity>();
+            specification.ApplySorting(x => x.Name, SortDirection.Ascending);
+
+            // Act
+            specification.ClearSorting();
+
+            // Assert
+            Assert.Null(specification.OrderBy);
+            Assert.Null(specification.OrderByDescending);
+        }
+        [Fact]
+        public void ApplyDynamicFilters_ShouldAddValidFilterCriteria()
+        {
+            // Arrange
+            var specification = new Specification<TestSpecificationEntity>();
+            var filters = new List<DynamicFilterRequest<TestSpecificationEntityProperty>>
+            {
+                new DynamicFilterRequest<TestSpecificationEntityProperty>
+                {
+                    PropertyName = TestSpecificationEntityProperty.Name,
+                    Operator = FilterOperator.Equals,
+                    Value = "John"
+                },
+                new DynamicFilterRequest<TestSpecificationEntityProperty>
+                {
+                    PropertyName = TestSpecificationEntityProperty.Age,
+                    Operator = FilterOperator.GreaterThan,
+                    Value = 18
+                }
+            };
+
+            // Act
+            specification.ApplyDynamicFilters(filters);
+
+            // Assert
+            Assert.Equal(2, specification.Criteria.Count);
+            Assert.Contains(specification.Criteria, c => c.ToString() == "x => (x.Name == \"John\")");
+            Assert.Contains(specification.Criteria, c => c.ToString() == "x => (x.Age > 18)");
+        }
+
+        [Fact]
+        public void ApplySorting_WithNull_ShouldResetSorting()
+        {
+            // Arrange
+            var specification = new Specification<TestSpecificationEntity>();
+            specification.ApplySorting(x => x.Name, SortDirection.Ascending);
+
+            // Act
+            specification.ApplySorting(null!, SortDirection.Ascending);
+
+            // Assert
+            Assert.Null(specification.OrderBy);
+            Assert.Null(specification.OrderByDescending);
         }
     }
 }

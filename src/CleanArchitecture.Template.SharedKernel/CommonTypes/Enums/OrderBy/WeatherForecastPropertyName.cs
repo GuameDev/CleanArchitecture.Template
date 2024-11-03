@@ -1,6 +1,6 @@
 ﻿namespace CleanArchitecture.Template.Application.WeatherForecasts.DTOs
 {
-    public enum WeatherForecastOrderBy
+    public enum WeatherForecastPropertyName
     {
         Date,
         Temperature,

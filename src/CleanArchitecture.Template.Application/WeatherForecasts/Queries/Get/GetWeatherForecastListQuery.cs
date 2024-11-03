@@ -6,7 +6,7 @@ using CleanArchitecture.Template.SharedKernel.Requests;
 
 namespace CleanArchitecture.Template.Application.WeatherForecasts.Queries.Get
 {
-    public class GetWeatherForecastListQuery : PageListRequest<WeatherForecastOrderBy>, IQuery<GetWeatherForecastListResponse>
+    public class GetWeatherForecastListQuery : PageListRequest<WeatherForecastPropertyName>, IQuery<GetWeatherForecastListResponse>
     {
         public Guid? Id { get; set; }
         public DateTime? StartDate { get; set; }

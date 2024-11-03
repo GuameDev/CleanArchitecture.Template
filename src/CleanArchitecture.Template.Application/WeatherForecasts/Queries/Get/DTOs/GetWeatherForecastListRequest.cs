@@ -4,7 +4,7 @@ using CleanArchitecture.Template.SharedKernel.Requests;
 
 namespace CleanArchitecture.Template.Application.WeatherForecasts.Queries.Get.DTOs
 {
-    public class GetWeatherForecastListRequest : PageListRequest<WeatherForecastOrderBy>
+    public class GetWeatherForecastListRequest : PageListRequest<WeatherForecastPropertyName>
     {
         public Guid? Id { get; set; }
         public DateTime? StartDate { get; set; }

@@ -35,13 +35,13 @@ namespace CleanArchitecture.Template.Application.WeatherForecasts.Specifications
                 AddCriteria(weatherForecast => weatherForecast.Temperature.Value >= query.TemperatureValue.Value);
         }
 
-        private static Expression<Func<Domain.WeatherForecasts.WeatherForecast, object>> GetOrderByExpression(WeatherForecastOrderBy? orderBy)
+        private static Expression<Func<Domain.WeatherForecasts.WeatherForecast, object>> GetOrderByExpression(WeatherForecastPropertyName? orderBy)
         {
             return orderBy switch
             {
-                WeatherForecastOrderBy.Summary => weatherForecast => weatherForecast.Summary,
-                WeatherForecastOrderBy.Date => weatherForecast => weatherForecast.Date.Value,
-                WeatherForecastOrderBy.Temperature => weatherForecast => weatherForecast.Temperature.Value,
+                WeatherForecastPropertyName.Summary => weatherForecast => weatherForecast.Summary,
+                WeatherForecastPropertyName.Date => weatherForecast => weatherForecast.Date.Value,
+                WeatherForecastPropertyName.Temperature => weatherForecast => weatherForecast.Temperature.Value,
                 _ => weatherForecast => weatherForecast.Date.Value
             };
         }
