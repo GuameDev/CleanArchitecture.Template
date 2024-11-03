@@ -12,7 +12,7 @@ namespace CleanArchitecture.Template.SharedKernel.Tests.Specifications.Helpers
             // Arrange
             var filter = new DynamicFilterRequest<TestEntityProperty>
             {
-                PropertyName = TestEntityProperty.Name,
+                Property = TestEntityProperty.Name,
                 Operator = FilterOperator.Equals,
                 Value = "John"
             };
@@ -31,7 +31,7 @@ namespace CleanArchitecture.Template.SharedKernel.Tests.Specifications.Helpers
             // Arrange
             var filter = new DynamicFilterRequest<TestEntityProperty>
             {
-                PropertyName = TestEntityProperty.Age,
+                Property = TestEntityProperty.Age,
                 Operator = FilterOperator.GreaterThan,
                 Value = 18
             };
@@ -50,7 +50,7 @@ namespace CleanArchitecture.Template.SharedKernel.Tests.Specifications.Helpers
             // Arrange
             var filter = new DynamicFilterRequest<TestEntityProperty>
             {
-                PropertyName = TestEntityProperty.Name,
+                Property = TestEntityProperty.Name,
                 Operator = FilterOperator.Contains,
                 Value = "John"
             };
@@ -69,7 +69,7 @@ namespace CleanArchitecture.Template.SharedKernel.Tests.Specifications.Helpers
             // Arrange
             var filter = new DynamicFilterRequest<TestEntityProperty>
             {
-                PropertyName = TestEntityProperty.Age,
+                Property = TestEntityProperty.Age,
                 Operator = FilterOperator.Equals,
                 Value = "InvalidInteger" // Non-convertible to int
             };
@@ -90,7 +90,7 @@ namespace CleanArchitecture.Template.SharedKernel.Tests.Specifications.Helpers
             var guidValue = Guid.NewGuid();
             var filter = new DynamicFilterRequest<TestEntityProperty>
             {
-                PropertyName = TestEntityProperty.Id,
+                Property = TestEntityProperty.Id,
                 Operator = FilterOperator.Equals,
                 Value = guidValue.ToString()
             };
@@ -109,7 +109,7 @@ namespace CleanArchitecture.Template.SharedKernel.Tests.Specifications.Helpers
             // Arrange
             var filter = new DynamicFilterRequest<TestEntityProperty>
             {
-                PropertyName = TestEntityProperty.EnumProperty,
+                Property = TestEntityProperty.EnumProperty,
                 Operator = FilterOperator.Equals,
                 Value = "ValueA"
             };
@@ -128,7 +128,7 @@ namespace CleanArchitecture.Template.SharedKernel.Tests.Specifications.Helpers
             // Arrange
             var filter = new DynamicFilterRequest<TestEntityProperty>
             {
-                PropertyName = TestEntityProperty.EnumProperty,
+                Property = TestEntityProperty.EnumProperty,
                 Operator = FilterOperator.Equals,
                 Value = "InvalidEnumValue" // Invalid enum value
             };

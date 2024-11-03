@@ -1,5 +1,4 @@
-﻿using CleanArchitecture.Template.Api.Extensions;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
@@ -12,13 +11,15 @@ namespace CleanArchitecture.Template.Api.Swagger
     {
         internal static void Configure(SwaggerGenOptions options)
         {
-            var xmlDistributedServicesPath = Path.Combine(AppContext.BaseDirectory, $"{typeof(DependencyInjectionExtensions).Namespace!.Replace(".Extensions", string.Empty)}.xml");
-            if (File.Exists(xmlDistributedServicesPath))
-                options.IncludeXmlComments(xmlDistributedServicesPath);
+            // Path to XML comments file for the API project
+            var apiXmlPath = Path.Combine(AppContext.BaseDirectory, "CleanArchitecture.Template.Api.xml");
+            if (File.Exists(apiXmlPath))
+                options.IncludeXmlComments(apiXmlPath);
 
-            var xmlApplicationPath = Path.Combine(AppContext.BaseDirectory, $"{typeof(CleanArchitecture.Template.Application.DependencyInjectionExtensions).Namespace}.xml");
-            if (File.Exists(xmlApplicationPath))
-                options.IncludeXmlComments(xmlApplicationPath);
+            // Path to XML comments file for the Application project
+            var applicationXmlPath = Path.Combine(AppContext.BaseDirectory, "CleanArchitecture.Template.Application.xml");
+            if (File.Exists(applicationXmlPath))
+                options.IncludeXmlComments(applicationXmlPath);
 
             options.MapType<TimeOnly>(() => new OpenApiSchema
             {
@@ -38,7 +39,6 @@ namespace CleanArchitecture.Template.Api.Swagger
 
             options.DocumentFilter<HealthChecksDocumentFilter>();
             options.SchemaFilter<FluentValidationSchemaFilter>();
-
 
             // Define JWT security schema
             OpenApiSecurityScheme securityScheme = new OpenApiSecurityScheme()
@@ -61,6 +61,8 @@ namespace CleanArchitecture.Template.Api.Swagger
 
             options.DocumentFilter<OrderByHttpVerbFilter>();
         }
+
+
         public class HealthChecksDocumentFilter : IDocumentFilter
         {
             public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)

@@ -14,6 +14,7 @@ namespace CleanArchitecture.Template.Application.WeatherForecasts.Queries.Get
         public double? TemperatureValue { get; set; }
         public TemperatureType? TemperatureType { get; set; }
         public Summary? Summary { get; set; }
+        public IEnumerable<DynamicFilterRequest<WeatherForecastPropertyName>> Filters { get; set; } = new List<DynamicFilterRequest<WeatherForecastPropertyName>>();
     }
 }
 

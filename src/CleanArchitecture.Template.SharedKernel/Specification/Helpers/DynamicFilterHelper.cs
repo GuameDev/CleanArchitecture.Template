@@ -26,7 +26,7 @@ namespace CleanArchitecture.Template.SharedKernel.Specification.Helpers
             var parameter = Expression.Parameter(typeof(T), "x");
 
             // Get the specified property from the entity using the enum value as the property name.
-            var property = Expression.Property(parameter, filter.PropertyName.ToString());
+            var property = Expression.Property(parameter, filter.Property.ToString());
 
             // Convert the provided filter value to match the type of the property.
             var convertedValue = ConvertValue(filter.Value, property.Type);

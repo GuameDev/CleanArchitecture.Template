@@ -215,13 +215,13 @@ namespace CleanArchitecture.Template.SharedKernel.Tests.Specifications
             {
                 new DynamicFilterRequest<TestSpecificationEntityProperty>
                 {
-                    PropertyName = TestSpecificationEntityProperty.Name,
+                    Property = TestSpecificationEntityProperty.Name,
                     Operator = FilterOperator.Equals,
                     Value = "John"
                 },
                 new DynamicFilterRequest<TestSpecificationEntityProperty>
                 {
-                    PropertyName = TestSpecificationEntityProperty.Age,
+                    Property = TestSpecificationEntityProperty.Age,
                     Operator = FilterOperator.GreaterThan,
                     Value = 18
                 }
