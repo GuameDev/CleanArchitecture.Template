@@ -63,7 +63,7 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Queries
                 TotalCount = weatherForecasts.Count
             };
 
-            _mockUnitOfWork.Setup(unitOfWork => unitOfWork.WeatherForecastRepository.GetListAsync(It.IsAny<WeatherForecastSpecification>()))
+            _mockUnitOfWork.Setup(unitOfWork => unitOfWork.WeatherForecastRepository.GetListAsync(It.IsAny<WeatherForecastDynamicSpecification>()))
                            .ReturnsAsync(pagedResponse);
 
             // Act
@@ -73,7 +73,7 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Queries
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Value);
             Assert.Equal(2, result.Value.Elements.Count());
-            _mockUnitOfWork.Verify(unitOfWork => unitOfWork.WeatherForecastRepository.GetListAsync(It.IsAny<WeatherForecastSpecification>()), Times.Once);
+            _mockUnitOfWork.Verify(unitOfWork => unitOfWork.WeatherForecastRepository.GetListAsync(It.IsAny<WeatherForecastDynamicSpecification>()), Times.Once);
         }
 
         [Fact]
@@ -107,7 +107,7 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Queries
                 TotalCount = weatherForecasts.Count
             };
 
-            _mockUnitOfWork.Setup(unitOfWork => unitOfWork.WeatherForecastRepository.GetListAsync(It.IsAny<WeatherForecastSpecification>()))
+            _mockUnitOfWork.Setup(unitOfWork => unitOfWork.WeatherForecastRepository.GetListAsync(It.IsAny<WeatherForecastDynamicSpecification>()))
                            .ReturnsAsync(pagedResponse);
 
             // Act
@@ -117,7 +117,7 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Queries
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Value);
             Assert.Single(result.Value.Elements); // We expect 1 result in the paginated list
-            _mockUnitOfWork.Verify(unitOfWork => unitOfWork.WeatherForecastRepository.GetListAsync(It.IsAny<WeatherForecastSpecification>()), Times.Once);
+            _mockUnitOfWork.Verify(unitOfWork => unitOfWork.WeatherForecastRepository.GetListAsync(It.IsAny<WeatherForecastDynamicSpecification>()), Times.Once);
         }
 
         [Fact]
@@ -138,7 +138,7 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Queries
                 TotalCount = 0
             };
 
-            _mockUnitOfWork.Setup(unitOfWork => unitOfWork.WeatherForecastRepository.GetListAsync(It.IsAny<WeatherForecastSpecification>()))
+            _mockUnitOfWork.Setup(unitOfWork => unitOfWork.WeatherForecastRepository.GetListAsync(It.IsAny<WeatherForecastDynamicSpecification>()))
                            .ReturnsAsync(pagedResponse);
 
             // Act
@@ -148,7 +148,7 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Queries
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Value);
             Assert.Empty(result.Value.Elements);
-            _mockUnitOfWork.Verify(unitOfWork => unitOfWork.WeatherForecastRepository.GetListAsync(It.IsAny<WeatherForecastSpecification>()), Times.Once);
+            _mockUnitOfWork.Verify(unitOfWork => unitOfWork.WeatherForecastRepository.GetListAsync(It.IsAny<WeatherForecastDynamicSpecification>()), Times.Once);
         }
     }
 }

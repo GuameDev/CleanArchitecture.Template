@@ -13,17 +13,17 @@ namespace CleanArchitecture.Template.SharedKernel.Specification.Helpers
         /// <summary>
         /// Creates a dynamic filter expression for the specified filter request.
         /// </summary>
-        /// <typeparam name="T">The type of the entity to filter.</typeparam>
+        /// <typeparam name="TEntity">The type of the entity to filter.</typeparam>
         /// <typeparam name="TPropertyNameEnum">An enum representing the properties of the entity.</typeparam>
         /// <param name="filter">The filter request containing the property, operator, and value.</param>
         /// <returns>
         /// An expression representing the filter criteria, or null if the value cannot be converted to the target type.
         /// </returns>
-        public static Expression<Func<T, bool>>? CreateDynamicFilter<T, TPropertyNameEnum>(DynamicFilterRequest<TPropertyNameEnum> filter)
+        public static Expression<Func<TEntity, bool>>? CreateDynamicFilter<TEntity, TPropertyNameEnum>(DynamicFilterRequest<TPropertyNameEnum> filter)
             where TPropertyNameEnum : Enum
         {
             // Define the parameter for the lambda expression, representing an instance of T (e.g., "x => x.Property == Value").
-            var parameter = Expression.Parameter(typeof(T), "x");
+            var parameter = Expression.Parameter(typeof(TEntity), "x");
 
             // Get the specified property from the entity using the enum value as the property name.
             var property = Expression.Property(parameter, filter.Property.ToString());
@@ -39,7 +39,7 @@ namespace CleanArchitecture.Template.SharedKernel.Specification.Helpers
             var comparison = BuildComparisonExpression(filter.Operator, property, constant);
 
             // If a valid comparison expression was created, return it as a lambda expression; otherwise, return null.
-            return comparison != null ? Expression.Lambda<Func<T, bool>>(comparison, parameter) : null;
+            return comparison != null ? Expression.Lambda<Func<TEntity, bool>>(comparison, parameter) : null;
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace CleanArchitecture.Template.SharedKernel.Specification.Helpers
         /// <returns>
         /// The converted value as an object if successful, or throws an ArgumentException if conversion fails.
         /// </returns>
-        private static object? ConvertValue(object value, Type targetType)
+        private static object? ConvertValue(string value, Type targetType)
         {
             try
             {
@@ -68,7 +68,7 @@ namespace CleanArchitecture.Template.SharedKernel.Specification.Helpers
                 if (targetType == typeof(Guid))
                     return Guid.Parse(value.ToString()!);
                 if (targetType.IsEnum)
-                    return Enum.Parse(targetType, value.ToString()!);
+                    return Enum.Parse(targetType, value.ToString());
 
                 // Convert other types to match the target type.
                 return Convert.ChangeType(value, targetType);

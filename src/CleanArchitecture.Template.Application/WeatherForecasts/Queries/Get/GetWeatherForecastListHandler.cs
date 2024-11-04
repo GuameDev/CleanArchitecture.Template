@@ -17,7 +17,7 @@ namespace CleanArchitecture.Template.Application.WeatherForecasts.Queries.Get
 
         public async Task<Result<GetWeatherForecastListResponse>> Handle(GetWeatherForecastListQuery query, CancellationToken cancellationToken)
         {
-            var specification = new WeatherForecastSpecification(query);
+            var specification = new WeatherForecastDynamicSpecification(query);
             var elements = await _unitOfWork.WeatherForecastRepository.GetListAsync(specification);
             return Result.Success(elements);
         }

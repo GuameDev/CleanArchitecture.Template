@@ -4,7 +4,7 @@
     {
         public required TPropertyNameEnum Property { get; set; }
         public required FilterOperator Operator { get; set; }
-        public required object Value { get; set; }
+        public required string Value { get; set; }
 
     }
 }

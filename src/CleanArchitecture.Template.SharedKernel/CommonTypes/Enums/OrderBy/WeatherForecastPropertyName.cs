@@ -4,6 +4,7 @@
     {
         Date,
         Temperature,
-        Summary
+        Summary,
+        TemperatureType
     }
 }

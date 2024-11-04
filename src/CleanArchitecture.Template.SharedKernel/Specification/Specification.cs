@@ -1,35 +1,33 @@
 ﻿using CleanArchitecture.Template.SharedKernel.CommonTypes.Enums;
 using CleanArchitecture.Template.SharedKernel.Constants;
-using CleanArchitecture.Template.SharedKernel.Requests;
+using CleanArchitecture.Template.SharedKernel.Entities;
 using CleanArchitecture.Template.SharedKernel.Specification.Criterias;
 using CleanArchitecture.Template.SharedKernel.Specification.Extensions;
-using CleanArchitecture.Template.SharedKernel.Specification.Helpers;
 using System.Linq.Expressions;
 
 namespace CleanArchitecture.Template.SharedKernel.Specification
 {
-    public class Specification<T> : ISpecification<T>
+    public class Specification<TEntity> : ISpecification<TEntity>
+        where TEntity : Entity
     {
-        private readonly List<Expression<Func<T, bool>>> _criteria = new();
-        private readonly List<Expression<Func<T, object>>> _includes = new();
+        private readonly List<Expression<Func<TEntity, bool>>> _criteria = new();
+        private readonly List<Expression<Func<TEntity, object>>> _includes = new();
 
-        public IReadOnlyCollection<Expression<Func<T, bool>>> Criteria => _criteria.AsReadOnly();
-        public IReadOnlyCollection<Expression<Func<T, object>>> Includes => _includes.AsReadOnly();
+        public IReadOnlyCollection<Expression<Func<TEntity, bool>>> Criteria => _criteria.AsReadOnly();
+        public IReadOnlyCollection<Expression<Func<TEntity, object>>> Includes => _includes.AsReadOnly();
 
-        public Expression<Func<T, object>>? OrderBy { get; private set; }
-        public Expression<Func<T, object>>? OrderByDescending { get; private set; }
+        public Expression<Func<TEntity, object>>? OrderBy { get; private set; }
+        public Expression<Func<TEntity, object>>? OrderByDescending { get; private set; }
         public int Take { get; private set; }
         public int Skip { get; private set; }
         public bool IsPagingEnabled { get; private set; } = false;
-
-        // Default values for Page and PageSize
         public int? Page { get; private set; }
         public int? PageSize { get; private set; }
 
-        public void AddCriteria(Expression<Func<T, bool>> criteria) => _criteria.Add(criteria);
-        public void AddInclude(Expression<Func<T, object>> includeExpression) => _includes.Add(includeExpression);
+        public void AddCriteria(Expression<Func<TEntity, bool>> criteria) => _criteria.Add(criteria);
+        public void AddInclude(Expression<Func<TEntity, object>> includeExpression) => _includes.Add(includeExpression);
 
-        public void ApplySorting(Expression<Func<T, object>> orderByExpression, SortDirection sortDirection)
+        public void ApplySorting(Expression<Func<TEntity, object>> orderByExpression, SortDirection sortDirection)
         {
             if (sortDirection == SortDirection.Ascending)
             {
@@ -55,19 +53,7 @@ namespace CleanArchitecture.Template.SharedKernel.Specification
             IsPagingEnabled = true;
         }
 
-        public void ApplyDynamicFilters<TPropertyNameEnum>(IEnumerable<DynamicFilterRequest<TPropertyNameEnum>> filters) where TPropertyNameEnum : Enum
-        {
-            foreach (var filter in filters)
-            {
-                var criteria = DynamicFilterHelper.CreateDynamicFilter<T, TPropertyNameEnum>(filter);
-                if (criteria != null)
-                {
-                    AddCriteria(criteria);
-                }
-            }
-        }
-
-        public ISpecification<T> And(Criteria<T> otherCriteria)
+        public ISpecification<TEntity> And(Criteria<TEntity> otherCriteria)
         {
             var newCriteria = otherCriteria.ToExpression();
             if (_criteria.Any())
@@ -83,7 +69,7 @@ namespace CleanArchitecture.Template.SharedKernel.Specification
             return this;
         }
 
-        public ISpecification<T> Or(Criteria<T> otherCriteria)
+        public ISpecification<TEntity> Or(Criteria<TEntity> otherCriteria)
         {
             var newCriteria = otherCriteria.ToExpression();
             if (_criteria.Any())
@@ -99,7 +85,7 @@ namespace CleanArchitecture.Template.SharedKernel.Specification
             return this;
         }
 
-        public ISpecification<T> Not(Criteria<T> criteria)
+        public ISpecification<TEntity> Not(Criteria<TEntity> criteria)
         {
             var notCriteria = criteria.ToExpression().Not();
             _criteria.Add(notCriteria);

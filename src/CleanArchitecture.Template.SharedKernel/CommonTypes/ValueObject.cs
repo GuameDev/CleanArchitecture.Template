@@ -48,4 +48,5 @@
     }
 
     protected abstract IEnumerable<object> GetAtomicValues();
+    protected abstract object FromPrimitives(object value);
 }
