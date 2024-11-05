@@ -1,7 +1,6 @@
-﻿using CleanArchitecture.Template.SharedKernel.Entities;
-namespace CleanArchitecture.Template.SharedKernel.Tests.Specifications
+﻿namespace CleanArchitecture.Template.SharedKernel.Tests.Specifications
 {
-    public class TestEntity : Entity
+    public class TestEntity
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;

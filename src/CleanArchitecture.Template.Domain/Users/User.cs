@@ -1,7 +1,7 @@
-﻿using CleanArchitecture.Template.Domain.Users.Aggregates;
+﻿using CleanArchitecture.Template.Domain.Base;
+using CleanArchitecture.Template.Domain.Users.Aggregates;
 using CleanArchitecture.Template.Domain.Users.Errors;
 using CleanArchitecture.Template.Domain.Users.ValueObjects;
-using CleanArchitecture.Template.SharedKernel.Entities;
 using CleanArchitecture.Template.SharedKernel.Results;
 
 namespace CleanArchitecture.Template.Domain.Users

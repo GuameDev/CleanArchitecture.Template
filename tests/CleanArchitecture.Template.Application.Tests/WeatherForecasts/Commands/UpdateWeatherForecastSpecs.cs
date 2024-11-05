@@ -43,8 +43,7 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Commands
                           .ReturnsAsync(weatherForecast);
 
             // Mock the update behavior
-            mockUnitOfWork.Setup(unitOfWork => unitOfWork.WeatherForecastRepository.UpdateAsync(It.IsAny<Domain.WeatherForecasts.WeatherForecast>()))
-                          .Returns(Task.CompletedTask);
+            mockUnitOfWork.Setup(unitOfWork => unitOfWork.WeatherForecastRepository.Update(It.IsAny<Domain.WeatherForecasts.WeatherForecast>()));
             mockUnitOfWork.Setup(unitOfWork => unitOfWork.CommitAsync(It.IsAny<CancellationToken>()))
                           .ReturnsAsync(1); // Return a successful commit
 
@@ -66,7 +65,7 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Commands
             Assert.Equal(request.Temperature, result.Value.TemperatureCelsius);
             Assert.Equal(request.Summary.ToString(), result.Value.Summary);
 
-            mockUnitOfWork.Verify(unitOfWork => unitOfWork.WeatherForecastRepository.UpdateAsync(It.IsAny<Domain.WeatherForecasts.WeatherForecast>()), Times.Once);
+            mockUnitOfWork.Verify(unitOfWork => unitOfWork.WeatherForecastRepository.Update(It.IsAny<Domain.WeatherForecasts.WeatherForecast>()), Times.Once);
             mockUnitOfWork.Verify(unitOfWork => unitOfWork.CommitAsync(It.IsAny<CancellationToken>()), Times.Once);
         }
 
@@ -97,7 +96,7 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Commands
             Assert.False(result.IsSuccess);
             Assert.Equal(WeatherForecastErrors.NotFound, result.Error);
 
-            mockUnitOfWork.Verify(unitOfWork => unitOfWork.WeatherForecastRepository.UpdateAsync(It.IsAny<Domain.WeatherForecasts.WeatherForecast>()), Times.Never);
+            mockUnitOfWork.Verify(unitOfWork => unitOfWork.WeatherForecastRepository.Update(It.IsAny<Domain.WeatherForecasts.WeatherForecast>()), Times.Never);
             mockUnitOfWork.Verify(unitOfWork => unitOfWork.CommitAsync(It.IsAny<CancellationToken>()), Times.Never);
         }
 
@@ -132,7 +131,7 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Commands
             Assert.False(result.IsSuccess);
             Assert.Equal(TemperatureErrors.UnderZeroCelsius, result.Error);
 
-            mockUnitOfWork.Verify(unitOfWork => unitOfWork.WeatherForecastRepository.UpdateAsync(It.IsAny<Domain.WeatherForecasts.WeatherForecast>()), Times.Never);
+            mockUnitOfWork.Verify(unitOfWork => unitOfWork.WeatherForecastRepository.Update(It.IsAny<Domain.WeatherForecasts.WeatherForecast>()), Times.Never);
             mockUnitOfWork.Verify(unitOfWork => unitOfWork.CommitAsync(It.IsAny<CancellationToken>()), Times.Never);
         }
 

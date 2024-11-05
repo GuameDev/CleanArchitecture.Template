@@ -38,7 +38,7 @@ namespace CleanArchitecture.Template.Application.WeatherForecasts.Commands.Updat
             entity.UpdateTemperature(temperatureResult.Value);
             entity.UpdateDate(dateResult.Value);
 
-            await _unitOfWork.WeatherForecastRepository.UpdateAsync(entity);
+            _unitOfWork.WeatherForecastRepository.Update(entity);
             await _unitOfWork.CommitAsync();
 
             return Result.Success(_mapper.Map<UpdateWeatherForecastResponse>(entity));

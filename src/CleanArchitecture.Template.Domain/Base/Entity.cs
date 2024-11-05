@@ -1,6 +1,6 @@
-﻿using CleanArchitecture.Template.SharedKernel.Entities.Events;
+﻿using CleanArchitecture.Template.Domain.Base.Events;
 
-namespace CleanArchitecture.Template.SharedKernel.Entities
+namespace CleanArchitecture.Template.Domain.Base
 {
     public class Entity
     {
