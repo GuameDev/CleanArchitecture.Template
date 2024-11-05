@@ -4,6 +4,7 @@ using CleanArchitecture.Template.Application.Users.Commands.LoginUser;
 using CleanArchitecture.Template.Application.Users.Commands.LoginUser.DTOs;
 using CleanArchitecture.Template.Application.Users.Commands.RegisterUser;
 using CleanArchitecture.Template.Application.Users.Commands.RegisterUser.DTOs;
+using CleanArchitecture.Template.Application.Users.Query.GetCurrentUser;
 using CleanArchitecture.Template.SharedKernel.Results;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -51,6 +52,18 @@ namespace CleanArchitecture.Template.Api.Controllers
                 onSuccess: Ok,
                 onFailure: ApiResults.Problem
             );
+        }
+
+        [HttpGet("me")]
+        public async Task<IActionResult> Me()
+        {
+            var query = new GetCurrentUserQuery();
+            var result = await _sender.Send(query);
+
+            return result.Match(
+                onSuccess: Ok,
+                onFailure: ApiResults.Problem);
+
         }
     }
 }

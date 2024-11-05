@@ -52,6 +52,8 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories.Wea
 
             };
         }
+
+        //TODO: Refactor to use criteria Specification Pattern that is already implemented
         public Task<WeatherForecast?> GetByIdAsync(GetWeatherForecastByIdRequest request) => _context.WeatherForecasts
             .FirstOrDefaultAsync(x => x.Id.Equals(request.Id));
 

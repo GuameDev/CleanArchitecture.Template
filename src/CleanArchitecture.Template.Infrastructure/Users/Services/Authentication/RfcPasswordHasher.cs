@@ -1,7 +1,7 @@
 ﻿using CleanArchitecture.Template.Application.Users.Services.Authentication;
 using System.Security.Cryptography;
 
-namespace CleanArchitecture.Template.Infrastructure.Services.Authentication
+namespace CleanArchitecture.Template.Infrastructure.Users.Services.Authentication
 {
     public class RfcPasswordHasher : IUserPasswordHasher
     {
