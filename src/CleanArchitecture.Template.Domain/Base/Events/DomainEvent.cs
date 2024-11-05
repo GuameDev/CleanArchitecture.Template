@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace CleanArchitecture.Template.SharedKernel.Entities.Events
+namespace CleanArchitecture.Template.Domain.Base.Events
 {
     public record DomainEvent(Guid Id) : INotification;
 }
