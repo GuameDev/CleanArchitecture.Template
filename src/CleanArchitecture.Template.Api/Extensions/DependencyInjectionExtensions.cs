@@ -45,6 +45,7 @@ namespace CleanArchitecture.Template.Api.Extensions
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
             }).AddJwtBearer(options =>
             {
                 //TODO: find an approach to ensure the options pattern dtos always has data in any environment.

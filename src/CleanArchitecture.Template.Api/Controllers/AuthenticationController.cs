@@ -52,6 +52,5 @@ namespace CleanArchitecture.Template.Api.Controllers
                 onFailure: ApiResults.Problem
             );
         }
-
     }
 }

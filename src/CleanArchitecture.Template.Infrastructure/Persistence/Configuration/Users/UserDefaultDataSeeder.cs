@@ -18,19 +18,19 @@ public static class UserDefaultDataSeeder
     {
         var now = DateTime.UtcNow;
 
-        // Seed roles (use the string value for seeding)
+        // Seed roles
         modelBuilder.Entity<Role>().HasData(
             new { Id = AdminRoleId, RoleName = RoleName.Admin, CreatedDate = now, UpdatedDate = now },
             new { Id = UserRoleId, RoleName = RoleName.User, CreatedDate = now, UpdatedDate = now }
         );
 
-        // Seed permissions
+        // Seed permissions using the PermissionType enum
         modelBuilder.Entity<Permission>().HasData(
-            new { Id = ReadPermissionId, Name = "Read", Description = "Can read data", CreatedDate = now, UpdatedDate = now },
-            new { Id = WritePermissionId, Name = "Write", Description = "Can modify data", CreatedDate = now, UpdatedDate = now },
-            new { Id = ManageUsersPermissionId, Name = "ManageUsers", Description = "Can manage users", CreatedDate = now, UpdatedDate = now },
-            new { Id = ManageRolesPermissionId, Name = "ManageRoles", Description = "Can manage roles and permissions", CreatedDate = now, UpdatedDate = now },
-            new { Id = ViewDashboardPermissionId, Name = "ViewDashboard", Description = "Can view the dashboard", CreatedDate = now, UpdatedDate = now }
+            new { Id = ReadPermissionId, Type = PermissionType.Read, Description = "Can read data", CreatedDate = now, UpdatedDate = now },
+            new { Id = WritePermissionId, Type = PermissionType.Write, Description = "Can modify data", CreatedDate = now, UpdatedDate = now },
+            new { Id = ManageUsersPermissionId, Type = PermissionType.ManageUsers, Description = "Can manage users", CreatedDate = now, UpdatedDate = now },
+            new { Id = ManageRolesPermissionId, Type = PermissionType.ManageRoles, Description = "Can manage roles and permissions", CreatedDate = now, UpdatedDate = now },
+            new { Id = ViewDashboardPermissionId, Type = PermissionType.ViewDashboard, Description = "Can view the dashboard", CreatedDate = now, UpdatedDate = now }
         );
 
         // Seed many-to-many relationships for RolePermissions

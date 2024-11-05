@@ -26,7 +26,7 @@ namespace CleanArchitecture.Template.Infrastructure.Services.Authentication
         {
             new Claim(ClaimTypes.Name, user.Username.Value),
             new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-            new Claim(ClaimTypes.Email, user.Email.Value)
+            new Claim(ClaimTypes.Email, user.Email.Value),
         };
 
             // Add roles as claims
@@ -34,7 +34,7 @@ namespace CleanArchitecture.Template.Infrastructure.Services.Authentication
 
             // Add permissions as claims
             var permissions = user.Roles.SelectMany(role => role.Permissions).Distinct();
-            claims.AddRange(permissions.Select(permission => new Claim(nameof(Permission), permission.Name)));
+            claims.AddRange(permissions.Select(permission => new Claim(nameof(Permission), permission.Type.ToString())));
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
