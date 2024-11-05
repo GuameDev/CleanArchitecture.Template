@@ -27,7 +27,7 @@ namespace CleanArchitecture.Template.Domain.Tests.Users
             var roleName = RoleName.Admin;
             var role = Role.Create(Guid.NewGuid(), roleName).Value;
 
-            var permission = Permission.Create("Read", "Allows read access").Value;
+            var permission = Permission.Create(PermissionType.Read, "Allows read access").Value;
 
             // Act
             role.AddPermission(permission);
@@ -43,7 +43,7 @@ namespace CleanArchitecture.Template.Domain.Tests.Users
             var roleName = RoleName.User;
             var role = Role.Create(Guid.NewGuid(), roleName).Value;
 
-            var permission = Permission.Create("Write", "Allows write access").Value;
+            var permission = Permission.Create(PermissionType.Write, "Allows write access").Value;
             role.AddPermission(permission);
 
             // Act
@@ -54,20 +54,21 @@ namespace CleanArchitecture.Template.Domain.Tests.Users
         }
 
         [Fact]
-        public void AddPermission_ShouldThrow_WhenPermissionAlreadyExists()
+        public void AddPermission_ShouldReturnFailure_WhenPermissionAlreadyExists()
         {
             // Arrange
             var roleName = RoleName.Admin;
             var role = Role.Create(Guid.NewGuid(), roleName).Value;
 
-            var permission = Permission.Create("Read", "Allows read access").Value;
+            var permission = Permission.Create(PermissionType.Read, "Allows read access").Value;
             role.AddPermission(permission);
 
+            // Act
             var result = role.AddPermission(permission);
 
-            // Act & Assert
+            // Assert
             Assert.True(result.IsFailure);
-            Assert.Equal(result.Error, PermissionErrors.PermissionAlreadyAssigned);
+            Assert.Equal(PermissionErrors.PermissionAlreadyAssigned, result.Error);
         }
     }
 }

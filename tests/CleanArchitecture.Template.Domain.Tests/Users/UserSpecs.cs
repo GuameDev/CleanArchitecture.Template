@@ -160,5 +160,63 @@ namespace CleanArchitecture.Template.Domain.Tests.Users
             Assert.False(result.IsSuccess);
             Assert.Equal(RoleErrors.RoleNotAssigned, result.Error);
         }
+
+        [Fact]
+        public void HasRole_ShouldReturnTrue_WhenRoleIsAssigned()
+        {
+            // Arrange
+            var user = User.Create("validUser", "valid@example.com", "hashedPassword", "John", "Doe", null).Value;
+            var role = Role.Create(Guid.NewGuid(), RoleName.Admin).Value;
+            user.AddRole(role);
+
+            // Act
+            var result = user.HasRole(RoleName.Admin);
+
+            // Assert
+            Assert.True(result);
+        }
+
+        [Fact]
+        public void HasRole_ShouldReturnFalse_WhenRoleIsNotAssigned()
+        {
+            // Arrange
+            var user = User.Create("validUser", "valid@example.com", "hashedPassword", "John", "Doe", null).Value;
+
+            // Act
+            var result = user.HasRole(RoleName.Admin);
+
+            // Assert
+            Assert.False(result);
+        }
+
+        [Fact]
+        public void HasPermission_ShouldReturnTrue_WhenPermissionIsAssignedThroughRole()
+        {
+            // Arrange
+            var user = User.Create("validUser", "valid@example.com", "hashedPassword", "John", "Doe", null).Value;
+            var role = Role.Create(Guid.NewGuid(), RoleName.Admin).Value;
+            var permission = Permission.Create(PermissionType.Read, "Allows read access").Value;
+            role.AddPermission(permission);
+            user.AddRole(role);
+
+            // Act
+            var result = user.HasPermission(PermissionType.Read);
+
+            // Assert
+            Assert.True(result);
+        }
+
+        [Fact]
+        public void HasPermission_ShouldReturnFalse_WhenPermissionIsNotAssigned()
+        {
+            // Arrange
+            var user = User.Create("validUser", "valid@example.com", "hashedPassword", "John", "Doe", null).Value;
+
+            // Act
+            var result = user.HasPermission(PermissionType.Write);
+
+            // Assert
+            Assert.False(result);
+        }
     }
 }

@@ -33,7 +33,7 @@ namespace CleanArchitecture.Template.Application.Users.Query.GetById
                 entity.IsActive)
             {
                 Roles = entity.Roles.Select(x => x.RoleName.ToString()),
-                Permissions = entity.Roles.SelectMany(x => x.Permissions).Select(x => x.Name)
+                Permissions = entity.Roles.SelectMany(x => x.Permissions).Select(x => x.Type.ToString())
             });
 
         }
