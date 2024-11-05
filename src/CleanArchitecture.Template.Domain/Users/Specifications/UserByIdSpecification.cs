@@ -1,4 +1,5 @@
-﻿using CleanArchitecture.Template.SharedKernel.Specification;
+﻿using CleanArchitecture.Template.Domain.Users.Aggregates;
+using CleanArchitecture.Template.SharedKernel.Specification;
 
 namespace CleanArchitecture.Template.Domain.Users.Specifications
 {
@@ -8,7 +9,7 @@ namespace CleanArchitecture.Template.Domain.Users.Specifications
         {
             AddCriteria(user => user.Id == id);
             AddInclude(user => user.Roles);
-            AddInclude(user => user.Roles.Select(role => role.Permissions));
+            AddThenInclude(nameof(User.Roles), nameof(Role.Permissions));
         }
     }
 }
