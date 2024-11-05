@@ -12,5 +12,6 @@ namespace CleanArchitecture.Template.Application.Users.Repository
         Task AddUserAsync(User user);
         Task<bool> ExistAsync(ISpecification<User> specification);
         Task<User?> GetBySpecificationAsync(ISpecification<User> specification);
+        Task<IEnumerable<User>> GetListBySpecificationAsync(ISpecification<User> specification);
     }
 }

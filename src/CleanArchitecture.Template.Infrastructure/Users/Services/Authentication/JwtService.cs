@@ -9,7 +9,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace CleanArchitecture.Template.Infrastructure.Services.Authentication
+namespace CleanArchitecture.Template.Infrastructure.Users.Services.Authentication
 {
     public class JwtService : IAuthTokenService
     {
