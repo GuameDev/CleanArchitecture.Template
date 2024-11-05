@@ -14,18 +14,28 @@ namespace CleanArchitecture.Template.Api.Extensions
                 app.UseSwaggerUI();
             }
 
-            //Middlewares
+            // Exception handling
+            app.UseExceptionHandler();
+
+            // Request and response logging middleware
             app.UseMiddleware<RequestResponseLoggingMiddleware>();
+
+            // Custom exception handling middleware
             app.UseMiddleware<ExceptionHandlingMiddleware>();
 
+            // Authentication and Active User Middleware
             app.UseHttpsRedirection();
-            app.UseExceptionHandler();
             app.UseAuthentication();
+
+            // Ensure ActiveUserMiddleware has access to authenticated context
+            app.UseMiddleware<ActiveUserMiddleware>();
+
+            // Authorization
             app.UseAuthorization();
 
+            // Map controllers with authorization requirement
             app.MapControllers().RequireAuthorization();
-
-
         }
+
     }
 }
