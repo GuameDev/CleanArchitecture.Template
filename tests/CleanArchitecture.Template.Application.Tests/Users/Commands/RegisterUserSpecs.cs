@@ -1,9 +1,12 @@
 ﻿using CleanArchitecture.Template.Application.Tests.Base;
 using CleanArchitecture.Template.Application.Users.Commands.RegisterUser;
 using CleanArchitecture.Template.Application.Users.Services.Authentication;
-using CleanArchitecture.Template.Domain.Users.Aggregates; // Correct namespace for Role
+using CleanArchitecture.Template.Domain.Users;
+using CleanArchitecture.Template.Domain.Users.Aggregates;
 using CleanArchitecture.Template.Domain.Users.Constants;
 using CleanArchitecture.Template.Domain.Users.Errors;
+using CleanArchitecture.Template.Domain.Users.Specifications;
+using CleanArchitecture.Template.SharedKernel.Specification;
 using Moq;
 
 namespace CleanArchitecture.Template.Application.Tests.Users.Commands
@@ -35,10 +38,12 @@ namespace CleanArchitecture.Template.Application.Tests.Users.Commands
                 "StrongPass123!"
             );
 
-            // Mock repository checks
-            mockUnitOfWork.Setup(uow => uow.UserRepository.Exist(It.IsAny<string>(), It.IsAny<string>()))
-                          .ReturnsAsync(false);
+            // Define specification to check if user exists
+            var specification = new UserByEmailOrUsernameSpecification(request.Email, request.Username);
 
+            // Mock repository checks - user already exists
+            mockUnitOfWork.Setup(uow => uow.UserRepository.ExistAsync(It.Is<ISpecification<User>>(s => s.Criteria.SequenceEqual(specification.Criteria))))
+                          .ReturnsAsync(true);
             // Mock password hashing
             mockPasswordHasher.Setup(ph => ph.Hash(It.IsAny<string>()))
                               .Returns("hashedpassword");
@@ -80,9 +85,10 @@ namespace CleanArchitecture.Template.Application.Tests.Users.Commands
                 "StrongPass123!"
             );
 
-            // Mock repository checks - user already exists
-            mockUnitOfWork.Setup(uow => uow.UserRepository.Exist(It.IsAny<string>(), It.IsAny<string>()))
-                          .ReturnsAsync(true); // Simulate user already existing
+            var specification = new UserByEmailOrUsernameSpecification(request.Email, request.Username);
+
+            mockUnitOfWork.Setup(uow => uow.UserRepository.ExistAsync(It.IsAny<ISpecification<User>>()))
+                       .ReturnsAsync(true);
 
             // Act
             var result = await handler.Handle(request, CancellationToken.None);
@@ -111,9 +117,12 @@ namespace CleanArchitecture.Template.Application.Tests.Users.Commands
                 "weak" // Invalid password
             );
 
-            // Mock repository checks
-            mockUnitOfWork.Setup(uow => uow.UserRepository.Exist(It.IsAny<string>(), It.IsAny<string>()))
-                          .ReturnsAsync(false);
+            // Define specification to check if user exists
+            var specification = new UserByEmailOrUsernameSpecification(request.Email, request.Username);
+
+            // Mock repository checks - user already exists
+            mockUnitOfWork.Setup(uow => uow.UserRepository.ExistAsync(It.Is<ISpecification<User>>(s => s.Criteria.SequenceEqual(specification.Criteria))))
+                          .ReturnsAsync(true);
 
             // Act
             var result = await handler.Handle(request, CancellationToken.None);
@@ -142,9 +151,12 @@ namespace CleanArchitecture.Template.Application.Tests.Users.Commands
                 "StrongPass123!"
             );
 
-            // Mock repository checks
-            mockUnitOfWork.Setup(uow => uow.UserRepository.Exist(It.IsAny<string>(), It.IsAny<string>()))
-                          .ReturnsAsync(false);
+            // Define specification to check if user exists
+            var specification = new UserByEmailOrUsernameSpecification(request.Email, request.Username);
+
+            // Mock repository checks - user already exists
+            mockUnitOfWork.Setup(uow => uow.UserRepository.ExistAsync(It.Is<ISpecification<User>>(s => s.Criteria.SequenceEqual(specification.Criteria))))
+                          .ReturnsAsync(true);
 
             // Mock password hashing
             mockPasswordHasher.Setup(ph => ph.Hash(It.IsAny<string>()))

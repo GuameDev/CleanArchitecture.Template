@@ -1,7 +1,7 @@
-﻿using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
+﻿using CleanArchitecture.Template.Domain.Base;
+using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Events;
 using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects;
-using CleanArchitecture.Template.SharedKernel.Entities;
 using CleanArchitecture.Template.SharedKernel.Results;
 
 namespace CleanArchitecture.Template.Domain.WeatherForecasts
@@ -16,12 +16,7 @@ namespace CleanArchitecture.Template.Domain.WeatherForecasts
         public Summary Summary { get; private set; }
 
         //Constructors
-        private WeatherForecast()
-        {
-            Date = WeatherDate.Create(DateOnly.FromDateTime(DateTime.Now)).Value;
-            Temperature = Temperature.FromCelsius(0).Value;
-            Summary = Summary.Unknown;
-        }
+        private WeatherForecast() { }
         private WeatherForecast(Guid id, WeatherDate date, Temperature temperature, Summary summary)
         {
             Id = id;

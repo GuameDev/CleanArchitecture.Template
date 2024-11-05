@@ -1,8 +1,8 @@
-﻿using CleanArchitecture.Template.Domain.Users;
+﻿using CleanArchitecture.Template.Domain.Base;
+using CleanArchitecture.Template.Domain.Base.Events;
+using CleanArchitecture.Template.Domain.Users;
 using CleanArchitecture.Template.Domain.Users.Aggregates;
 using CleanArchitecture.Template.Domain.WeatherForecasts;
-using CleanArchitecture.Template.SharedKernel.Entities;
-using CleanArchitecture.Template.SharedKernel.Entities.Events;
 using Microsoft.EntityFrameworkCore;
 
 namespace CleanArchitecture.Template.Infrastructure.Persistence

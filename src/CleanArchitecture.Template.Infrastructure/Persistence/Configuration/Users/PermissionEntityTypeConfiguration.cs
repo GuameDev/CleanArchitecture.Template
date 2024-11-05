@@ -1,4 +1,5 @@
 ﻿using CleanArchitecture.Template.Domain.Users.Aggregates;
+using CleanArchitecture.Template.Domain.Users.Constants;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration.Users
@@ -9,7 +10,12 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration.Us
         {
             base.Configure(builder);
 
-            builder.Property(p => p.Name).IsRequired();
+            builder.Property(p => p.Type)
+              .HasConversion(
+                  v => v.ToString(),
+                  v => (PermissionType)Enum.Parse(typeof(PermissionType), v))
+              .IsRequired();
+
             builder.Property(p => p.Description).IsRequired();
 
 

@@ -11,7 +11,7 @@ namespace CleanArchitecture.Template.Application.WeatherForecasts.Repository
         Task<GetAllWeatherForecastResponse> GetAllAsync();
         Task<GetWeatherForecastListResponse> GetListAsync(ISpecification<Domain.WeatherForecasts.WeatherForecast> request);
         Task AddAsync(Domain.WeatherForecasts.WeatherForecast weatherForecast);
-        Task UpdateAsync(Domain.WeatherForecasts.WeatherForecast weatherForecast);
+        void Update(Domain.WeatherForecasts.WeatherForecast weatherForecast);
         Task DeleteAsync(Guid id);
     }
 }

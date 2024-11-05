@@ -9,8 +9,14 @@ namespace CleanArchitecture.Template.SharedKernel.Specification
         // Read-only collection of criteria (filter expressions)
         IReadOnlyCollection<Expression<Func<T, bool>>> Criteria { get; }
 
-        // Read-only collection of include expressions for eager loading
+        // Read-only collection of expression-based include expressions for eager loading
         IReadOnlyCollection<Expression<Func<T, object>>> Includes { get; }
+
+        // Read-only collection of string-based includes for nested loading
+        IReadOnlyCollection<string> IncludeStrings { get; }
+
+        // Read-only collection of string-based then-includes for nested loading
+        IReadOnlyDictionary<string, List<string>> ThenIncludeStrings { get; }
 
         // Sorting expressions
         Expression<Func<T, object>> OrderBy { get; }

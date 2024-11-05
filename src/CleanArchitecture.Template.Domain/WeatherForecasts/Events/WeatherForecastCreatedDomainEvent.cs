@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Template.SharedKernel.Entities.Events;
+﻿using CleanArchitecture.Template.Domain.Base.Events;
 
 namespace CleanArchitecture.Template.Domain.WeatherForecasts.Events
 {

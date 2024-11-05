@@ -1,7 +1,8 @@
-﻿using CleanArchitecture.Template.Domain.Users.Aggregates;
+﻿using CleanArchitecture.Template.Domain.Base;
+using CleanArchitecture.Template.Domain.Users.Aggregates;
+using CleanArchitecture.Template.Domain.Users.Constants;
 using CleanArchitecture.Template.Domain.Users.Errors;
 using CleanArchitecture.Template.Domain.Users.ValueObjects;
-using CleanArchitecture.Template.SharedKernel.Entities;
 using CleanArchitecture.Template.SharedKernel.Results;
 
 namespace CleanArchitecture.Template.Domain.Users
@@ -67,6 +68,8 @@ namespace CleanArchitecture.Template.Domain.Users
                 PasswordHash = passwordHash
             });
         }
+        public bool HasRole(RoleName roleName) => Roles.Any(role => role.RoleName == roleName);
+        public bool HasPermission(PermissionType permissionType) => Roles.Any(role => role.Permissions.Any(p => p.Type == permissionType));
 
         public Result AddRole(Role role)
         {
@@ -88,19 +91,13 @@ namespace CleanArchitecture.Template.Domain.Users
             var permissionsFromRole = role.Permissions.ToList();
             foreach (var permission in permissionsFromRole)
             {
-                bool hasPermissionFromOtherRoles = _roles.Any(r => r.Permissions.Any(p => p.Name == permission.Name));
-                if (!hasPermissionFromOtherRoles)
+                if (!HasPermission(permission.Type))
                 {
                     RemovePermission(permission);
                 }
             }
 
             return Result.Success();
-        }
-
-        public bool HasPermission(string permissionName)
-        {
-            return _roles.Any(r => r.Permissions.Any(p => p.Name == permissionName));
         }
 
         private void RemovePermission(Permission permission)

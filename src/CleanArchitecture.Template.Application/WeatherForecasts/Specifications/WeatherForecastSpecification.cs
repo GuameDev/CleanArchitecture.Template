@@ -1,5 +1,5 @@
-﻿using CleanArchitecture.Template.Application.WeatherForecasts.DTOs;
-using CleanArchitecture.Template.Application.WeatherForecasts.Queries.Get;
+﻿using CleanArchitecture.Template.Application.WeatherForecasts.Queries.Get;
+using CleanArchitecture.Template.Application.WeatherForecasts.Queries.Get.DTOs;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Criterias;
 using CleanArchitecture.Template.SharedKernel.Specification;
 using System.Linq.Expressions;
@@ -35,13 +35,13 @@ namespace CleanArchitecture.Template.Application.WeatherForecasts.Specifications
                 AddCriteria(weatherForecast => weatherForecast.Temperature.Value >= query.TemperatureValue.Value);
         }
 
-        private static Expression<Func<Domain.WeatherForecasts.WeatherForecast, object>> GetOrderByExpression(WeatherForecastOrderBy? orderBy)
+        private static Expression<Func<Domain.WeatherForecasts.WeatherForecast, object>> GetOrderByExpression(GetWeatherForecastListPropertyName? orderBy)
         {
             return orderBy switch
             {
-                WeatherForecastOrderBy.Summary => weatherForecast => weatherForecast.Summary,
-                WeatherForecastOrderBy.Date => weatherForecast => weatherForecast.Date.Value,
-                WeatherForecastOrderBy.Temperature => weatherForecast => weatherForecast.Temperature.Value,
+                GetWeatherForecastListPropertyName.Summary => weatherForecast => weatherForecast.Summary,
+                GetWeatherForecastListPropertyName.Date => weatherForecast => weatherForecast.Date.Value,
+                GetWeatherForecastListPropertyName.Temperature => weatherForecast => weatherForecast.Temperature.Value,
                 _ => weatherForecast => weatherForecast.Date.Value
             };
         }

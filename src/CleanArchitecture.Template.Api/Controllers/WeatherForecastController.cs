@@ -8,8 +8,10 @@ using CleanArchitecture.Template.Application.WeatherForecasts.Queries.Get;
 using CleanArchitecture.Template.Application.WeatherForecasts.Queries.Get.DTOs;
 using CleanArchitecture.Template.Application.WeatherForecasts.Queries.GetAll;
 using CleanArchitecture.Template.Application.WeatherForecasts.Queries.GetById;
+using CleanArchitecture.Template.Domain.Users.Constants;
 using CleanArchitecture.Template.SharedKernel.Results;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitecture.Template.Api.Controllers
@@ -31,6 +33,8 @@ namespace CleanArchitecture.Template.Api.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
+        [Authorize(Roles = nameof(RoleName.User))]
+        [Authorize(Roles = nameof(RoleName.Admin))]
         [Route("{id}")]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {

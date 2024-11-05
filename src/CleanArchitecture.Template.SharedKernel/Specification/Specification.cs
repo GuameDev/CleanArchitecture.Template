@@ -10,9 +10,13 @@ namespace CleanArchitecture.Template.SharedKernel.Specification
     {
         private readonly List<Expression<Func<T, bool>>> _criteria = new();
         private readonly List<Expression<Func<T, object>>> _includes = new();
+        private readonly List<string> _includeStrings = new();
+        private readonly Dictionary<string, List<string>> _thenIncludeStrings = new();
 
         public IReadOnlyCollection<Expression<Func<T, bool>>> Criteria => _criteria.AsReadOnly();
         public IReadOnlyCollection<Expression<Func<T, object>>> Includes => _includes.AsReadOnly();
+        public IReadOnlyCollection<string> IncludeStrings => _includeStrings.AsReadOnly();
+        public IReadOnlyDictionary<string, List<string>> ThenIncludeStrings => _thenIncludeStrings;
 
         public Expression<Func<T, object>> OrderBy { get; private set; }
         public Expression<Func<T, object>> OrderByDescending { get; private set; }
@@ -31,8 +35,35 @@ namespace CleanArchitecture.Template.SharedKernel.Specification
         // Add include for eager loading
         public void AddInclude(Expression<Func<T, object>> includeExpression)
         {
-            _includes.Add(includeExpression);
+            if (!_includes.Contains(includeExpression))
+            {
+                _includes.Add(includeExpression);
+            }
         }
+
+        // Add include for eager loading
+        public void AddInclude(string includeString)
+        {
+            if (!_includeStrings.Contains(includeString))
+            {
+                _includeStrings.Add(includeString);
+            }
+        }
+
+        // Add then-include for nested loading
+        public void AddThenInclude(string include, string thenInclude)
+        {
+            if (!_thenIncludeStrings.ContainsKey(include))
+            {
+                _thenIncludeStrings[include] = new List<string>();
+            }
+
+            if (!_thenIncludeStrings[include].Contains(thenInclude))
+            {
+                _thenIncludeStrings[include].Add(thenInclude);
+            }
+        }
+
 
         // Apply sorting
         public void ApplySorting(Expression<Func<T, object>> orderByExpression, SortDirection sortDirection)

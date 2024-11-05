@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Template.SharedKernel.Entities;
+﻿using CleanArchitecture.Template.Domain.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
