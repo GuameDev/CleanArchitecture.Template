@@ -33,8 +33,7 @@ namespace CleanArchitecture.Template.Api.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
-        [Authorize(Roles = nameof(RoleName.User))]
-        [Authorize(Roles = nameof(RoleName.Admin))]
+        [Authorize(Roles = $"{nameof(RoleName.Admin)},{nameof(RoleName.User)}")]
         [Route("{id}")]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {

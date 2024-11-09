@@ -19,7 +19,6 @@ namespace CleanArchitecture.Template.Domain.Users
         public required string PasswordHash { get; init; }
         public bool IsActive { get; private set; } = true;
 
-
         private User() { }
 
         private User(Guid id, Username username, Email email, FullName fullName, string passwordHash)

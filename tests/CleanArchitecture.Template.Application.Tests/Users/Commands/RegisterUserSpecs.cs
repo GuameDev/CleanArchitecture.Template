@@ -5,7 +5,6 @@ using CleanArchitecture.Template.Domain.Users;
 using CleanArchitecture.Template.Domain.Users.Aggregates;
 using CleanArchitecture.Template.Domain.Users.Constants;
 using CleanArchitecture.Template.Domain.Users.Errors;
-using CleanArchitecture.Template.Domain.Users.Specifications;
 using CleanArchitecture.Template.SharedKernel.Specification;
 using Moq;
 
@@ -26,7 +25,6 @@ namespace CleanArchitecture.Template.Application.Tests.Users.Commands
             // Arrange
             var mockUnitOfWork = _fixture.CreateMockUnitOfWork();
             var mockPasswordHasher = new Mock<IUserPasswordHasher>();
-            var mediator = _fixture.CreateMediator(mockUnitOfWork, null!);
             var handler = new RegisterUserHandler(mockUnitOfWork.Object, mockPasswordHasher.Object);
 
             var request = new RegisterUserCommand(
@@ -38,25 +36,25 @@ namespace CleanArchitecture.Template.Application.Tests.Users.Commands
                 "StrongPass123!"
             );
 
-            // Define specification to check if user exists
-            var specification = new UserByEmailOrUsernameSpecification(request.Email, request.Username);
+            mockUnitOfWork
+                .Setup(uow => uow.UserRepository.ExistAsync(It.IsAny<ISpecification<User>>()))
+                .ReturnsAsync(false);
 
-            // Mock repository checks - user already exists
-            mockUnitOfWork.Setup(uow => uow.UserRepository.ExistAsync(It.Is<ISpecification<User>>(s => s.Criteria.SequenceEqual(specification.Criteria))))
-                          .ReturnsAsync(true);
-            // Mock password hashing
-            mockPasswordHasher.Setup(ph => ph.Hash(It.IsAny<string>()))
-                              .Returns("hashedpassword");
+            mockPasswordHasher
+                .Setup(ph => ph.Hash(It.IsAny<string>()))
+                .Returns("hashedpassword");
 
-            // Mock role retrieval using Role.Create
-            mockUnitOfWork.Setup(uow => uow.RoleRepository.GetByNameAsync(RoleName.User))
-                          .ReturnsAsync(Role.Create(Guid.NewGuid(), RoleName.User).Value);
+            mockUnitOfWork
+                .Setup(uow => uow.RoleRepository.GetByNameAsync(RoleName.User))
+                .ReturnsAsync(Role.Create(Guid.NewGuid(), RoleName.User).Value);
 
-            // Mock repository save actions
-            mockUnitOfWork.Setup(uow => uow.UserRepository.AddUserAsync(It.IsAny<Domain.Users.User>()))
-                          .Returns(Task.CompletedTask);
-            mockUnitOfWork.Setup(uow => uow.CommitAsync(It.IsAny<CancellationToken>()))
-                          .ReturnsAsync(1);
+            mockUnitOfWork
+                .Setup(uow => uow.UserRepository.AddUserAsync(It.IsAny<User>()))
+                .Returns(Task.CompletedTask);
+
+            mockUnitOfWork
+                .Setup(uow => uow.CommitAsync(It.IsAny<CancellationToken>()))
+                .ReturnsAsync(1);
 
             // Act
             var result = await handler.Handle(request, CancellationToken.None);
@@ -64,7 +62,7 @@ namespace CleanArchitecture.Template.Application.Tests.Users.Commands
             // Assert
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Value);
-            mockUnitOfWork.Verify(uow => uow.UserRepository.AddUserAsync(It.IsAny<Domain.Users.User>()), Times.Once);
+            mockUnitOfWork.Verify(uow => uow.UserRepository.AddUserAsync(It.IsAny<User>()), Times.Once);
             mockUnitOfWork.Verify(uow => uow.CommitAsync(It.IsAny<CancellationToken>()), Times.Once);
         }
 
@@ -85,10 +83,9 @@ namespace CleanArchitecture.Template.Application.Tests.Users.Commands
                 "StrongPass123!"
             );
 
-            var specification = new UserByEmailOrUsernameSpecification(request.Email, request.Username);
-
-            mockUnitOfWork.Setup(uow => uow.UserRepository.ExistAsync(It.IsAny<ISpecification<User>>()))
-                       .ReturnsAsync(true);
+            mockUnitOfWork
+                .Setup(uow => uow.UserRepository.ExistAsync(It.IsAny<ISpecification<User>>()))
+                .ReturnsAsync(true);
 
             // Act
             var result = await handler.Handle(request, CancellationToken.None);
@@ -96,7 +93,7 @@ namespace CleanArchitecture.Template.Application.Tests.Users.Commands
             // Assert
             Assert.False(result.IsSuccess);
             Assert.Equal(UserErrors.UserAlreadyExist, result.Error);
-            mockUnitOfWork.Verify(uow => uow.UserRepository.AddUserAsync(It.IsAny<Domain.Users.User>()), Times.Never);
+            mockUnitOfWork.Verify(uow => uow.UserRepository.AddUserAsync(It.IsAny<User>()), Times.Never);
             mockUnitOfWork.Verify(uow => uow.CommitAsync(It.IsAny<CancellationToken>()), Times.Never);
         }
 
@@ -117,12 +114,9 @@ namespace CleanArchitecture.Template.Application.Tests.Users.Commands
                 "weak" // Invalid password
             );
 
-            // Define specification to check if user exists
-            var specification = new UserByEmailOrUsernameSpecification(request.Email, request.Username);
-
-            // Mock repository checks - user already exists
-            mockUnitOfWork.Setup(uow => uow.UserRepository.ExistAsync(It.Is<ISpecification<User>>(s => s.Criteria.SequenceEqual(specification.Criteria))))
-                          .ReturnsAsync(true);
+            mockUnitOfWork
+                .Setup(uow => uow.UserRepository.ExistAsync(It.IsAny<ISpecification<User>>()))
+                .ReturnsAsync(false);
 
             // Act
             var result = await handler.Handle(request, CancellationToken.None);
@@ -130,7 +124,7 @@ namespace CleanArchitecture.Template.Application.Tests.Users.Commands
             // Assert
             Assert.False(result.IsSuccess);
             Assert.Equal(PasswordErrors.MinLengthPassword, result.Error);
-            mockUnitOfWork.Verify(uow => uow.UserRepository.AddUserAsync(It.IsAny<Domain.Users.User>()), Times.Never);
+            mockUnitOfWork.Verify(uow => uow.UserRepository.AddUserAsync(It.IsAny<User>()), Times.Never);
             mockUnitOfWork.Verify(uow => uow.CommitAsync(It.IsAny<CancellationToken>()), Times.Never);
         }
 
@@ -151,20 +145,17 @@ namespace CleanArchitecture.Template.Application.Tests.Users.Commands
                 "StrongPass123!"
             );
 
-            // Define specification to check if user exists
-            var specification = new UserByEmailOrUsernameSpecification(request.Email, request.Username);
+            mockUnitOfWork
+                .Setup(uow => uow.UserRepository.ExistAsync(It.IsAny<ISpecification<User>>()))
+                .ReturnsAsync(false);
 
-            // Mock repository checks - user already exists
-            mockUnitOfWork.Setup(uow => uow.UserRepository.ExistAsync(It.Is<ISpecification<User>>(s => s.Criteria.SequenceEqual(specification.Criteria))))
-                          .ReturnsAsync(true);
+            mockPasswordHasher
+                .Setup(ph => ph.Hash(It.IsAny<string>()))
+                .Returns("hashedpassword");
 
-            // Mock password hashing
-            mockPasswordHasher.Setup(ph => ph.Hash(It.IsAny<string>()))
-                              .Returns("hashedpassword");
-
-            // Simulate default role not found
-            mockUnitOfWork.Setup(uow => uow.RoleRepository.GetByNameAsync(RoleName.User))
-                      .ReturnsAsync((Role?)null);
+            mockUnitOfWork
+                .Setup(uow => uow.RoleRepository.GetByNameAsync(RoleName.User))
+                .ReturnsAsync((Role?)null);
 
             // Act
             var result = await handler.Handle(request, CancellationToken.None);
@@ -172,7 +163,7 @@ namespace CleanArchitecture.Template.Application.Tests.Users.Commands
             // Assert
             Assert.False(result.IsSuccess);
             Assert.Equal(UserErrors.DefaultRoleNotFound, result.Error);
-            mockUnitOfWork.Verify(uow => uow.UserRepository.AddUserAsync(It.IsAny<Domain.Users.User>()), Times.Never);
+            mockUnitOfWork.Verify(uow => uow.UserRepository.AddUserAsync(It.IsAny<User>()), Times.Never);
             mockUnitOfWork.Verify(uow => uow.CommitAsync(It.IsAny<CancellationToken>()), Times.Never);
         }
     }
