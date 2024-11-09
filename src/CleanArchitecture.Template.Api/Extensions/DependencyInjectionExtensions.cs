@@ -19,6 +19,7 @@ namespace CleanArchitecture.Template.Api.Extensions
             services.AddControllers(options =>
             {
                 options.Filters.Add<LoggingActionFilter>();
+                options.Filters.Add<ProblemDetailsExceptionFilter>();
             })
             .AddJsonOptions(options =>
             {
