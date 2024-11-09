@@ -1,8 +1,8 @@
-﻿using CleanArchitecture.Template.Domain.Base;
-using CleanArchitecture.Template.Domain.Base.Events;
+﻿using CleanArchitecture.Template.Domain.Base.Events;
 using CleanArchitecture.Template.Domain.Users;
 using CleanArchitecture.Template.Domain.Users.Aggregates;
 using CleanArchitecture.Template.Domain.WeatherForecasts;
+using CleanArchitecture.Template.Infrastructure.Persistence.Interceptors;
 using Microsoft.EntityFrameworkCore;
 
 namespace CleanArchitecture.Template.Infrastructure.Persistence
@@ -26,45 +26,6 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence
 
             modelBuilder.Ignore<DomainEvent>();
         }
-        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-        {
-            //Update created and updated date
-            var modifiedEntities = ChangeTracker.Entries<Entity>()
-               .Where(x => x.State == EntityState.Modified || x.State == EntityState.Added);
-
-
-            var now = DateTime.UtcNow;
-            foreach (var entity in modifiedEntities)
-            {
-                if (entity.State == EntityState.Modified)
-                    entity.Entity.UpdatedDate = now;
-
-                if (entity.State == EntityState.Added)
-                {
-                    entity.Entity.CreatedDate = now;
-                    entity.Entity.UpdatedDate = now;
-                }
-
-            }
-
-            var result = await base.SaveChangesAsync(cancellationToken);
-
-            //TODO: Implement Outbox pattern to raise events
-
-            //var domainEvents = ChangeTracker.Entries<Entity>()
-            // .Select(entity => entity.Entity)
-            // .Where(entity => entity.DomainEvents.Any())
-            // .SelectMany(entity => entity.DomainEvents);
-
-            //if (_publisher is null)
-            //    return result;
-
-            //foreach (var domainEvent in domainEvents)
-            //{
-            //    await _publisher.Publish(domainEvent, cancellationToken);
-            //}
-
-            return result;
-        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.AddInterceptors(new UpdateAuditableInterceptor());
     }
 }
