@@ -24,51 +24,64 @@
         public void ValueObject_ShouldBeEqual_WhenValuesAreSame()
         {
             // Arrange
-            var vo1 = new TestValueObject(1, "Test");
-            var vo2 = new TestValueObject(1, "Test");
+            var firstValueObject = new TestValueObject(1, "Test");
+            var secondValueObject = new TestValueObject(1, "Test");
 
             // Act & Assert
-            Assert.Equal(vo1, vo2);
-            Assert.True(vo1.Equals(vo2));
-            Assert.True(vo1 == vo2);
-            Assert.Equal(vo1.GetHashCode(), vo2.GetHashCode());
+            Assert.Equal(firstValueObject, secondValueObject);
+            Assert.True(firstValueObject.Equals(secondValueObject));
+            Assert.True(firstValueObject == secondValueObject);
+            Assert.Equal(firstValueObject.GetHashCode(), secondValueObject.GetHashCode());
         }
 
         [Fact]
         public void ValueObject_ShouldNotBeEqual_WhenValuesAreDifferent()
         {
             // Arrange
-            var vo1 = new TestValueObject(1, "Test");
-            var vo2 = new TestValueObject(2, "Test");
+            var firstValueObject = new TestValueObject(1, "Test");
+            var secondValueObject = new TestValueObject(2, "Test");
 
             // Act & Assert
-            Assert.NotEqual(vo1, vo2);
-            Assert.False(vo1.Equals(vo2));
-            Assert.True(vo1 != vo2);
-            Assert.NotEqual(vo1.GetHashCode(), vo2.GetHashCode());
+            Assert.NotEqual(firstValueObject, secondValueObject);
+            Assert.False(firstValueObject.Equals(secondValueObject));
+            Assert.True(firstValueObject != secondValueObject);
+            Assert.NotEqual(firstValueObject.GetHashCode(), secondValueObject.GetHashCode());
         }
         [Fact]
         public void ValueObject_ShouldNotBeEqual_WhenOneIsNull()
         {
             // Arrange
-            var vo1 = new TestValueObject(1, "Test");
-            TestValueObject? vo2 = null;
+            var firstValueObject = new TestValueObject(1, "Test");
+            TestValueObject? secondValueObject = null;
 
             // Act & Assert
-            Assert.False(vo1 == vo2);
-            Assert.True(vo1 != vo2);
-            Assert.False(vo1.Equals(vo2));
+            Assert.False(firstValueObject == secondValueObject);
+            Assert.True(firstValueObject != secondValueObject);
+            Assert.False(firstValueObject.Equals(secondValueObject));
         }
 
         [Fact]
         public void ValueObject_ShouldNotBeEqual_WhenDifferentTypes()
         {
             // Arrange
-            var vo1 = new TestValueObject(1, "Test");
-            var vo2 = new AnotherTestValueObject(1, "Test");
+            var firstValueObject = new TestValueObject(1, "Test");
+            var secondValueObject = new AnotherTestValueObject(1, "Test");
 
             // Act & Assert
-            Assert.False(vo1.Equals(vo2));
+            Assert.False(firstValueObject.Equals(secondValueObject));
+        }
+
+        [Fact]
+        public void ValueObject_Equals_ShouldReturnFalse_WhenOtherIsNull()
+        {
+            // Arrange
+            var valueObject = new TestValueObject(1, "Test");
+
+            // Act
+            var result = valueObject.Equals(null);
+
+            // Assert
+            Assert.False(result);
         }
 
         private class AnotherTestValueObject : ValueObject
