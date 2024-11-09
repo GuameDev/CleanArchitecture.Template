@@ -47,13 +47,12 @@
             Assert.True(vo1 != vo2);
             Assert.NotEqual(vo1.GetHashCode(), vo2.GetHashCode());
         }
-
         [Fact]
         public void ValueObject_ShouldNotBeEqual_WhenOneIsNull()
         {
             // Arrange
             var vo1 = new TestValueObject(1, "Test");
-            TestValueObject vo2 = null!;
+            TestValueObject? vo2 = null;
 
             // Act & Assert
             Assert.False(vo1 == vo2);
