@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Net;
+using System.Text.Json;
 
 namespace CleanArchitecture.Template.Api.Middlewares
 {
@@ -23,9 +26,28 @@ namespace CleanArchitecture.Template.Api.Middlewares
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An unhandled exception occurred.");
-                context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-                await context.Response.WriteAsync("An error occurred. Please try again later.");
+
+                await HandleExceptionAsync(context, ex);
             }
+        }
+
+        private static Task HandleExceptionAsync(HttpContext context, Exception exception)
+        {
+            var problemDetails = new ProblemDetails
+            {
+                Status = (int)HttpStatusCode.InternalServerError,
+                Title = "An unexpected error occurred!",
+                Detail = exception.Message,
+                Instance = context.Request.Path
+            };
+
+            // Optionally set Problem Details fields like Extensions for more specific info.
+            problemDetails.Extensions["traceId"] = context.TraceIdentifier;
+
+            context.Response.ContentType = "application/problem+json";
+            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+
+            return context.Response.WriteAsync(JsonSerializer.Serialize(problemDetails));
         }
     }
 }

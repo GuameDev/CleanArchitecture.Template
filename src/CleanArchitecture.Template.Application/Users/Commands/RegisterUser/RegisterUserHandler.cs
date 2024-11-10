@@ -1,10 +1,12 @@
 ﻿using CleanArchitecture.Template.Application.Base.UnitOfWork;
 using CleanArchitecture.Template.Application.Users.Commands.RegisterUser.DTOs;
 using CleanArchitecture.Template.Application.Users.Services.Authentication;
-using CleanArchitecture.Template.Domain.Users.Constants;
-using CleanArchitecture.Template.Domain.Users.Errors;
+using CleanArchitecture.Template.Domain.Users;
+using CleanArchitecture.Template.Domain.Users.Aggregates.Roles;
 using CleanArchitecture.Template.Domain.Users.Specifications;
-using CleanArchitecture.Template.Domain.Users.ValueObjects;
+using CleanArchitecture.Template.Domain.Users.ValueObjects.FullNames;
+using CleanArchitecture.Template.Domain.Users.ValueObjects.Passwords;
+using CleanArchitecture.Template.Domain.Users.ValueObjects.Usernames;
 using CleanArchitecture.Template.SharedKernel.Results;
 using MediatR;
 
@@ -56,7 +58,7 @@ namespace CleanArchitecture.Template.Application.Users.Commands.RegisterUser
             user.AddRole(defaultRole);
 
             // Save the user
-            await _unitOfWork.UserRepository.AddUserAsync(user);
+            await _unitOfWork.UserRepository.AddAsync(user);
             await _unitOfWork.CommitAsync(cancellationToken);
 
             return Result.Success(new RegisterUserResponse(user.Id, user.Username.Value));

@@ -1,8 +1,9 @@
 ﻿using CleanArchitecture.Template.Domain.Base;
-using CleanArchitecture.Template.Domain.Users.Aggregates;
-using CleanArchitecture.Template.Domain.Users.Constants;
-using CleanArchitecture.Template.Domain.Users.Errors;
-using CleanArchitecture.Template.Domain.Users.ValueObjects;
+using CleanArchitecture.Template.Domain.Users.Aggregates.Permissions;
+using CleanArchitecture.Template.Domain.Users.Aggregates.RefreshTokens;
+using CleanArchitecture.Template.Domain.Users.Aggregates.Roles;
+using CleanArchitecture.Template.Domain.Users.ValueObjects.FullNames;
+using CleanArchitecture.Template.Domain.Users.ValueObjects.Usernames;
 using CleanArchitecture.Template.SharedKernel.Results;
 
 namespace CleanArchitecture.Template.Domain.Users
@@ -12,6 +13,8 @@ namespace CleanArchitecture.Template.Domain.Users
         private readonly List<Role> _roles = new List<Role>();
         public IReadOnlyCollection<Role> Roles => _roles.AsReadOnly();
 
+        private readonly List<RefreshToken> _refreshTokens = new List<RefreshToken>();
+        public IReadOnlyCollection<RefreshToken> RefreshTokens => _refreshTokens.AsReadOnly();
         public required Guid Id { get; init; }
         public required Username Username { get; init; }
         public required Email Email { get; init; }
@@ -76,6 +79,16 @@ namespace CleanArchitecture.Template.Domain.Users
                 return Result.Failure(RoleErrors.RoleAlreadyAssigned);
 
             _roles.Add(role);
+            return Result.Success();
+        }
+
+
+        public Result AddRefreshToken(RefreshToken refreshToken)
+        {
+            if (_refreshTokens.Any(r => r.Token == refreshToken.Token))
+                return Result.Failure(RefreshTokenErrors.RefreshTokenAlreadyAssigned);
+
+            _refreshTokens.Add(refreshToken);
             return Result.Success();
         }
 

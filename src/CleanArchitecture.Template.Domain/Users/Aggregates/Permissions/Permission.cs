@@ -1,9 +1,8 @@
 ﻿using CleanArchitecture.Template.Domain.Base;
-using CleanArchitecture.Template.Domain.Users.Constants;
-using CleanArchitecture.Template.Domain.Users.Errors;
+using CleanArchitecture.Template.Domain.Users.Aggregates.Roles;
 using CleanArchitecture.Template.SharedKernel.Results;
 
-namespace CleanArchitecture.Template.Domain.Users.Aggregates;
+namespace CleanArchitecture.Template.Domain.Users.Aggregates.Permissions;
 public class Permission : Entity
 {
     private readonly List<Role> _roles = new List<Role>();
@@ -17,7 +16,7 @@ public class Permission : Entity
 
     private Permission(PermissionType type, string description)
     {
-        this.Type = type;
+        Type = type;
         Description = description;
     }
 

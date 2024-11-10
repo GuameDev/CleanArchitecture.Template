@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Template.Domain.Users.Errors;
+﻿using CleanArchitecture.Template.Domain.Users.ValueObjects.Emails;
 
 namespace CleanArchitecture.Template.Domain.Tests.Users.ValueObjects
 {

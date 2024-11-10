@@ -1,8 +1,7 @@
-﻿using CleanArchitecture.Template.Domain.Users.Errors;
-using CleanArchitecture.Template.SharedKernel.Results;
+﻿using CleanArchitecture.Template.SharedKernel.Results;
 using System.Text.RegularExpressions;
 
-namespace CleanArchitecture.Template.Domain.Users.ValueObjects
+namespace CleanArchitecture.Template.Domain.Users.ValueObjects.Passwords
 {
     public class Password : ValueObject
     {

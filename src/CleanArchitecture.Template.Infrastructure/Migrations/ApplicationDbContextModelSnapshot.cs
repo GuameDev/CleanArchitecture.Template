@@ -22,7 +22,7 @@ namespace CleanArchitecture.Template.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("CleanArchitecture.Template.Domain.Users.Aggregates.Permission", b =>
+            modelBuilder.Entity("CleanArchitecture.Template.Domain.Users.Aggregates.Permissions.Permission", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -49,47 +49,87 @@ namespace CleanArchitecture.Template.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("73c375a3-dfa1-4a22-adfc-112c9b276108"),
-                            CreatedDate = new DateTime(2024, 11, 5, 12, 43, 50, 768, DateTimeKind.Utc).AddTicks(8816),
+                            Id = new Guid("c3c11234-56b8-4e89-91f4-21e1e69e76fa"),
+                            CreatedDate = new DateTime(2024, 11, 10, 14, 45, 45, 95, DateTimeKind.Utc).AddTicks(1759),
                             Description = "Can read data",
                             Type = "Read",
-                            UpdatedDate = new DateTime(2024, 11, 5, 12, 43, 50, 768, DateTimeKind.Utc).AddTicks(8816)
+                            UpdatedDate = new DateTime(2024, 11, 10, 14, 45, 45, 95, DateTimeKind.Utc).AddTicks(1759)
                         },
                         new
                         {
-                            Id = new Guid("879a1ba3-37f3-4316-86ed-1ec91eb0c24d"),
-                            CreatedDate = new DateTime(2024, 11, 5, 12, 43, 50, 768, DateTimeKind.Utc).AddTicks(8816),
+                            Id = new Guid("d4b732bc-0a9d-420f-8c2d-5911dbe24d6d"),
+                            CreatedDate = new DateTime(2024, 11, 10, 14, 45, 45, 95, DateTimeKind.Utc).AddTicks(1759),
                             Description = "Can modify data",
                             Type = "Write",
-                            UpdatedDate = new DateTime(2024, 11, 5, 12, 43, 50, 768, DateTimeKind.Utc).AddTicks(8816)
+                            UpdatedDate = new DateTime(2024, 11, 10, 14, 45, 45, 95, DateTimeKind.Utc).AddTicks(1759)
                         },
                         new
                         {
-                            Id = new Guid("f46bb1e6-0b4d-4ba1-9871-ca9619ff1eaf"),
-                            CreatedDate = new DateTime(2024, 11, 5, 12, 43, 50, 768, DateTimeKind.Utc).AddTicks(8816),
+                            Id = new Guid("e5f01b6d-1b3e-4919-9b24-7c3e61f1f91b"),
+                            CreatedDate = new DateTime(2024, 11, 10, 14, 45, 45, 95, DateTimeKind.Utc).AddTicks(1759),
                             Description = "Can manage users",
                             Type = "ManageUsers",
-                            UpdatedDate = new DateTime(2024, 11, 5, 12, 43, 50, 768, DateTimeKind.Utc).AddTicks(8816)
+                            UpdatedDate = new DateTime(2024, 11, 10, 14, 45, 45, 95, DateTimeKind.Utc).AddTicks(1759)
                         },
                         new
                         {
-                            Id = new Guid("09012410-aaba-4cad-9da6-d26ef27d7146"),
-                            CreatedDate = new DateTime(2024, 11, 5, 12, 43, 50, 768, DateTimeKind.Utc).AddTicks(8816),
+                            Id = new Guid("f6027a94-318d-4d13-b78f-9277cd3f7086"),
+                            CreatedDate = new DateTime(2024, 11, 10, 14, 45, 45, 95, DateTimeKind.Utc).AddTicks(1759),
                             Description = "Can manage roles and permissions",
                             Type = "ManageRoles",
-                            UpdatedDate = new DateTime(2024, 11, 5, 12, 43, 50, 768, DateTimeKind.Utc).AddTicks(8816)
+                            UpdatedDate = new DateTime(2024, 11, 10, 14, 45, 45, 95, DateTimeKind.Utc).AddTicks(1759)
                         },
                         new
                         {
-                            Id = new Guid("c28901fa-f63b-45b8-8963-a3dfdbb58f1e"),
-                            CreatedDate = new DateTime(2024, 11, 5, 12, 43, 50, 768, DateTimeKind.Utc).AddTicks(8816),
+                            Id = new Guid("a8b61357-15f2-48a1-9114-2d2d885de8c1"),
+                            CreatedDate = new DateTime(2024, 11, 10, 14, 45, 45, 95, DateTimeKind.Utc).AddTicks(1759),
                             Description = "Can view the dashboard",
                             Type = "ViewDashboard",
-                            UpdatedDate = new DateTime(2024, 11, 5, 12, 43, 50, 768, DateTimeKind.Utc).AddTicks(8816)
+                            UpdatedDate = new DateTime(2024, 11, 10, 14, 45, 45, 95, DateTimeKind.Utc).AddTicks(1759)
                         });
                 });
 
-            modelBuilder.Entity("CleanArchitecture.Template.Domain.Users.Aggregates.Role", b =>
+            modelBuilder.Entity("CleanArchitecture.Template.Domain.Users.Aggregates.RefreshTokens.RefreshToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ExpirationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsRevoked")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<DateTime?>("LastUsed")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RefreshTokens", (string)null);
+                });
+
+            modelBuilder.Entity("CleanArchitecture.Template.Domain.Users.Aggregates.Roles.Role", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -112,17 +152,17 @@ namespace CleanArchitecture.Template.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("f0244ef5-f519-474b-8a46-e643a2338705"),
-                            CreatedDate = new DateTime(2024, 11, 5, 12, 43, 50, 768, DateTimeKind.Utc).AddTicks(8816),
+                            Id = new Guid("a37f1b12-6d0c-4d52-a4e5-b84adf6d184c"),
+                            CreatedDate = new DateTime(2024, 11, 10, 14, 45, 45, 95, DateTimeKind.Utc).AddTicks(1759),
                             RoleName = "Admin",
-                            UpdatedDate = new DateTime(2024, 11, 5, 12, 43, 50, 768, DateTimeKind.Utc).AddTicks(8816)
+                            UpdatedDate = new DateTime(2024, 11, 10, 14, 45, 45, 95, DateTimeKind.Utc).AddTicks(1759)
                         },
                         new
                         {
-                            Id = new Guid("c0692c3c-6a31-4794-9dcf-08d7c732a158"),
-                            CreatedDate = new DateTime(2024, 11, 5, 12, 43, 50, 768, DateTimeKind.Utc).AddTicks(8816),
+                            Id = new Guid("b2e8e3f6-c8f1-45db-8c7a-a7e14c680bfb"),
+                            CreatedDate = new DateTime(2024, 11, 10, 14, 45, 45, 95, DateTimeKind.Utc).AddTicks(1759),
                             RoleName = "User",
-                            UpdatedDate = new DateTime(2024, 11, 5, 12, 43, 50, 768, DateTimeKind.Utc).AddTicks(8816)
+                            UpdatedDate = new DateTime(2024, 11, 10, 14, 45, 45, 95, DateTimeKind.Utc).AddTicks(1759)
                         });
                 });
 
@@ -175,143 +215,143 @@ namespace CleanArchitecture.Template.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("270413df-409e-4999-9d40-add7d748181c"),
-                            CreatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8290),
-                            Summary = "Scorching",
-                            UpdatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8290)
+                            Id = new Guid("320e2a87-f439-4834-bf9d-b555529b5a29"),
+                            CreatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1078),
+                            Summary = "Cool",
+                            UpdatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1078)
                         },
                         new
                         {
-                            Id = new Guid("0978f7a1-82b8-47c3-9c30-278ef80073f6"),
-                            CreatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8303),
+                            Id = new Guid("03cb802e-922e-4fb6-b4fc-9d1caa7052f8"),
+                            CreatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1094),
                             Summary = "Freezing",
-                            UpdatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8303)
+                            UpdatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1094)
                         },
                         new
                         {
-                            Id = new Guid("7ed22a52-213f-4641-9dba-49d0faed4ea4"),
-                            CreatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8323),
-                            Summary = "Balmy",
-                            UpdatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8323)
+                            Id = new Guid("a06116b9-9712-4af4-9a2c-ca4057a32c3c"),
+                            CreatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1128),
+                            Summary = "Freezing",
+                            UpdatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1128)
                         },
                         new
                         {
-                            Id = new Guid("f233b87c-38a6-4730-bc8f-5824ff96c553"),
-                            CreatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8349),
-                            Summary = "Warm",
-                            UpdatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8349)
-                        },
-                        new
-                        {
-                            Id = new Guid("15d207e7-6541-452f-983b-6f862565e604"),
-                            CreatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8353),
-                            Summary = "Warm",
-                            UpdatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8353)
-                        },
-                        new
-                        {
-                            Id = new Guid("f6c5e0a9-090f-4c54-873d-aadcf00b9930"),
-                            CreatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8359),
-                            Summary = "Balmy",
-                            UpdatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8359)
-                        },
-                        new
-                        {
-                            Id = new Guid("84f1eeea-118a-44d4-9cb2-ec923558e47a"),
-                            CreatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8363),
-                            Summary = "Cool",
-                            UpdatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8363)
-                        },
-                        new
-                        {
-                            Id = new Guid("9f966203-4d85-4d84-b779-6f015751fdb3"),
-                            CreatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8367),
-                            Summary = "Mild",
-                            UpdatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8367)
-                        },
-                        new
-                        {
-                            Id = new Guid("25c006c3-ade9-42ac-914b-7ae2f7544b07"),
-                            CreatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8370),
+                            Id = new Guid("d21a4710-2e64-4584-840f-9f5926cf4fd2"),
+                            CreatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1131),
                             Summary = "Chilly",
-                            UpdatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8370)
+                            UpdatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1131)
                         },
                         new
                         {
-                            Id = new Guid("2adba033-dd8e-4662-9279-aacc29cb071d"),
-                            CreatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8376),
-                            Summary = "Balmy",
-                            UpdatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8376)
+                            Id = new Guid("0c912451-18a3-4cfd-89dc-ef62db54b5c1"),
+                            CreatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1135),
+                            Summary = "Unknown",
+                            UpdatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1135)
                         },
                         new
                         {
-                            Id = new Guid("ec67d8a0-dfca-4492-a041-21a97ea471af"),
-                            CreatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8383),
-                            Summary = "Cool",
-                            UpdatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8383)
+                            Id = new Guid("338c71ff-91ec-4dd8-baa2-208f479505cb"),
+                            CreatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1156),
+                            Summary = "Bracing",
+                            UpdatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1156)
                         },
                         new
                         {
-                            Id = new Guid("5eba0bc4-bbd7-44cd-bc4a-34c31f633eb9"),
-                            CreatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8387),
-                            Summary = "Hot",
-                            UpdatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8387)
-                        },
-                        new
-                        {
-                            Id = new Guid("74d8aab9-9504-495d-87ee-d497a4dba8f6"),
-                            CreatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8390),
+                            Id = new Guid("6939a6dc-bd06-4670-960c-6e32414fbbd1"),
+                            CreatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1159),
                             Summary = "Scorching",
-                            UpdatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8390)
+                            UpdatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1159)
                         },
                         new
                         {
-                            Id = new Guid("537c8ca3-61b0-4394-b42a-355e2d750e8f"),
-                            CreatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8394),
-                            Summary = "Hot",
-                            UpdatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8394)
+                            Id = new Guid("32028c33-6c1e-4bd5-9edd-dbe144785601"),
+                            CreatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1162),
+                            Summary = "Unknown",
+                            UpdatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1162)
                         },
                         new
                         {
-                            Id = new Guid("9c515c4c-c6a0-4034-a03f-0b917bb31f20"),
-                            CreatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8398),
-                            Summary = "Warm",
-                            UpdatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8398)
+                            Id = new Guid("95934958-1bb2-436f-afcb-0ac2822aa6b9"),
+                            CreatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1166),
+                            Summary = "Bracing",
+                            UpdatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1166)
                         },
                         new
                         {
-                            Id = new Guid("96b77b38-511f-4888-912c-6b0f6426f3ac"),
-                            CreatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8401),
+                            Id = new Guid("b20b1228-e56c-42e7-b929-b6c9dcefab4c"),
+                            CreatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1171),
+                            Summary = "Scorching",
+                            UpdatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1171)
+                        },
+                        new
+                        {
+                            Id = new Guid("255e6c53-f329-4758-b73c-ecfc0d81c620"),
+                            CreatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1174),
                             Summary = "Chilly",
-                            UpdatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8401)
+                            UpdatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1174)
                         },
                         new
                         {
-                            Id = new Guid("35a91504-5bca-4b85-aeb1-b91a6f4bec77"),
-                            CreatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8405),
-                            Summary = "Chilly",
-                            UpdatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8405)
+                            Id = new Guid("d50fa582-be68-43fd-9bfa-a35608acb28d"),
+                            CreatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1178),
+                            Summary = "Scorching",
+                            UpdatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1178)
                         },
                         new
                         {
-                            Id = new Guid("2cdf3933-097a-4707-8714-6403067c5d6b"),
-                            CreatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8411),
-                            Summary = "Mild",
-                            UpdatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8411)
+                            Id = new Guid("5889e7f6-625c-47db-8638-19bc76f1e638"),
+                            CreatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1181),
+                            Summary = "Scorching",
+                            UpdatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1181)
                         },
                         new
                         {
-                            Id = new Guid("6dace619-cf85-4610-8c20-5c35e6b0a599"),
-                            CreatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8416),
-                            Summary = "Mild",
-                            UpdatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8416)
-                        },
-                        new
-                        {
-                            Id = new Guid("81cb2ca3-5422-4431-b6bc-790da1860a56"),
-                            CreatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8419),
+                            Id = new Guid("8cdc6177-9cf9-4bca-acde-c0af6ac70f89"),
+                            CreatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1187),
                             Summary = "Sweltering",
-                            UpdatedDate = new DateTime(2024, 11, 5, 13, 43, 50, 768, DateTimeKind.Local).AddTicks(8419)
+                            UpdatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1187)
+                        },
+                        new
+                        {
+                            Id = new Guid("85c21b1b-8def-48f0-8a3f-3efaf3cf5671"),
+                            CreatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1191),
+                            Summary = "Warm",
+                            UpdatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1191)
+                        },
+                        new
+                        {
+                            Id = new Guid("10551331-8f13-49ae-8386-4e355cf4c512"),
+                            CreatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1194),
+                            Summary = "Cool",
+                            UpdatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1194)
+                        },
+                        new
+                        {
+                            Id = new Guid("f6a65463-8f04-4afc-b871-876fc7154ec0"),
+                            CreatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1197),
+                            Summary = "Sweltering",
+                            UpdatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1197)
+                        },
+                        new
+                        {
+                            Id = new Guid("0509733a-7d1e-4f7c-83a5-f3491014ed0b"),
+                            CreatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1202),
+                            Summary = "Cool",
+                            UpdatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1202)
+                        },
+                        new
+                        {
+                            Id = new Guid("92c812e2-61e9-4962-b123-734237dc7e23"),
+                            CreatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1205),
+                            Summary = "Freezing",
+                            UpdatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1205)
+                        },
+                        new
+                        {
+                            Id = new Guid("dc9f12a2-020f-4fd3-a244-918003508078"),
+                            CreatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1208),
+                            Summary = "Balmy",
+                            UpdatedDate = new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1208)
                         });
                 });
 
@@ -341,38 +381,38 @@ namespace CleanArchitecture.Template.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            PermissionId = new Guid("73c375a3-dfa1-4a22-adfc-112c9b276108"),
-                            RoleId = new Guid("f0244ef5-f519-474b-8a46-e643a2338705")
+                            PermissionId = new Guid("c3c11234-56b8-4e89-91f4-21e1e69e76fa"),
+                            RoleId = new Guid("a37f1b12-6d0c-4d52-a4e5-b84adf6d184c")
                         },
                         new
                         {
                             Id = 2,
-                            PermissionId = new Guid("879a1ba3-37f3-4316-86ed-1ec91eb0c24d"),
-                            RoleId = new Guid("f0244ef5-f519-474b-8a46-e643a2338705")
+                            PermissionId = new Guid("d4b732bc-0a9d-420f-8c2d-5911dbe24d6d"),
+                            RoleId = new Guid("a37f1b12-6d0c-4d52-a4e5-b84adf6d184c")
                         },
                         new
                         {
                             Id = 3,
-                            PermissionId = new Guid("f46bb1e6-0b4d-4ba1-9871-ca9619ff1eaf"),
-                            RoleId = new Guid("f0244ef5-f519-474b-8a46-e643a2338705")
+                            PermissionId = new Guid("e5f01b6d-1b3e-4919-9b24-7c3e61f1f91b"),
+                            RoleId = new Guid("a37f1b12-6d0c-4d52-a4e5-b84adf6d184c")
                         },
                         new
                         {
                             Id = 4,
-                            PermissionId = new Guid("09012410-aaba-4cad-9da6-d26ef27d7146"),
-                            RoleId = new Guid("f0244ef5-f519-474b-8a46-e643a2338705")
+                            PermissionId = new Guid("f6027a94-318d-4d13-b78f-9277cd3f7086"),
+                            RoleId = new Guid("a37f1b12-6d0c-4d52-a4e5-b84adf6d184c")
                         },
                         new
                         {
                             Id = 5,
-                            PermissionId = new Guid("c28901fa-f63b-45b8-8963-a3dfdbb58f1e"),
-                            RoleId = new Guid("f0244ef5-f519-474b-8a46-e643a2338705")
+                            PermissionId = new Guid("a8b61357-15f2-48a1-9114-2d2d885de8c1"),
+                            RoleId = new Guid("a37f1b12-6d0c-4d52-a4e5-b84adf6d184c")
                         },
                         new
                         {
                             Id = 6,
-                            PermissionId = new Guid("73c375a3-dfa1-4a22-adfc-112c9b276108"),
-                            RoleId = new Guid("c0692c3c-6a31-4794-9dcf-08d7c732a158")
+                            PermissionId = new Guid("c3c11234-56b8-4e89-91f4-21e1e69e76fa"),
+                            RoleId = new Guid("b2e8e3f6-c8f1-45db-8c7a-a7e14c680bfb")
                         });
                 });
 
@@ -399,9 +439,20 @@ namespace CleanArchitecture.Template.Infrastructure.Migrations
                     b.ToTable("UserRoles");
                 });
 
+            modelBuilder.Entity("CleanArchitecture.Template.Domain.Users.Aggregates.RefreshTokens.RefreshToken", b =>
+                {
+                    b.HasOne("CleanArchitecture.Template.Domain.Users.User", "User")
+                        .WithMany("RefreshTokens")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("CleanArchitecture.Template.Domain.Users.User", b =>
                 {
-                    b.OwnsOne("CleanArchitecture.Template.Domain.Users.ValueObjects.FullName", "FullName", b1 =>
+                    b.OwnsOne("CleanArchitecture.Template.Domain.Users.ValueObjects.FullNames.FullName", "FullName", b1 =>
                         {
                             b1.Property<Guid>("UserId")
                                 .HasColumnType("uniqueidentifier");
@@ -428,7 +479,7 @@ namespace CleanArchitecture.Template.Infrastructure.Migrations
                                 .HasForeignKey("UserId");
                         });
 
-                    b.OwnsOne("CleanArchitecture.Template.Domain.Users.ValueObjects.Username", "Username", b1 =>
+                    b.OwnsOne("CleanArchitecture.Template.Domain.Users.ValueObjects.Usernames.Username", "Username", b1 =>
                         {
                             b1.Property<Guid>("UserId")
                                 .HasColumnType("uniqueidentifier");
@@ -500,123 +551,123 @@ namespace CleanArchitecture.Template.Infrastructure.Migrations
                             b1.HasData(
                                 new
                                 {
-                                    WeatherForecastId = new Guid("270413df-409e-4999-9d40-add7d748181c"),
-                                    Type = "Celsius",
-                                    Value = 22.0
-                                },
-                                new
-                                {
-                                    WeatherForecastId = new Guid("0978f7a1-82b8-47c3-9c30-278ef80073f6"),
+                                    WeatherForecastId = new Guid("320e2a87-f439-4834-bf9d-b555529b5a29"),
                                     Type = "Fahrenheit",
-                                    Value = 24.0
+                                    Value = 0.0
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("7ed22a52-213f-4641-9dba-49d0faed4ea4"),
+                                    WeatherForecastId = new Guid("03cb802e-922e-4fb6-b4fc-9d1caa7052f8"),
+                                    Type = "Celsius",
+                                    Value = 9.0
+                                },
+                                new
+                                {
+                                    WeatherForecastId = new Guid("a06116b9-9712-4af4-9a2c-ca4057a32c3c"),
+                                    Type = "Celsius",
+                                    Value = 26.0
+                                },
+                                new
+                                {
+                                    WeatherForecastId = new Guid("d21a4710-2e64-4584-840f-9f5926cf4fd2"),
+                                    Type = "Celsius",
+                                    Value = 26.0
+                                },
+                                new
+                                {
+                                    WeatherForecastId = new Guid("0c912451-18a3-4cfd-89dc-ef62db54b5c1"),
+                                    Type = "Celsius",
+                                    Value = 10.0
+                                },
+                                new
+                                {
+                                    WeatherForecastId = new Guid("338c71ff-91ec-4dd8-baa2-208f479505cb"),
                                     Type = "Fahrenheit",
-                                    Value = 6.0
+                                    Value = 34.0
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("f233b87c-38a6-4730-bc8f-5824ff96c553"),
-                                    Type = "Celsius",
-                                    Value = 23.0
-                                },
-                                new
-                                {
-                                    WeatherForecastId = new Guid("15d207e7-6541-452f-983b-6f862565e604"),
-                                    Type = "Celsius",
-                                    Value = 19.0
-                                },
-                                new
-                                {
-                                    WeatherForecastId = new Guid("f6c5e0a9-090f-4c54-873d-aadcf00b9930"),
+                                    WeatherForecastId = new Guid("6939a6dc-bd06-4670-960c-6e32414fbbd1"),
                                     Type = "Fahrenheit",
-                                    Value = 6.0
-                                },
-                                new
-                                {
-                                    WeatherForecastId = new Guid("84f1eeea-118a-44d4-9cb2-ec923558e47a"),
-                                    Type = "Celsius",
-                                    Value = 13.0
-                                },
-                                new
-                                {
-                                    WeatherForecastId = new Guid("9f966203-4d85-4d84-b779-6f015751fdb3"),
-                                    Type = "Celsius",
                                     Value = 20.0
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("25c006c3-ade9-42ac-914b-7ae2f7544b07"),
-                                    Type = "Fahrenheit",
-                                    Value = 0.0
-                                },
-                                new
-                                {
-                                    WeatherForecastId = new Guid("2adba033-dd8e-4662-9279-aacc29cb071d"),
-                                    Type = "Fahrenheit",
-                                    Value = -5.0
-                                },
-                                new
-                                {
-                                    WeatherForecastId = new Guid("ec67d8a0-dfca-4492-a041-21a97ea471af"),
+                                    WeatherForecastId = new Guid("32028c33-6c1e-4bd5-9edd-dbe144785601"),
                                     Type = "Celsius",
-                                    Value = 0.0
+                                    Value = 27.0
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("5eba0bc4-bbd7-44cd-bc4a-34c31f633eb9"),
+                                    WeatherForecastId = new Guid("95934958-1bb2-436f-afcb-0ac2822aa6b9"),
                                     Type = "Fahrenheit",
-                                    Value = 13.0
+                                    Value = 25.0
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("74d8aab9-9504-495d-87ee-d497a4dba8f6"),
+                                    WeatherForecastId = new Guid("b20b1228-e56c-42e7-b929-b6c9dcefab4c"),
                                     Type = "Celsius",
-                                    Value = 29.0
+                                    Value = 1.0
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("537c8ca3-61b0-4394-b42a-355e2d750e8f"),
+                                    WeatherForecastId = new Guid("255e6c53-f329-4758-b73c-ecfc0d81c620"),
+                                    Type = "Celsius",
+                                    Value = 24.0
+                                },
+                                new
+                                {
+                                    WeatherForecastId = new Guid("d50fa582-be68-43fd-9bfa-a35608acb28d"),
                                     Type = "Fahrenheit",
-                                    Value = -2.0
+                                    Value = 30.0
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("9c515c4c-c6a0-4034-a03f-0b917bb31f20"),
+                                    WeatherForecastId = new Guid("5889e7f6-625c-47db-8638-19bc76f1e638"),
                                     Type = "Celsius",
                                     Value = 3.0
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("96b77b38-511f-4888-912c-6b0f6426f3ac"),
+                                    WeatherForecastId = new Guid("8cdc6177-9cf9-4bca-acde-c0af6ac70f89"),
+                                    Type = "Celsius",
+                                    Value = 7.0
+                                },
+                                new
+                                {
+                                    WeatherForecastId = new Guid("85c21b1b-8def-48f0-8a3f-3efaf3cf5671"),
+                                    Type = "Celsius",
+                                    Value = -4.0
+                                },
+                                new
+                                {
+                                    WeatherForecastId = new Guid("10551331-8f13-49ae-8386-4e355cf4c512"),
+                                    Type = "Celsius",
+                                    Value = 19.0
+                                },
+                                new
+                                {
+                                    WeatherForecastId = new Guid("f6a65463-8f04-4afc-b871-876fc7154ec0"),
+                                    Type = "Fahrenheit",
+                                    Value = 2.0
+                                },
+                                new
+                                {
+                                    WeatherForecastId = new Guid("0509733a-7d1e-4f7c-83a5-f3491014ed0b"),
+                                    Type = "Celsius",
+                                    Value = 2.0
+                                },
+                                new
+                                {
+                                    WeatherForecastId = new Guid("92c812e2-61e9-4962-b123-734237dc7e23"),
                                     Type = "Celsius",
                                     Value = 16.0
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("35a91504-5bca-4b85-aeb1-b91a6f4bec77"),
-                                    Type = "Fahrenheit",
-                                    Value = 31.0
-                                },
-                                new
-                                {
-                                    WeatherForecastId = new Guid("2cdf3933-097a-4707-8714-6403067c5d6b"),
-                                    Type = "Fahrenheit",
-                                    Value = 22.0
-                                },
-                                new
-                                {
-                                    WeatherForecastId = new Guid("6dace619-cf85-4610-8c20-5c35e6b0a599"),
-                                    Type = "Fahrenheit",
-                                    Value = 34.0
-                                },
-                                new
-                                {
-                                    WeatherForecastId = new Guid("81cb2ca3-5422-4431-b6bc-790da1860a56"),
-                                    Type = "Fahrenheit",
-                                    Value = 34.0
+                                    WeatherForecastId = new Guid("dc9f12a2-020f-4fd3-a244-918003508078"),
+                                    Type = "Celsius",
+                                    Value = 12.0
                                 });
                         });
 
@@ -639,103 +690,103 @@ namespace CleanArchitecture.Template.Infrastructure.Migrations
                             b1.HasData(
                                 new
                                 {
-                                    WeatherForecastId = new Guid("270413df-409e-4999-9d40-add7d748181c"),
-                                    Value = new DateOnly(2025, 7, 20)
+                                    WeatherForecastId = new Guid("320e2a87-f439-4834-bf9d-b555529b5a29"),
+                                    Value = new DateOnly(2022, 6, 8)
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("0978f7a1-82b8-47c3-9c30-278ef80073f6"),
-                                    Value = new DateOnly(2025, 8, 3)
+                                    WeatherForecastId = new Guid("03cb802e-922e-4fb6-b4fc-9d1caa7052f8"),
+                                    Value = new DateOnly(2022, 4, 15)
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("7ed22a52-213f-4641-9dba-49d0faed4ea4"),
-                                    Value = new DateOnly(2026, 5, 29)
+                                    WeatherForecastId = new Guid("a06116b9-9712-4af4-9a2c-ca4057a32c3c"),
+                                    Value = new DateOnly(2023, 1, 12)
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("f233b87c-38a6-4730-bc8f-5824ff96c553"),
-                                    Value = new DateOnly(2022, 11, 1)
+                                    WeatherForecastId = new Guid("d21a4710-2e64-4584-840f-9f5926cf4fd2"),
+                                    Value = new DateOnly(2024, 5, 7)
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("15d207e7-6541-452f-983b-6f862565e604"),
-                                    Value = new DateOnly(2027, 7, 15)
+                                    WeatherForecastId = new Guid("0c912451-18a3-4cfd-89dc-ef62db54b5c1"),
+                                    Value = new DateOnly(2026, 7, 5)
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("f6c5e0a9-090f-4c54-873d-aadcf00b9930"),
-                                    Value = new DateOnly(2023, 8, 25)
+                                    WeatherForecastId = new Guid("338c71ff-91ec-4dd8-baa2-208f479505cb"),
+                                    Value = new DateOnly(2022, 2, 24)
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("84f1eeea-118a-44d4-9cb2-ec923558e47a"),
-                                    Value = new DateOnly(2024, 8, 10)
+                                    WeatherForecastId = new Guid("6939a6dc-bd06-4670-960c-6e32414fbbd1"),
+                                    Value = new DateOnly(2022, 7, 27)
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("9f966203-4d85-4d84-b779-6f015751fdb3"),
-                                    Value = new DateOnly(2024, 3, 30)
+                                    WeatherForecastId = new Guid("32028c33-6c1e-4bd5-9edd-dbe144785601"),
+                                    Value = new DateOnly(2024, 4, 17)
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("25c006c3-ade9-42ac-914b-7ae2f7544b07"),
-                                    Value = new DateOnly(2027, 5, 24)
+                                    WeatherForecastId = new Guid("95934958-1bb2-436f-afcb-0ac2822aa6b9"),
+                                    Value = new DateOnly(2026, 4, 19)
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("2adba033-dd8e-4662-9279-aacc29cb071d"),
-                                    Value = new DateOnly(2026, 10, 22)
+                                    WeatherForecastId = new Guid("b20b1228-e56c-42e7-b929-b6c9dcefab4c"),
+                                    Value = new DateOnly(2022, 11, 24)
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("ec67d8a0-dfca-4492-a041-21a97ea471af"),
-                                    Value = new DateOnly(2023, 8, 1)
+                                    WeatherForecastId = new Guid("255e6c53-f329-4758-b73c-ecfc0d81c620"),
+                                    Value = new DateOnly(2025, 1, 3)
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("5eba0bc4-bbd7-44cd-bc4a-34c31f633eb9"),
-                                    Value = new DateOnly(2025, 3, 23)
+                                    WeatherForecastId = new Guid("d50fa582-be68-43fd-9bfa-a35608acb28d"),
+                                    Value = new DateOnly(2024, 4, 12)
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("74d8aab9-9504-495d-87ee-d497a4dba8f6"),
-                                    Value = new DateOnly(2024, 12, 23)
+                                    WeatherForecastId = new Guid("5889e7f6-625c-47db-8638-19bc76f1e638"),
+                                    Value = new DateOnly(2025, 8, 31)
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("537c8ca3-61b0-4394-b42a-355e2d750e8f"),
-                                    Value = new DateOnly(2024, 5, 24)
+                                    WeatherForecastId = new Guid("8cdc6177-9cf9-4bca-acde-c0af6ac70f89"),
+                                    Value = new DateOnly(2024, 7, 6)
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("9c515c4c-c6a0-4034-a03f-0b917bb31f20"),
-                                    Value = new DateOnly(2024, 10, 19)
+                                    WeatherForecastId = new Guid("85c21b1b-8def-48f0-8a3f-3efaf3cf5671"),
+                                    Value = new DateOnly(2025, 3, 15)
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("96b77b38-511f-4888-912c-6b0f6426f3ac"),
-                                    Value = new DateOnly(2023, 1, 20)
+                                    WeatherForecastId = new Guid("10551331-8f13-49ae-8386-4e355cf4c512"),
+                                    Value = new DateOnly(2023, 4, 7)
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("35a91504-5bca-4b85-aeb1-b91a6f4bec77"),
-                                    Value = new DateOnly(2022, 4, 2)
+                                    WeatherForecastId = new Guid("f6a65463-8f04-4afc-b871-876fc7154ec0"),
+                                    Value = new DateOnly(2023, 11, 27)
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("2cdf3933-097a-4707-8714-6403067c5d6b"),
-                                    Value = new DateOnly(2024, 5, 24)
+                                    WeatherForecastId = new Guid("0509733a-7d1e-4f7c-83a5-f3491014ed0b"),
+                                    Value = new DateOnly(2023, 3, 4)
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("6dace619-cf85-4610-8c20-5c35e6b0a599"),
-                                    Value = new DateOnly(2025, 3, 2)
+                                    WeatherForecastId = new Guid("92c812e2-61e9-4962-b123-734237dc7e23"),
+                                    Value = new DateOnly(2022, 6, 12)
                                 },
                                 new
                                 {
-                                    WeatherForecastId = new Guid("81cb2ca3-5422-4431-b6bc-790da1860a56"),
-                                    Value = new DateOnly(2025, 12, 7)
+                                    WeatherForecastId = new Guid("dc9f12a2-020f-4fd3-a244-918003508078"),
+                                    Value = new DateOnly(2026, 4, 4)
                                 });
                         });
 
@@ -748,13 +799,13 @@ namespace CleanArchitecture.Template.Infrastructure.Migrations
 
             modelBuilder.Entity("RolePermissions", b =>
                 {
-                    b.HasOne("CleanArchitecture.Template.Domain.Users.Aggregates.Permission", null)
+                    b.HasOne("CleanArchitecture.Template.Domain.Users.Aggregates.Permissions.Permission", null)
                         .WithMany()
                         .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CleanArchitecture.Template.Domain.Users.Aggregates.Role", null)
+                    b.HasOne("CleanArchitecture.Template.Domain.Users.Aggregates.Roles.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -763,7 +814,7 @@ namespace CleanArchitecture.Template.Infrastructure.Migrations
 
             modelBuilder.Entity("UserRoles", b =>
                 {
-                    b.HasOne("CleanArchitecture.Template.Domain.Users.Aggregates.Role", null)
+                    b.HasOne("CleanArchitecture.Template.Domain.Users.Aggregates.Roles.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -774,6 +825,11 @@ namespace CleanArchitecture.Template.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("CleanArchitecture.Template.Domain.Users.User", b =>
+                {
+                    b.Navigation("RefreshTokens");
                 });
 #pragma warning restore 612, 618
         }

@@ -8,6 +8,7 @@ namespace CleanArchitecture.Template.Application.Base.UnitOfWork
         IWeatherForecastRepository WeatherForecastRepository { get; }
         IUserRepository UserRepository { get; }
         IRoleRepository RoleRepository { get; }
+        IRefreshTokenRepository RefreshTokenRepository { get; }
 
         Task<int> CommitAsync(CancellationToken cancellationToken = default);
         Task RollbackAsync(CancellationToken cancellationToken = default);

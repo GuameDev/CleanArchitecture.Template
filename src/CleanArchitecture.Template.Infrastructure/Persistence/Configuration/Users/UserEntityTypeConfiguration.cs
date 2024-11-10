@@ -1,6 +1,6 @@
 ﻿using CleanArchitecture.Template.Domain.Users;
-using CleanArchitecture.Template.Domain.Users.Aggregates;
-using CleanArchitecture.Template.Domain.Users.ValueObjects;
+using CleanArchitecture.Template.Domain.Users.Aggregates.Roles;
+using CleanArchitecture.Template.Domain.Users.ValueObjects.FullNames;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -10,7 +10,7 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration.Us
     {
         public override void Configure(EntityTypeBuilder<User> builder)
         {
-            base.Configure(builder); // Apply the base configurations
+            base.Configure(builder);
 
             builder.OwnsOne(user => user.Email, email =>
                 {
@@ -26,7 +26,6 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration.Us
                 .IsRequired();
             });
 
-            // Map FullName to individual columns for each part
             builder.OwnsOne(u => u.FullName, fullName =>
             {
                 fullName.Property(fn => fn.FirstName)
@@ -52,7 +51,7 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration.Us
             builder.HasMany(r => r.Roles)
                .WithMany()
                .UsingEntity<Dictionary<string, object>>(
-                    UserConstantsEntityTypeConfiguration.UserRolesTableName, // The join table name remains as a string
+                    UserConstantsEntityTypeConfiguration.UserRolesTableName,
                     j => j.HasOne<Role>().WithMany().HasForeignKey(UserConstantsEntityTypeConfiguration.RoleIdColumnName),
                     j => j.HasOne<User>().WithMany().HasForeignKey(UserConstantsEntityTypeConfiguration.UserIdColumnName),
                     j =>
@@ -62,6 +61,11 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration.Us
                         j.HasKey(UserConstantsEntityTypeConfiguration.UserRolePrimaryKeyColumnName);
                     }
                );
+
+            builder.HasMany(r => r.RefreshTokens)
+                .WithOne(refreshToken => refreshToken.User)
+                .HasForeignKey(refreshToken => refreshToken.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
 
         }
