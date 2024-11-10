@@ -29,5 +29,12 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories.Use
         {
             _context.RefreshTokens.Update(entity);
         }
+
+        public async Task<RefreshToken?> GetBySpecificationAsync(ISpecification<RefreshToken> specification)
+        {
+            var query = SpecificationEvaluator<RefreshToken>.GetQuery(_context.RefreshTokens.AsQueryable(), specification);
+            return await query.FirstOrDefaultAsync();
+        }
+
     }
 }

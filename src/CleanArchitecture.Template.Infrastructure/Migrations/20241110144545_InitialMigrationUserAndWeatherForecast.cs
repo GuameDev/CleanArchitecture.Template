@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CleanArchitecture.Template.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigrationUsers : Migration
+    public partial class InitialMigrationUserAndWeatherForecast : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -113,7 +113,6 @@ namespace CleanArchitecture.Template.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Token = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     ExpirationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastUsed = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsRevoked = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -162,11 +161,11 @@ namespace CleanArchitecture.Template.Infrastructure.Migrations
                 columns: new[] { "Id", "CreatedDate", "Description", "Type", "UpdatedDate" },
                 values: new object[,]
                 {
-                    { new Guid("197bfdbe-728d-49fd-8f51-90366c35afbd"), new DateTime(2024, 11, 10, 10, 47, 36, 473, DateTimeKind.Utc).AddTicks(8074), "Can modify data", "Write", new DateTime(2024, 11, 10, 10, 47, 36, 473, DateTimeKind.Utc).AddTicks(8074) },
-                    { new Guid("6e99d5d9-d4a0-441c-aae5-52f94ec857e5"), new DateTime(2024, 11, 10, 10, 47, 36, 473, DateTimeKind.Utc).AddTicks(8074), "Can manage users", "ManageUsers", new DateTime(2024, 11, 10, 10, 47, 36, 473, DateTimeKind.Utc).AddTicks(8074) },
-                    { new Guid("9590cc01-1056-4231-97e5-f41f28c5776e"), new DateTime(2024, 11, 10, 10, 47, 36, 473, DateTimeKind.Utc).AddTicks(8074), "Can manage roles and permissions", "ManageRoles", new DateTime(2024, 11, 10, 10, 47, 36, 473, DateTimeKind.Utc).AddTicks(8074) },
-                    { new Guid("ba40ca1e-fcdc-4a5d-8350-4ab5b12914b2"), new DateTime(2024, 11, 10, 10, 47, 36, 473, DateTimeKind.Utc).AddTicks(8074), "Can read data", "Read", new DateTime(2024, 11, 10, 10, 47, 36, 473, DateTimeKind.Utc).AddTicks(8074) },
-                    { new Guid("f9d77762-cfe8-431a-ad44-4b7aaddfd018"), new DateTime(2024, 11, 10, 10, 47, 36, 473, DateTimeKind.Utc).AddTicks(8074), "Can view the dashboard", "ViewDashboard", new DateTime(2024, 11, 10, 10, 47, 36, 473, DateTimeKind.Utc).AddTicks(8074) }
+                    { new Guid("a8b61357-15f2-48a1-9114-2d2d885de8c1"), new DateTime(2024, 11, 10, 14, 45, 45, 95, DateTimeKind.Utc).AddTicks(1759), "Can view the dashboard", "ViewDashboard", new DateTime(2024, 11, 10, 14, 45, 45, 95, DateTimeKind.Utc).AddTicks(1759) },
+                    { new Guid("c3c11234-56b8-4e89-91f4-21e1e69e76fa"), new DateTime(2024, 11, 10, 14, 45, 45, 95, DateTimeKind.Utc).AddTicks(1759), "Can read data", "Read", new DateTime(2024, 11, 10, 14, 45, 45, 95, DateTimeKind.Utc).AddTicks(1759) },
+                    { new Guid("d4b732bc-0a9d-420f-8c2d-5911dbe24d6d"), new DateTime(2024, 11, 10, 14, 45, 45, 95, DateTimeKind.Utc).AddTicks(1759), "Can modify data", "Write", new DateTime(2024, 11, 10, 14, 45, 45, 95, DateTimeKind.Utc).AddTicks(1759) },
+                    { new Guid("e5f01b6d-1b3e-4919-9b24-7c3e61f1f91b"), new DateTime(2024, 11, 10, 14, 45, 45, 95, DateTimeKind.Utc).AddTicks(1759), "Can manage users", "ManageUsers", new DateTime(2024, 11, 10, 14, 45, 45, 95, DateTimeKind.Utc).AddTicks(1759) },
+                    { new Guid("f6027a94-318d-4d13-b78f-9277cd3f7086"), new DateTime(2024, 11, 10, 14, 45, 45, 95, DateTimeKind.Utc).AddTicks(1759), "Can manage roles and permissions", "ManageRoles", new DateTime(2024, 11, 10, 14, 45, 45, 95, DateTimeKind.Utc).AddTicks(1759) }
                 });
 
             migrationBuilder.InsertData(
@@ -174,8 +173,8 @@ namespace CleanArchitecture.Template.Infrastructure.Migrations
                 columns: new[] { "Id", "CreatedDate", "RoleName", "UpdatedDate" },
                 values: new object[,]
                 {
-                    { new Guid("1f3e7bae-39e0-46de-8c25-8c5d9454bf76"), new DateTime(2024, 11, 10, 10, 47, 36, 473, DateTimeKind.Utc).AddTicks(8074), "Admin", new DateTime(2024, 11, 10, 10, 47, 36, 473, DateTimeKind.Utc).AddTicks(8074) },
-                    { new Guid("984ce415-1ea3-45fe-9df9-39c861db5f97"), new DateTime(2024, 11, 10, 10, 47, 36, 473, DateTimeKind.Utc).AddTicks(8074), "User", new DateTime(2024, 11, 10, 10, 47, 36, 473, DateTimeKind.Utc).AddTicks(8074) }
+                    { new Guid("a37f1b12-6d0c-4d52-a4e5-b84adf6d184c"), new DateTime(2024, 11, 10, 14, 45, 45, 95, DateTimeKind.Utc).AddTicks(1759), "Admin", new DateTime(2024, 11, 10, 14, 45, 45, 95, DateTimeKind.Utc).AddTicks(1759) },
+                    { new Guid("b2e8e3f6-c8f1-45db-8c7a-a7e14c680bfb"), new DateTime(2024, 11, 10, 14, 45, 45, 95, DateTimeKind.Utc).AddTicks(1759), "User", new DateTime(2024, 11, 10, 14, 45, 45, 95, DateTimeKind.Utc).AddTicks(1759) }
                 });
 
             migrationBuilder.InsertData(
@@ -183,26 +182,26 @@ namespace CleanArchitecture.Template.Infrastructure.Migrations
                 columns: new[] { "Id", "TemperatureType", "TemperatureValue", "Date", "CreatedDate", "Summary", "UpdatedDate" },
                 values: new object[,]
                 {
-                    { new Guid("00de5867-d543-45bd-b0c5-05760d9ead0e"), "Fahrenheit", 18.0, new DateOnly(2023, 11, 12), new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7486), "Bracing", new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7486) },
-                    { new Guid("03e1d04c-b96e-45b4-bdb8-4761fbb89edd"), "Fahrenheit", 14.0, new DateOnly(2024, 9, 26), new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7608), "Unknown", new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7608) },
-                    { new Guid("1a54aa53-d7e1-4629-8fc0-76e39d05c159"), "Fahrenheit", 21.0, new DateOnly(2022, 6, 2), new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7562), "Freezing", new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7562) },
-                    { new Guid("1cf3a799-acca-4402-b11d-5e960e26e173"), "Fahrenheit", 14.0, new DateOnly(2023, 4, 14), new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7568), "Hot", new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7568) },
-                    { new Guid("2029f92e-81c4-46f7-a8a1-d4f11c5fc5a5"), "Fahrenheit", 23.0, new DateOnly(2024, 9, 1), new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7551), "Mild", new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7551) },
-                    { new Guid("242e3a01-6d8e-4c7a-94b7-e7767163566e"), "Fahrenheit", 25.0, new DateOnly(2026, 6, 17), new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7504), "Unknown", new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7504) },
-                    { new Guid("34e2dca4-e2d4-45ad-b19b-2fb3e4528690"), "Fahrenheit", 14.0, new DateOnly(2025, 7, 8), new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7579), "Balmy", new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7579) },
-                    { new Guid("409b7aca-37d2-4e46-8efc-a3a7adaf45f7"), "Celsius", 15.0, new DateOnly(2025, 12, 9), new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7492), "Unknown", new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7492) },
-                    { new Guid("615af106-905d-49f8-8956-115d140fdd73"), "Fahrenheit", 34.0, new DateOnly(2024, 4, 30), new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7602), "Freezing", new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7602) },
-                    { new Guid("8423b65e-9aef-4c1e-84d4-0b87588582c6"), "Celsius", 30.0, new DateOnly(2027, 2, 6), new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7587), "Scorching", new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7587) },
-                    { new Guid("8490e99d-9ab0-4adc-be13-4e30cd67e905"), "Celsius", 20.0, new DateOnly(2023, 12, 14), new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7596), "Freezing", new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7596) },
-                    { new Guid("90e0b543-2da0-474c-a289-b29cfddf453b"), "Celsius", -5.0, new DateOnly(2023, 10, 7), new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7536), "Mild", new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7536) },
-                    { new Guid("92e23374-a39d-42ad-b6b0-5be57a649afc"), "Celsius", 31.0, new DateOnly(2023, 3, 4), new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7545), "Warm", new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7545) },
-                    { new Guid("9e7351cf-39a4-48ad-9539-ea89cf3e16dc"), "Celsius", 19.0, new DateOnly(2025, 6, 4), new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7526), "Warm", new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7526) },
-                    { new Guid("a04c880f-e307-4db7-9039-4b17dab631d8"), "Fahrenheit", -3.0, new DateOnly(2024, 10, 28), new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7498), "Hot", new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7498) },
-                    { new Guid("a20d3b85-3301-4eee-8541-6be816721489"), "Celsius", 6.0, new DateOnly(2027, 3, 28), new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7556), "Balmy", new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7556) },
-                    { new Guid("b02426f2-2001-4e3a-82c0-eacdb72d9047"), "Fahrenheit", 8.0, new DateOnly(2022, 11, 10), new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7573), "Unknown", new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7573) },
-                    { new Guid("b6854d34-4395-47ac-8168-364c13039d34"), "Celsius", 12.0, new DateOnly(2026, 7, 29), new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7520), "Balmy", new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7520) },
-                    { new Guid("c72b81b9-c074-4698-ad65-395a8d9c223c"), "Celsius", 3.0, new DateOnly(2023, 3, 6), new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7514), "Bracing", new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7514) },
-                    { new Guid("ce23e7ad-33b0-421d-b7e1-8cca54ae0bfa"), "Celsius", 6.0, new DateOnly(2027, 3, 4), new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7472), "Cool", new DateTime(2024, 11, 10, 11, 47, 36, 473, DateTimeKind.Local).AddTicks(7472) }
+                    { new Guid("03cb802e-922e-4fb6-b4fc-9d1caa7052f8"), "Celsius", 9.0, new DateOnly(2022, 4, 15), new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1094), "Freezing", new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1094) },
+                    { new Guid("0509733a-7d1e-4f7c-83a5-f3491014ed0b"), "Celsius", 2.0, new DateOnly(2023, 3, 4), new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1202), "Cool", new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1202) },
+                    { new Guid("0c912451-18a3-4cfd-89dc-ef62db54b5c1"), "Celsius", 10.0, new DateOnly(2026, 7, 5), new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1135), "Unknown", new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1135) },
+                    { new Guid("10551331-8f13-49ae-8386-4e355cf4c512"), "Celsius", 19.0, new DateOnly(2023, 4, 7), new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1194), "Cool", new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1194) },
+                    { new Guid("255e6c53-f329-4758-b73c-ecfc0d81c620"), "Celsius", 24.0, new DateOnly(2025, 1, 3), new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1174), "Chilly", new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1174) },
+                    { new Guid("32028c33-6c1e-4bd5-9edd-dbe144785601"), "Celsius", 27.0, new DateOnly(2024, 4, 17), new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1162), "Unknown", new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1162) },
+                    { new Guid("320e2a87-f439-4834-bf9d-b555529b5a29"), "Fahrenheit", 0.0, new DateOnly(2022, 6, 8), new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1078), "Cool", new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1078) },
+                    { new Guid("338c71ff-91ec-4dd8-baa2-208f479505cb"), "Fahrenheit", 34.0, new DateOnly(2022, 2, 24), new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1156), "Bracing", new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1156) },
+                    { new Guid("5889e7f6-625c-47db-8638-19bc76f1e638"), "Celsius", 3.0, new DateOnly(2025, 8, 31), new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1181), "Scorching", new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1181) },
+                    { new Guid("6939a6dc-bd06-4670-960c-6e32414fbbd1"), "Fahrenheit", 20.0, new DateOnly(2022, 7, 27), new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1159), "Scorching", new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1159) },
+                    { new Guid("85c21b1b-8def-48f0-8a3f-3efaf3cf5671"), "Celsius", -4.0, new DateOnly(2025, 3, 15), new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1191), "Warm", new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1191) },
+                    { new Guid("8cdc6177-9cf9-4bca-acde-c0af6ac70f89"), "Celsius", 7.0, new DateOnly(2024, 7, 6), new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1187), "Sweltering", new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1187) },
+                    { new Guid("92c812e2-61e9-4962-b123-734237dc7e23"), "Celsius", 16.0, new DateOnly(2022, 6, 12), new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1205), "Freezing", new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1205) },
+                    { new Guid("95934958-1bb2-436f-afcb-0ac2822aa6b9"), "Fahrenheit", 25.0, new DateOnly(2026, 4, 19), new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1166), "Bracing", new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1166) },
+                    { new Guid("a06116b9-9712-4af4-9a2c-ca4057a32c3c"), "Celsius", 26.0, new DateOnly(2023, 1, 12), new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1128), "Freezing", new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1128) },
+                    { new Guid("b20b1228-e56c-42e7-b929-b6c9dcefab4c"), "Celsius", 1.0, new DateOnly(2022, 11, 24), new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1171), "Scorching", new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1171) },
+                    { new Guid("d21a4710-2e64-4584-840f-9f5926cf4fd2"), "Celsius", 26.0, new DateOnly(2024, 5, 7), new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1131), "Chilly", new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1131) },
+                    { new Guid("d50fa582-be68-43fd-9bfa-a35608acb28d"), "Fahrenheit", 30.0, new DateOnly(2024, 4, 12), new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1178), "Scorching", new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1178) },
+                    { new Guid("dc9f12a2-020f-4fd3-a244-918003508078"), "Celsius", 12.0, new DateOnly(2026, 4, 4), new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1208), "Balmy", new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1208) },
+                    { new Guid("f6a65463-8f04-4afc-b871-876fc7154ec0"), "Fahrenheit", 2.0, new DateOnly(2023, 11, 27), new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1197), "Sweltering", new DateTime(2024, 11, 10, 15, 45, 45, 95, DateTimeKind.Local).AddTicks(1197) }
                 });
 
             migrationBuilder.InsertData(
@@ -210,12 +209,12 @@ namespace CleanArchitecture.Template.Infrastructure.Migrations
                 columns: new[] { "Id", "PermissionId", "RoleId" },
                 values: new object[,]
                 {
-                    { 1, new Guid("ba40ca1e-fcdc-4a5d-8350-4ab5b12914b2"), new Guid("1f3e7bae-39e0-46de-8c25-8c5d9454bf76") },
-                    { 2, new Guid("197bfdbe-728d-49fd-8f51-90366c35afbd"), new Guid("1f3e7bae-39e0-46de-8c25-8c5d9454bf76") },
-                    { 3, new Guid("6e99d5d9-d4a0-441c-aae5-52f94ec857e5"), new Guid("1f3e7bae-39e0-46de-8c25-8c5d9454bf76") },
-                    { 4, new Guid("9590cc01-1056-4231-97e5-f41f28c5776e"), new Guid("1f3e7bae-39e0-46de-8c25-8c5d9454bf76") },
-                    { 5, new Guid("f9d77762-cfe8-431a-ad44-4b7aaddfd018"), new Guid("1f3e7bae-39e0-46de-8c25-8c5d9454bf76") },
-                    { 6, new Guid("ba40ca1e-fcdc-4a5d-8350-4ab5b12914b2"), new Guid("984ce415-1ea3-45fe-9df9-39c861db5f97") }
+                    { 1, new Guid("c3c11234-56b8-4e89-91f4-21e1e69e76fa"), new Guid("a37f1b12-6d0c-4d52-a4e5-b84adf6d184c") },
+                    { 2, new Guid("d4b732bc-0a9d-420f-8c2d-5911dbe24d6d"), new Guid("a37f1b12-6d0c-4d52-a4e5-b84adf6d184c") },
+                    { 3, new Guid("e5f01b6d-1b3e-4919-9b24-7c3e61f1f91b"), new Guid("a37f1b12-6d0c-4d52-a4e5-b84adf6d184c") },
+                    { 4, new Guid("f6027a94-318d-4d13-b78f-9277cd3f7086"), new Guid("a37f1b12-6d0c-4d52-a4e5-b84adf6d184c") },
+                    { 5, new Guid("a8b61357-15f2-48a1-9114-2d2d885de8c1"), new Guid("a37f1b12-6d0c-4d52-a4e5-b84adf6d184c") },
+                    { 6, new Guid("c3c11234-56b8-4e89-91f4-21e1e69e76fa"), new Guid("b2e8e3f6-c8f1-45db-8c7a-a7e14c680bfb") }
                 });
 
             migrationBuilder.CreateIndex(

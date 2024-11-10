@@ -8,7 +8,6 @@ namespace CleanArchitecture.Template.Domain.Users.Aggregates.RefreshTokens
         public int Id { get; set; }
         public required string Token { get; set; }
         public required DateTime ExpirationDate { get; set; }
-        public DateTime CreatedAt { get; set; }
         public DateTime? LastUsed { get; set; }
         public bool IsRevoked { get; set; }
         public Guid UserId { get; set; }
@@ -28,8 +27,8 @@ namespace CleanArchitecture.Template.Domain.Users.Aggregates.RefreshTokens
             {
                 Token = token,
                 ExpirationDate = expirationDate,
-                CreatedAt = DateTime.UtcNow,
                 User = user,
+                CreatedDate = DateTime.UtcNow,
                 UserId = user.Id,
                 IsRevoked = false
             });

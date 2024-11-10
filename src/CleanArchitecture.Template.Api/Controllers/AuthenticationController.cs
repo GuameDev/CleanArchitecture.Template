@@ -3,6 +3,7 @@ using CleanArchitecture.Template.Api.Helpers;
 using CleanArchitecture.Template.Api.Results;
 using CleanArchitecture.Template.Application.Users.Commands.LoginUser;
 using CleanArchitecture.Template.Application.Users.Commands.LoginUser.DTOs;
+using CleanArchitecture.Template.Application.Users.Commands.RefreshTokens;
 using CleanArchitecture.Template.Application.Users.Commands.RegisterUser;
 using CleanArchitecture.Template.Application.Users.Commands.RegisterUser.DTOs;
 using CleanArchitecture.Template.Application.Users.Query.GetCurrentUser;
@@ -74,5 +75,27 @@ namespace CleanArchitecture.Template.Api.Controllers
                 onFailure: ApiResults.Problem);
 
         }
+        [HttpPost("refresh-token")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Refresh()
+        {
+            var refreshToken = Request.Cookies[nameof(RefreshToken)] ?? string.Empty;
+            var result = await _sender.Send(new RefreshTokenCommand(refreshToken));
+
+            return result.Match(
+                onSuccess: response =>
+                {
+                    CookieHelper.SetCookie(
+                        Response,
+                        nameof(RefreshToken),
+                        response.RefreshToken.Token,
+                        response.RefreshToken.ExpirationDate);
+
+                    return Ok(response.AccessToken);
+                },
+                onFailure: ApiResults.Problem);
+        }
+
+
     }
 }

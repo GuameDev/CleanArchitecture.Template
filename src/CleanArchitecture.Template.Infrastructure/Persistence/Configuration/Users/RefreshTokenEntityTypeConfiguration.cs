@@ -21,15 +21,11 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration.Us
             builder.Property(rt => rt.ExpirationDate)
                 .IsRequired();
 
-            builder.Property(rt => rt.CreatedAt)
-               .IsRequired();
-
             builder.Property(rt => rt.LastUsed)
                 .IsRequired(false);
 
             builder.Property(rt => rt.IsRevoked)
                 .HasDefaultValue(false);
-
 
             builder.HasOne(rt => rt.User)
                 .WithMany(u => u.RefreshTokens)

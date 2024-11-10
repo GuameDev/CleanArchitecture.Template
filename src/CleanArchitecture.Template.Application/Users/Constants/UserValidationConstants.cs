@@ -1,5 +1,6 @@
 ﻿namespace CleanArchitecture.Template.Application.Users.Constants
 {
+    //TODO: this belongs to the Domain layer
     public class UserValidationConstants
     {
         public const int MaxUsernameLength = 50;
