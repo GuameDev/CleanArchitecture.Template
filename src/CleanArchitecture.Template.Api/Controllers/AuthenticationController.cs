@@ -1,10 +1,12 @@
 ﻿using CleanArchitecture.Template.Api.Constants;
+using CleanArchitecture.Template.Api.Helpers;
 using CleanArchitecture.Template.Api.Results;
 using CleanArchitecture.Template.Application.Users.Commands.LoginUser;
 using CleanArchitecture.Template.Application.Users.Commands.LoginUser.DTOs;
 using CleanArchitecture.Template.Application.Users.Commands.RegisterUser;
 using CleanArchitecture.Template.Application.Users.Commands.RegisterUser.DTOs;
 using CleanArchitecture.Template.Application.Users.Query.GetCurrentUser;
+using CleanArchitecture.Template.Domain.Users.Aggregates;
 using CleanArchitecture.Template.SharedKernel.Results;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -43,15 +45,22 @@ namespace CleanArchitecture.Template.Api.Controllers
         }
         [HttpPost("login")]
         [AllowAnonymous]
-        public async Task<IActionResult> LoginUser([FromBody] LoginUserRequest request)
+        public async Task<IActionResult> Login([FromBody] LoginUserRequest request)
         {
-            var command = new LoginUserCommand(request.UsernameOrEmail, request.Password);
-            var result = await _sender.Send(command);
+            var result = await _sender.Send(new LoginUserCommand(request.UsernameOrEmail, request.Password));
 
             return result.Match(
-                onSuccess: Ok,
-                onFailure: ApiResults.Problem
-            );
+                onSuccess: loginResponse =>
+                {
+                    CookieHelper.SetCookie(
+                        Response,
+                        nameof(RefreshToken),
+                        loginResponse.RefreshToken.Token,
+                        loginResponse.RefreshToken.ExpirationDate);
+
+                    return Ok(loginResponse.AccessToken);
+                },
+                onFailure: ApiResults.Problem);
         }
 
         [HttpGet("me")]
