@@ -1,7 +1,6 @@
-﻿using CleanArchitecture.Template.Domain.Users.Errors;
-using CleanArchitecture.Template.SharedKernel.Results;
+﻿using CleanArchitecture.Template.SharedKernel.Results;
 
-namespace CleanArchitecture.Template.Domain.Users.ValueObjects
+namespace CleanArchitecture.Template.Domain.Users.ValueObjects.Usernames
 {
     public class Username : ValueObject
     {

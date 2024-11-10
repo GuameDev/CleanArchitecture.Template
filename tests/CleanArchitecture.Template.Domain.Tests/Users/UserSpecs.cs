@@ -1,7 +1,6 @@
 ﻿using CleanArchitecture.Template.Domain.Users;
-using CleanArchitecture.Template.Domain.Users.Aggregates;
-using CleanArchitecture.Template.Domain.Users.Constants;
-using CleanArchitecture.Template.Domain.Users.Errors;
+using CleanArchitecture.Template.Domain.Users.Aggregates.Permissions;
+using CleanArchitecture.Template.Domain.Users.Aggregates.Roles;
 
 namespace CleanArchitecture.Template.Domain.Tests.Users
 {

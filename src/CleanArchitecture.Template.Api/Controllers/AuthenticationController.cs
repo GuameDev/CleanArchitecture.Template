@@ -6,7 +6,7 @@ using CleanArchitecture.Template.Application.Users.Commands.LoginUser.DTOs;
 using CleanArchitecture.Template.Application.Users.Commands.RegisterUser;
 using CleanArchitecture.Template.Application.Users.Commands.RegisterUser.DTOs;
 using CleanArchitecture.Template.Application.Users.Query.GetCurrentUser;
-using CleanArchitecture.Template.Domain.Users.Aggregates;
+using CleanArchitecture.Template.Domain.Users.Aggregates.RefreshTokens;
 using CleanArchitecture.Template.SharedKernel.Results;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

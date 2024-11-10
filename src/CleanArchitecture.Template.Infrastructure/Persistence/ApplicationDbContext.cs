@@ -1,6 +1,8 @@
 ﻿using CleanArchitecture.Template.Domain.Base.Events;
 using CleanArchitecture.Template.Domain.Users;
-using CleanArchitecture.Template.Domain.Users.Aggregates;
+using CleanArchitecture.Template.Domain.Users.Aggregates.Permissions;
+using CleanArchitecture.Template.Domain.Users.Aggregates.RefreshTokens;
+using CleanArchitecture.Template.Domain.Users.Aggregates.Roles;
 using CleanArchitecture.Template.Domain.WeatherForecasts;
 using CleanArchitecture.Template.Infrastructure.Persistence.Interceptors;
 using Microsoft.EntityFrameworkCore;

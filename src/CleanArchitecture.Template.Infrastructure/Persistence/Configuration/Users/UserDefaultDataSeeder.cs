@@ -1,5 +1,5 @@
-﻿using CleanArchitecture.Template.Domain.Users.Aggregates;
-using CleanArchitecture.Template.Domain.Users.Constants;
+﻿using CleanArchitecture.Template.Domain.Users.Aggregates.Permissions;
+using CleanArchitecture.Template.Domain.Users.Aggregates.Roles;
 using CleanArchitecture.Template.Infrastructure.Persistence.Configuration.Users;
 using Microsoft.EntityFrameworkCore;
 

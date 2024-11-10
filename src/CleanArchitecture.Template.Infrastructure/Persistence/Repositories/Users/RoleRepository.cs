@@ -1,6 +1,5 @@
 ﻿using CleanArchitecture.Template.Application.Users.Repository;
-using CleanArchitecture.Template.Domain.Users.Aggregates;
-using CleanArchitecture.Template.Domain.Users.Constants;
+using CleanArchitecture.Template.Domain.Users.Aggregates.Roles;
 using Microsoft.EntityFrameworkCore;
 
 namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories.Users

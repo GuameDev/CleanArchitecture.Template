@@ -1,8 +1,9 @@
 ﻿using CleanArchitecture.Template.Domain.Base;
-using CleanArchitecture.Template.Domain.Users.Aggregates;
-using CleanArchitecture.Template.Domain.Users.Constants;
-using CleanArchitecture.Template.Domain.Users.Errors;
-using CleanArchitecture.Template.Domain.Users.ValueObjects;
+using CleanArchitecture.Template.Domain.Users.Aggregates.Permissions;
+using CleanArchitecture.Template.Domain.Users.Aggregates.RefreshTokens;
+using CleanArchitecture.Template.Domain.Users.Aggregates.Roles;
+using CleanArchitecture.Template.Domain.Users.ValueObjects.FullNames;
+using CleanArchitecture.Template.Domain.Users.ValueObjects.Usernames;
 using CleanArchitecture.Template.SharedKernel.Results;
 
 namespace CleanArchitecture.Template.Domain.Users

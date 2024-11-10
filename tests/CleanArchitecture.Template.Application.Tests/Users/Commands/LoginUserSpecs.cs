@@ -4,8 +4,8 @@ using CleanArchitecture.Template.Application.Users.Commands.LoginUser.DTOs;
 using CleanArchitecture.Template.Application.Users.Repository;
 using CleanArchitecture.Template.Application.Users.Services.Authentication;
 using CleanArchitecture.Template.Domain.Users;
-using CleanArchitecture.Template.Domain.Users.Aggregates;
-using CleanArchitecture.Template.Domain.Users.Errors;
+using CleanArchitecture.Template.Domain.Users.Aggregates.RefreshTokens;
+using CleanArchitecture.Template.Domain.Users.Aggregates.RefreshTokens.Specifications;
 using CleanArchitecture.Template.Domain.Users.Specifications;
 using Moq;
 using System.Security.Cryptography;
@@ -156,6 +156,11 @@ namespace CleanArchitecture.Template.Application.Tests.Users.Commands
             // Mock refresh token generation with an invalid token (e.g., too short)
             var invalidRefreshTokenResponse = new LoginUserTokenResponse("short", DateTime.UtcNow.AddDays(7));
             mockAuthTokenService.Setup(auth => auth.GenerateRefreshToken()).Returns(invalidRefreshTokenResponse);
+
+            // Mock the refresh token repository behavior for active tokens
+            var emptyTokenList = new List<RefreshToken>();
+            mockUnitOfWork.Setup(uow => uow.RefreshTokenRepository.GetListBySpecificationAsync(It.IsAny<ActiveRefreshTokensByUserIdSpecification>()))
+                                      .ReturnsAsync(emptyTokenList);
 
             // Act
             var result = await handler.Handle(request, CancellationToken.None);

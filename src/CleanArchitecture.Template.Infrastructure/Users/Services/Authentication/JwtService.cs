@@ -1,8 +1,8 @@
 ﻿using CleanArchitecture.Template.Application.Users.Commands.LoginUser.DTOs;
 using CleanArchitecture.Template.Application.Users.Services.Authentication;
 using CleanArchitecture.Template.Domain.Users;
-using CleanArchitecture.Template.Domain.Users.Aggregates;
-using CleanArchitecture.Template.Domain.Users.Constants;
+using CleanArchitecture.Template.Domain.Users.Aggregates.Permissions;
+using CleanArchitecture.Template.Domain.Users.Aggregates.RefreshTokens;
 using CleanArchitecture.Template.SharedKernel.Options.Security;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;

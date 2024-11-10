@@ -1,7 +1,6 @@
-﻿using CleanArchitecture.Template.Domain.Users.Constants;
-using CleanArchitecture.Template.SharedKernel.CommonTypes;
+﻿using CleanArchitecture.Template.SharedKernel.CommonTypes;
 
-namespace CleanArchitecture.Template.Domain.Users.Errors
+namespace CleanArchitecture.Template.Domain.Users.Aggregates.RefreshTokens
 {
     public static class RefreshTokenErrors
     {

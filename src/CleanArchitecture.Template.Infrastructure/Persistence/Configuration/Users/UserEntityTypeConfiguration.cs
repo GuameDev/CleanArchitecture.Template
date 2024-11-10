@@ -1,6 +1,6 @@
 ﻿using CleanArchitecture.Template.Domain.Users;
-using CleanArchitecture.Template.Domain.Users.Aggregates;
-using CleanArchitecture.Template.Domain.Users.ValueObjects;
+using CleanArchitecture.Template.Domain.Users.Aggregates.Roles;
+using CleanArchitecture.Template.Domain.Users.ValueObjects.FullNames;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

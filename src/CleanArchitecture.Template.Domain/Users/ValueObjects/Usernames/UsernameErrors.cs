@@ -1,6 +1,6 @@
 ﻿using CleanArchitecture.Template.SharedKernel.CommonTypes;
 
-namespace CleanArchitecture.Template.Domain.Users.Errors
+namespace CleanArchitecture.Template.Domain.Users.ValueObjects.Usernames
 {
     public static class UsernameErrors
     {

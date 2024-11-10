@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Template.Domain.Users.Errors;
+﻿using CleanArchitecture.Template.Domain.Users.ValueObjects.Emails;
 using CleanArchitecture.Template.SharedKernel.Results;
 using System.Text.RegularExpressions;
 

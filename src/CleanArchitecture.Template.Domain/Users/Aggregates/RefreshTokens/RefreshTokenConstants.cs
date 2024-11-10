@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.Template.Domain.Users.Constants
+﻿namespace CleanArchitecture.Template.Domain.Users.Aggregates.RefreshTokens
 {
     public static class RefreshTokenConstants
     {

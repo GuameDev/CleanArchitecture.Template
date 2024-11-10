@@ -1,5 +1,8 @@
 ﻿using CleanArchitecture.Template.Application.Users.Repository;
-using CleanArchitecture.Template.Domain.Users.Aggregates;
+using CleanArchitecture.Template.Domain.Users.Aggregates.RefreshTokens;
+using CleanArchitecture.Template.Infrastructure.Persistence.Repositories.Base;
+using CleanArchitecture.Template.SharedKernel.Specification;
+using Microsoft.EntityFrameworkCore;
 
 namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories.Users
 {
@@ -15,6 +18,16 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories.Use
         public async Task AddAsync(RefreshToken entity)
         {
             await _context.RefreshTokens.AddAsync(entity);
+        }
+
+        public async Task<IEnumerable<RefreshToken>> GetListBySpecificationAsync(ISpecification<RefreshToken> specification)
+        {
+            var query = SpecificationEvaluator<RefreshToken>.GetQuery(_context.RefreshTokens.AsQueryable(), specification);
+            return await query.ToListAsync();
+        }
+        public void Update(RefreshToken entity)
+        {
+            _context.RefreshTokens.Update(entity);
         }
     }
 }

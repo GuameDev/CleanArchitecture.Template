@@ -2,9 +2,8 @@
 using CleanArchitecture.Template.Application.Users.Commands.RegisterUser;
 using CleanArchitecture.Template.Application.Users.Services.Authentication;
 using CleanArchitecture.Template.Domain.Users;
-using CleanArchitecture.Template.Domain.Users.Aggregates;
-using CleanArchitecture.Template.Domain.Users.Constants;
-using CleanArchitecture.Template.Domain.Users.Errors;
+using CleanArchitecture.Template.Domain.Users.Aggregates.Roles;
+using CleanArchitecture.Template.Domain.Users.ValueObjects.Passwords;
 using CleanArchitecture.Template.SharedKernel.Specification;
 using Moq;
 
