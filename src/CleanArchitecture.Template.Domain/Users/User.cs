@@ -81,6 +81,16 @@ namespace CleanArchitecture.Template.Domain.Users
             return Result.Success();
         }
 
+
+        public Result AddRefreshToken(RefreshToken refreshToken)
+        {
+            if (_refreshTokens.Any(r => r.Token == refreshToken.Token))
+                return Result.Failure(RefreshTokenErrors.RefreshTokenAlreadyAssigned);
+
+            _refreshTokens.Add(refreshToken);
+            return Result.Success();
+        }
+
         public Result RemoveRole(Role role)
         {
             if (!_roles.Any(r => r.RoleName == role.RoleName))

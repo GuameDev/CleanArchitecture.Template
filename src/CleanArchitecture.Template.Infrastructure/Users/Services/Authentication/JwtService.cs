@@ -20,7 +20,7 @@ namespace CleanArchitecture.Template.Infrastructure.Users.Services.Authenticatio
             _jwtSettings = jwtSettings.Value;
         }
 
-        public LoginUserResponse GenerateToken(User user)
+        public LoginUserTokenResponse GenerateAccessToken(User user)
         {
             var claims = new List<Claim>
         {
@@ -36,19 +36,26 @@ namespace CleanArchitecture.Template.Infrastructure.Users.Services.Authenticatio
             var permissions = user.Roles.SelectMany(role => role.Permissions).Distinct();
             claims.AddRange(permissions.Select(permission => new Claim(nameof(Permission), permission.Type.ToString())));
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.AccessToken.Key));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var expirationDate = DateTime.UtcNow.AddDays(_jwtSettings.ExpirationDateInDays);
+            var expirationDate = DateTime.UtcNow.AddMinutes(_jwtSettings.AccessToken.ExpirationDateInMinutes);
 
             var token = new JwtSecurityToken(
-                issuer: _jwtSettings.Issuer,
-                audience: _jwtSettings.Audience,
+                issuer: _jwtSettings.AccessToken.Issuer,
+                audience: _jwtSettings.AccessToken.Audience,
                 claims: claims,
                 expires: expirationDate,
                 signingCredentials: creds);
 
-            return new LoginUserResponse(new JwtSecurityTokenHandler().WriteToken(token), expirationDate);
+            return new LoginUserTokenResponse(new JwtSecurityTokenHandler().WriteToken(token), expirationDate);
+        }
+
+        public LoginUserTokenResponse GenerateRefreshToken()
+        {
+            return new LoginUserTokenResponse(
+                Convert.ToBase64String(Guid.NewGuid().ToByteArray()),
+                DateTime.UtcNow.AddDays(_jwtSettings.RefreshToken.ExpirationDateInDays));
         }
     }
 }

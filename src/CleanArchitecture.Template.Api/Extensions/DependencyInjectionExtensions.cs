@@ -58,9 +58,9 @@ namespace CleanArchitecture.Template.Api.Extensions
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = jwtSettings.Issuer,
-                    ValidAudience = jwtSettings.Audience,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Key))
+                    ValidIssuer = jwtSettings.AccessToken.Issuer,
+                    ValidAudience = jwtSettings.AccessToken.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.AccessToken.Key))
                 };
             });
             services.AddAuthorization();

@@ -1,6 +1,7 @@
 ﻿using CleanArchitecture.Template.Application.Base.UnitOfWork;
 using CleanArchitecture.Template.Application.Users.Commands.LoginUser.DTOs;
 using CleanArchitecture.Template.Application.Users.Services.Authentication;
+using CleanArchitecture.Template.Domain.Users.Aggregates;
 using CleanArchitecture.Template.Domain.Users.Errors;
 using CleanArchitecture.Template.Domain.Users.Specifications;
 using CleanArchitecture.Template.SharedKernel.Results;
@@ -34,9 +35,18 @@ namespace CleanArchitecture.Template.Application.Users.Commands.LoginUser
             if (!_passwordHasher.Verify(request.Password, user.PasswordHash))
                 return Result.Failure<LoginUserResponse>(UserErrors.UserInvalidCredentials);
 
-            var tokenResponse = _authTokenService.GenerateToken(user);
+            var accesstokenResponse = _authTokenService.GenerateAccessToken(user);
+            var refreshTokenResponse = _authTokenService.GenerateRefreshToken();
 
-            return Result.Success(tokenResponse);
+            var refreshToken = RefreshToken.Create(
+                refreshTokenResponse.Token,
+                refreshTokenResponse.ExpirationDate,
+                user);
+
+            await _unitOfWork.RefreshTokenRepository.AddAsync(refreshToken);
+            await _unitOfWork.CommitAsync(cancellationToken);
+
+            return Result.Success(new LoginUserResponse(accesstokenResponse, refreshTokenResponse);
         }
     }
 }

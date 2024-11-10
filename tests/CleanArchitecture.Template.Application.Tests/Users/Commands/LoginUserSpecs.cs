@@ -40,7 +40,7 @@ namespace CleanArchitecture.Template.Application.Tests.Users.Commands
 
             // Mock token generation
             var tokenResponse = new LoginUserResponse("validToken", DateTime.UtcNow.AddHours(1));
-            mockAuthTokenService.Setup(auth => auth.GenerateToken(user)).Returns(tokenResponse);
+            mockAuthTokenService.Setup(auth => auth.GenerateAccessToken(user)).Returns(tokenResponse);
 
             // Act
             var result = await handler.Handle(request, CancellationToken.None);
