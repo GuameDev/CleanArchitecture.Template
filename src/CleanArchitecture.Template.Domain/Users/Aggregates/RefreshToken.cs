@@ -1,4 +1,7 @@
 ﻿using CleanArchitecture.Template.Domain.Base;
+using CleanArchitecture.Template.Domain.Users.Constants;
+using CleanArchitecture.Template.Domain.Users.Errors;
+using CleanArchitecture.Template.SharedKernel.Results;
 
 namespace CleanArchitecture.Template.Domain.Users.Aggregates
 {
@@ -17,9 +20,13 @@ namespace CleanArchitecture.Template.Domain.Users.Aggregates
         private RefreshToken() { }
 
         // Factory method to create a new RefreshToken
-        public static RefreshToken Create(string token, DateTime expirationDate, User user)
+        public static Result<RefreshToken> Create(string token, DateTime expirationDate, User user)
         {
-            return new RefreshToken
+            if (string.IsNullOrWhiteSpace(token) || token.Length < RefreshTokenConstants.TokenMinLength)
+            {
+                return Result.Failure<RefreshToken>(RefreshTokenErrors.TokenMinLength);
+            }
+            return Result.Success(new RefreshToken
             {
                 Token = token,
                 ExpirationDate = expirationDate,
@@ -27,7 +34,7 @@ namespace CleanArchitecture.Template.Domain.Users.Aggregates
                 User = user,
                 UserId = user.Id,
                 IsRevoked = false
-            };
+            });
         }
 
         public void Revoke()

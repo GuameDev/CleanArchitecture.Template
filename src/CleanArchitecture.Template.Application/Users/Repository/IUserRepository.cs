@@ -9,7 +9,7 @@ namespace CleanArchitecture.Template.Application.Users.Repository
 
     public interface IUserRepository
     {
-        Task AddUserAsync(User user);
+        Task AddAsync(User user);
         Task<bool> ExistAsync(ISpecification<User> specification);
         Task<User?> GetBySpecificationAsync(ISpecification<User> specification);
         Task<IEnumerable<User>> GetListBySpecificationAsync(ISpecification<User> specification);

@@ -56,7 +56,7 @@ namespace CleanArchitecture.Template.Application.Users.Commands.RegisterUser
             user.AddRole(defaultRole);
 
             // Save the user
-            await _unitOfWork.UserRepository.AddUserAsync(user);
+            await _unitOfWork.UserRepository.AddAsync(user);
             await _unitOfWork.CommitAsync(cancellationToken);
 
             return Result.Success(new RegisterUserResponse(user.Id, user.Username.Value));
