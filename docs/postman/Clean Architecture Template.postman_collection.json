@@ -1,0 +1,485 @@
+{
+	"info": {
+		"_postman_id": "69e8b154-8b6d-4a0d-ac85-c5e1cb1221d9",
+		"name": "Clean Architecture Template",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33648098"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"Guame\",\r\n  \"email\": \"PabloMMartinezDev@Gmail.com\",\r\n  \"firstName\": \"Pablo\",\r\n  \"lastName1\": \"Muñoz\",\r\n  \"lastName2\": \"Martínez\",\r\n  \"password\": \"Password1..\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/auth/register",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Token and RefreshToken are present in response\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"\r",
+									"    // Check for access token and set it in environment variable\r",
+									"    pm.expect(jsonData).to.have.property(\"token\");\r",
+									"    pm.environment.set(\"token\", jsonData.token);\r",
+									"\r",
+									"    // Check for expirationDate (optional)\r",
+									"    pm.expect(jsonData).to.have.property(\"expirationDate\");\r",
+									"\r",
+									"    // Extract RefreshToken from cookies directly\r",
+									"    var refreshToken = pm.cookies.get(\"RefreshToken\");\r",
+									"\r",
+									"    if (refreshToken) {\r",
+									"        pm.environment.set(\"refreshToken\", refreshToken);\r",
+									"        console.log(\"RefreshToken saved in environment variable:\", refreshToken);\r",
+									"    } else {\r",
+									"        pm.test(\"RefreshToken cookie not found\", function () {\r",
+									"            pm.expect.fail(\"RefreshToken cookie not found\");\r",
+									"        });\r",
+									"    }\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"usernameOrEmail\": \"pablommartinezdev@gmail.com\",\r\n  \"password\": \"Password1..\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Token and RefreshToken are present in response\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"\r",
+									"    // Check for access token and set it in environment variable\r",
+									"    pm.expect(jsonData).to.have.property(\"token\");\r",
+									"    pm.environment.set(\"token\", jsonData.token);\r",
+									"\r",
+									"    // Check for expirationDate (optional)\r",
+									"    pm.expect(jsonData).to.have.property(\"expirationDate\");\r",
+									"\r",
+									"    // Extract RefreshToken from cookies directly\r",
+									"    var refreshToken = pm.cookies.get(\"RefreshToken\");\r",
+									"\r",
+									"    if (refreshToken) {\r",
+									"        pm.environment.set(\"refreshToken\", refreshToken);\r",
+									"        console.log(\"RefreshToken saved in environment variable:\", refreshToken);\r",
+									"    } else {\r",
+									"        pm.test(\"RefreshToken cookie not found\", function () {\r",
+									"            pm.expect.fail(\"RefreshToken cookie not found\");\r",
+									"        });\r",
+									"    }\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Check if the RefreshToken environment variable is set\r",
+									"const refreshToken = pm.environment.get(\"RefreshToken\");\r",
+									"\r",
+									"if (refreshToken) {\r",
+									"    // Manually add the cookie to the request\r",
+									"    pm.request.headers.add({\r",
+									"        key: 'Cookie',\r",
+									"        value: `RefreshToken=${refreshToken}`\r",
+									"    });\r",
+									"} else {\r",
+									"    console.warn(\"RefreshToken environment variable is not set.\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/auth/refresh-token",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"refresh-token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Me",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/auth/me",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"me"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Health Checks",
+			"item": [
+				{
+					"name": "Health",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/health",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"health"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Get by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/user/:Id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								":Id"
+							],
+							"variable": [
+								{
+									"key": "Id",
+									"value": "9f46bca3-5911-4a90-b223-bf41b63af8b6"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "WeatherForecast",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"date\": \"2023-12-31\",\r\n  \"temperature\": 10,\r\n  \"temperatureType\": \"Celsius\",\r\n  \"summary\": \"Warm\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/weatherforecast",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"weatherforecast"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/weatherforecast?summary=asdasd&page=1&pageSize=15&isPaginated=true&sortDirection=descending&orderBy=Date",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"weatherforecast"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "0c912451-18a3-4cfd-89dc-ef62db54b5c1",
+									"disabled": true
+								},
+								{
+									"key": "startDate",
+									"value": "2026-07-05",
+									"disabled": true
+								},
+								{
+									"key": "endDate",
+									"value": "2026-04-19",
+									"disabled": true
+								},
+								{
+									"key": "temperatureValue",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "temperatureType",
+									"value": "Celsius",
+									"disabled": true
+								},
+								{
+									"key": "summary",
+									"value": "asdasd"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "15"
+								},
+								{
+									"key": "isPaginated",
+									"value": "true"
+								},
+								{
+									"key": "sortDirection",
+									"value": "descending"
+								},
+								{
+									"key": "orderBy",
+									"value": "Date"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/weatherforecast/all",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"weatherforecast",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get by id Copy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/weatherforecast/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"weatherforecast",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "95934958-1bb2-436f-afcb-0ac2822aa6b9"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"date\": \"2023-12-31\",\r\n  \"temperature\": 10,\r\n  \"temperatureType\": \"Celsius\",\r\n  \"summary\": \"Balmy\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/weatherforecast/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"weatherforecast",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "987d3923-33c1-4d28-840c-6203081be569"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/weatherforecast/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"weatherforecast",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "6f936550-688b-40d7-a69a-30f5294c516b"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

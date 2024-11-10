@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Template.Domain.Users.Aggregates;
+﻿using CleanArchitecture.Template.Domain.Users.Aggregates.Roles;
 using CleanArchitecture.Template.SharedKernel.Specification;
 
 namespace CleanArchitecture.Template.Domain.Users.Specifications

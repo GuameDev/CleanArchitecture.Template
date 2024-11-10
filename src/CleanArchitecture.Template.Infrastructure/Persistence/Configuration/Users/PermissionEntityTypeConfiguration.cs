@@ -1,5 +1,4 @@
-﻿using CleanArchitecture.Template.Domain.Users.Aggregates;
-using CleanArchitecture.Template.Domain.Users.Constants;
+﻿using CleanArchitecture.Template.Domain.Users.Aggregates.Permissions;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration.Users

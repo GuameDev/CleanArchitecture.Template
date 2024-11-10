@@ -1,7 +1,9 @@
 ﻿using CleanArchitecture.Template.Application.Base.UnitOfWork;
 using CleanArchitecture.Template.Application.Users.Commands.LoginUser.DTOs;
 using CleanArchitecture.Template.Application.Users.Services.Authentication;
-using CleanArchitecture.Template.Domain.Users.Errors;
+using CleanArchitecture.Template.Domain.Users;
+using CleanArchitecture.Template.Domain.Users.Aggregates.RefreshTokens;
+using CleanArchitecture.Template.Domain.Users.Aggregates.RefreshTokens.Specifications;
 using CleanArchitecture.Template.Domain.Users.Specifications;
 using CleanArchitecture.Template.SharedKernel.Results;
 using MediatR;
@@ -25,8 +27,8 @@ namespace CleanArchitecture.Template.Application.Users.Commands.LoginUser
         }
         public async Task<Result<LoginUserResponse>> Handle(LoginUserCommand request, CancellationToken cancellationToken)
         {
-            var specification = new UserByEmailOrUsernameSpecification(request.EmailOrUsername);
-            var user = await _unitOfWork.UserRepository.GetBySpecificationAsync(specification);
+            var userByEmailOrUsernameSpecification = new UserByEmailOrUsernameSpecification(request.EmailOrUsername);
+            var user = await _unitOfWork.UserRepository.GetBySpecificationAsync(userByEmailOrUsernameSpecification);
 
             if (user is null)
                 return Result.Failure<LoginUserResponse>(UserErrors.UserNotFound);
@@ -34,9 +36,38 @@ namespace CleanArchitecture.Template.Application.Users.Commands.LoginUser
             if (!_passwordHasher.Verify(request.Password, user.PasswordHash))
                 return Result.Failure<LoginUserResponse>(UserErrors.UserInvalidCredentials);
 
-            var tokenResponse = _authTokenService.GenerateToken(user);
+            var accessTokenResponse = _authTokenService.GenerateAccessToken(user);
+            var refreshTokenResponse = _authTokenService.GenerateRefreshToken();
 
-            return Result.Success(tokenResponse);
+            //TODO: Implement outbox pattern to implement events. maybe we could encappsulate this into a Revoking old refresht tokens handler
+            // Revoke existing tokens and add the new refresh token to ensure single device login approach
+            var activeRefreshTokenSpecification = new ActiveRefreshTokensByUserIdSpecification(user.Id);
+            var oldRefreshTokens = await _unitOfWork.RefreshTokenRepository.GetListBySpecificationAsync(activeRefreshTokenSpecification);
+
+            foreach (var token in oldRefreshTokens)
+            {
+                token.Revoke();
+                _unitOfWork.RefreshTokenRepository.Update(token);
+            }
+
+
+            // Attempt to create a new refresh token
+            var newRefreshToken = RefreshToken.Create(
+                refreshTokenResponse.Token,
+                refreshTokenResponse.ExpirationDate,
+                user);
+
+            if (newRefreshToken.IsFailure)
+                return Result.Failure<LoginUserResponse>(newRefreshToken.Error);
+
+
+            // Save the new refresh token if creation was successful
+            await _unitOfWork.RefreshTokenRepository.AddAsync(newRefreshToken.Value);
+            await _unitOfWork.CommitAsync(cancellationToken);
+
+            return Result.Success(new LoginUserResponse(accessTokenResponse, refreshTokenResponse));
         }
+
+
     }
 }

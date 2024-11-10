@@ -36,6 +36,7 @@ namespace CleanArchitecture.Template.Infrastructure
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<ICurrentUserService, CurrentUserService>();
+            services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 
             //Authentication
             services.AddScoped<IUserPasswordHasher, RfcPasswordHasher>();

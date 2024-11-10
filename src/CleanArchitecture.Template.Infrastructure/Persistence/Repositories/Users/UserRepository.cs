@@ -15,7 +15,7 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories.Use
             _context = context;
         }
 
-        public async Task AddUserAsync(User user)
+        public async Task AddAsync(User user)
         {
             await _context.Users.AddAsync(user);
         }

@@ -1,6 +1,6 @@
 ﻿using CleanArchitecture.Template.Application.Users.Query.GetById.DTOs;
 using CleanArchitecture.Template.Application.Users.Repository;
-using CleanArchitecture.Template.Domain.Users.Errors;
+using CleanArchitecture.Template.Domain.Users;
 using CleanArchitecture.Template.Domain.Users.Specifications;
 using CleanArchitecture.Template.SharedKernel.Results;
 using MediatR;

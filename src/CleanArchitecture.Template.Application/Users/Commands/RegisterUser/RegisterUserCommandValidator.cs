@@ -1,6 +1,6 @@
 ﻿using CleanArchitecture.Template.Application.Users.Commands.RegisterUser;
 using CleanArchitecture.Template.Application.Users.Constants;
-using CleanArchitecture.Template.Domain.Users.ValueObjects;
+using CleanArchitecture.Template.Domain.Users.ValueObjects.Passwords;
 using FluentValidation;
 
 public class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>

@@ -1,18 +1,20 @@
-﻿using CleanArchitecture.Template.Domain.Users.Aggregates;
-using CleanArchitecture.Template.Domain.Users.Constants;
+﻿using CleanArchitecture.Template.Domain.Users.Aggregates.Permissions;
+using CleanArchitecture.Template.Domain.Users.Aggregates.Roles;
 using CleanArchitecture.Template.Infrastructure.Persistence.Configuration.Users;
 using Microsoft.EntityFrameworkCore;
 
 public static class UserDefaultDataSeeder
 {
-    public static readonly Guid AdminRoleId = Guid.NewGuid();
-    public static readonly Guid UserRoleId = Guid.NewGuid();
+    // Pre-generated random GUIDs, hard-coded to avoid migration changes
+    public static readonly Guid AdminRoleId = Guid.Parse("a37f1b12-6d0c-4d52-a4e5-b84adf6d184c");
+    public static readonly Guid UserRoleId = Guid.Parse("b2e8e3f6-c8f1-45db-8c7a-a7e14c680bfb");
 
-    public static readonly Guid ReadPermissionId = Guid.NewGuid();
-    public static readonly Guid WritePermissionId = Guid.NewGuid();
-    public static readonly Guid ManageUsersPermissionId = Guid.NewGuid();
-    public static readonly Guid ManageRolesPermissionId = Guid.NewGuid();
-    public static readonly Guid ViewDashboardPermissionId = Guid.NewGuid();
+    public static readonly Guid ReadPermissionId = Guid.Parse("c3c11234-56b8-4e89-91f4-21e1e69e76fa");
+    public static readonly Guid WritePermissionId = Guid.Parse("d4b732bc-0a9d-420f-8c2d-5911dbe24d6d");
+    public static readonly Guid ManageUsersPermissionId = Guid.Parse("e5f01b6d-1b3e-4919-9b24-7c3e61f1f91b");
+    public static readonly Guid ManageRolesPermissionId = Guid.Parse("f6027a94-318d-4d13-b78f-9277cd3f7086");
+    public static readonly Guid ViewDashboardPermissionId = Guid.Parse("a8b61357-15f2-48a1-9114-2d2d885de8c1");
+
 
     public static void Seed(ModelBuilder modelBuilder)
     {

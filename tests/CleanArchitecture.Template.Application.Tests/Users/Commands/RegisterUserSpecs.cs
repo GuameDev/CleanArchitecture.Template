@@ -2,9 +2,8 @@
 using CleanArchitecture.Template.Application.Users.Commands.RegisterUser;
 using CleanArchitecture.Template.Application.Users.Services.Authentication;
 using CleanArchitecture.Template.Domain.Users;
-using CleanArchitecture.Template.Domain.Users.Aggregates;
-using CleanArchitecture.Template.Domain.Users.Constants;
-using CleanArchitecture.Template.Domain.Users.Errors;
+using CleanArchitecture.Template.Domain.Users.Aggregates.Roles;
+using CleanArchitecture.Template.Domain.Users.ValueObjects.Passwords;
 using CleanArchitecture.Template.SharedKernel.Specification;
 using Moq;
 
@@ -49,7 +48,7 @@ namespace CleanArchitecture.Template.Application.Tests.Users.Commands
                 .ReturnsAsync(Role.Create(Guid.NewGuid(), RoleName.User).Value);
 
             mockUnitOfWork
-                .Setup(uow => uow.UserRepository.AddUserAsync(It.IsAny<User>()))
+                .Setup(uow => uow.UserRepository.AddAsync(It.IsAny<User>()))
                 .Returns(Task.CompletedTask);
 
             mockUnitOfWork
@@ -62,7 +61,7 @@ namespace CleanArchitecture.Template.Application.Tests.Users.Commands
             // Assert
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Value);
-            mockUnitOfWork.Verify(uow => uow.UserRepository.AddUserAsync(It.IsAny<User>()), Times.Once);
+            mockUnitOfWork.Verify(uow => uow.UserRepository.AddAsync(It.IsAny<User>()), Times.Once);
             mockUnitOfWork.Verify(uow => uow.CommitAsync(It.IsAny<CancellationToken>()), Times.Once);
         }
 
@@ -93,7 +92,7 @@ namespace CleanArchitecture.Template.Application.Tests.Users.Commands
             // Assert
             Assert.False(result.IsSuccess);
             Assert.Equal(UserErrors.UserAlreadyExist, result.Error);
-            mockUnitOfWork.Verify(uow => uow.UserRepository.AddUserAsync(It.IsAny<User>()), Times.Never);
+            mockUnitOfWork.Verify(uow => uow.UserRepository.AddAsync(It.IsAny<User>()), Times.Never);
             mockUnitOfWork.Verify(uow => uow.CommitAsync(It.IsAny<CancellationToken>()), Times.Never);
         }
 
@@ -124,7 +123,7 @@ namespace CleanArchitecture.Template.Application.Tests.Users.Commands
             // Assert
             Assert.False(result.IsSuccess);
             Assert.Equal(PasswordErrors.MinLengthPassword, result.Error);
-            mockUnitOfWork.Verify(uow => uow.UserRepository.AddUserAsync(It.IsAny<User>()), Times.Never);
+            mockUnitOfWork.Verify(uow => uow.UserRepository.AddAsync(It.IsAny<User>()), Times.Never);
             mockUnitOfWork.Verify(uow => uow.CommitAsync(It.IsAny<CancellationToken>()), Times.Never);
         }
 
@@ -163,7 +162,7 @@ namespace CleanArchitecture.Template.Application.Tests.Users.Commands
             // Assert
             Assert.False(result.IsSuccess);
             Assert.Equal(UserErrors.DefaultRoleNotFound, result.Error);
-            mockUnitOfWork.Verify(uow => uow.UserRepository.AddUserAsync(It.IsAny<User>()), Times.Never);
+            mockUnitOfWork.Verify(uow => uow.UserRepository.AddAsync(It.IsAny<User>()), Times.Never);
             mockUnitOfWork.Verify(uow => uow.CommitAsync(It.IsAny<CancellationToken>()), Times.Never);
         }
     }

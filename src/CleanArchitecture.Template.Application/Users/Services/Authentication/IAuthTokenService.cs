@@ -5,6 +5,7 @@ namespace CleanArchitecture.Template.Application.Users.Services.Authentication
 {
     public interface IAuthTokenService
     {
-        LoginUserResponse GenerateToken(User user);
+        LoginUserTokenResponse GenerateAccessToken(User user);
+        LoginUserTokenResponse GenerateRefreshToken();
     }
 }

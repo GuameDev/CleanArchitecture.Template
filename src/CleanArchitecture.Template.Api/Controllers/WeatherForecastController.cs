@@ -8,7 +8,7 @@ using CleanArchitecture.Template.Application.WeatherForecasts.Queries.Get;
 using CleanArchitecture.Template.Application.WeatherForecasts.Queries.Get.DTOs;
 using CleanArchitecture.Template.Application.WeatherForecasts.Queries.GetAll;
 using CleanArchitecture.Template.Application.WeatherForecasts.Queries.GetById;
-using CleanArchitecture.Template.Domain.Users.Constants;
+using CleanArchitecture.Template.Domain.Users.Aggregates.Roles;
 using CleanArchitecture.Template.SharedKernel.Results;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

@@ -1,5 +1,4 @@
-﻿using CleanArchitecture.Template.Domain.Users.Errors;
-using CleanArchitecture.Template.Domain.Users.ValueObjects;
+﻿using CleanArchitecture.Template.Domain.Users.ValueObjects.FullNames;
 
 namespace CleanArchitecture.Template.Domain.Tests.Users.ValueObjects
 {

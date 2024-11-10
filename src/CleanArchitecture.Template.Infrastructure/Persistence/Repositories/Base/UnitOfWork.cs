@@ -12,17 +12,20 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories.Bas
         public IWeatherForecastRepository WeatherForecastRepository { get; }
         public IUserRepository UserRepository { get; }
         public IRoleRepository RoleRepository { get; }
+        public IRefreshTokenRepository RefreshTokenRepository { get; }
 
         public UnitOfWork(
             ApplicationDbContext context,
             IWeatherForecastRepository weatherForecastRepository,
             IUserRepository userRepository,
-            IRoleRepository roleRepository)
+            IRoleRepository roleRepository,
+            IRefreshTokenRepository refreshTokenRepository)
         {
             _context = context;
             WeatherForecastRepository = weatherForecastRepository;
             UserRepository = userRepository;
             RoleRepository = roleRepository;
+            RefreshTokenRepository = refreshTokenRepository;
         }
 
 
