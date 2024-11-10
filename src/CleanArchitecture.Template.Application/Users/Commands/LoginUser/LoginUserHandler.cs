@@ -43,6 +43,9 @@ namespace CleanArchitecture.Template.Application.Users.Commands.LoginUser
                 refreshTokenResponse.ExpirationDate,
                 user);
 
+            if (refreshToken.IsFailure)
+                return Result.Failure<LoginUserResponse>(RefreshTokenErrors.TokenMinLength);
+
             await _unitOfWork.RefreshTokenRepository.AddAsync(refreshToken.Value);
             await _unitOfWork.CommitAsync(cancellationToken);
 
