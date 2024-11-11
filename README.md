@@ -1,154 +1,114 @@
 
-# Clean Architecture Template - .NET Core API
+# Clean Architecture Template
 
-## Overview
+![.NET Version](https://img.shields.io/badge/.NET-8.0-blue)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/YourUsername/CleanArchitecture.Template/.github/workflows/dotnet.yml?branch=develop)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-This project serves as a **template** to implement the **Clean Architecture** pattern in .NET applications. The aim is to provide a scalable, maintainable, and testable foundation for building modern web APIs using industry-standard best practices. 
-
-The design leverages **CQRS**, **MediatR**, and **DDD** patterns to ensure separation of concerns, decoupling of logic, and ease of extensibility. This template also offers pre-configured layers to handle API requests, application logic, domain rules, and infrastructure concerns independently.
-
----
-
-## Key Design Patterns
-
-### 1. **Clean Architecture**
-
-- Clean Architecture is employed to decouple the core logic (domain and application) from external concerns (infrastructure, UI, or services). This keeps the application flexible for future adaptations such as using different databases or presenting data in various formats.
-- It ensures that the domain and business logic are central, with surrounding layers dependent on it, and not vice versa.
-
-### 2. **Command Query Responsibility Segregation (CQRS)**
-
-- **CQRS** is used to separate the responsibilities of reading and writing data. 
-- Queries are handled separately from commands, ensuring that the logic is split between handling actions that change state (commands) and actions that retrieve data (queries).
-
-### 3. **Domain-Driven Design (DDD)**
-
-- The core **Domain** layer contains entities, value objects, and aggregates that encapsulate the business rules and logic.
-- The template is designed to handle complex business logic using DDD principles, providing structure and clarity.
-
-### 4. **MediatR**
-
-- **MediatR** is used to implement the **CQRS** pattern by decoupling the request from the actual implementation (handler).
-- It facilitates handling commands and queries through handlers, promoting separation of concerns and single responsibility.
-
-### 5. **Repository Pattern**
-
-- The **Repository Pattern** is implemented within the **Infrastructure** layer to handle data access. 
-- This isolates the database operations from the domain logic, allowing easy substitution of the data source.
+> A .NET project template implementing Clean Architecture, focusing on DDD principles, unit testing, and RESTful API design. This template uses 5 layers to ensure modularity and separation of concerns, and it supports token-based authentication.
 
 ---
 
-## Features
+## 🗂 Project Structure
 
-- **CQRS with MediatR**: Command-Query separation with MediatR for handling requests.
-- **Domain-Driven Design (DDD)**: Core business logic resides in the domain layer.
-- **Entity Framework Core**: The ORM is integrated for persistence in the infrastructure layer.
-- **Unit of Work Pattern**: Ensure atomicity when interacting with the database.
-- **Docker Support**: The project is containerized for easy deployment.
-- **Validation**: Uses FluentValidation for request validation.
-
+- **src/**
+  - `Api` - Controllers and API configuration (e.g., Swagger, API responses)
+  - `Application` - Application layer with CQRS, MediatR handlers, DTOs, and commands/queries.
+  - `Domain` - Domain models, entities, and core business logic.
+  - `Infrastructure` - Database configuration, data access, and external services.
+  - `SharedKernel` - Common types, constants, and cross-cutting concerns.
+  - `Host` - Application setup and main entry point (Program.cs and configuration).
+- **tests/**
+  - Separate unit tests for each layer to ensure isolation and robustness.
+  
 ---
 
-## Project Structure
+## 🚀 Getting Started
 
-```bash
-├── CleanArchitecture.Template.Api                # API layer (Controllers, Requests, DTOs)
-├── CleanArchitecture.Template.Application        # Application layer (Commands, Queries, Handlers, Services)
-├── CleanArchitecture.Template.Domain             # Domain layer (Entities, Aggregates, Value Objects, Specifications)
-├── CleanArchitecture.Template.Infrastructure     # Infrastructure layer (Persistence, Migrations, Repositories)
-├── CleanArchitecture.Template.SharedKernel       # Shared kernel (Common logic, Errors, Results)
-├── CleanArchitecture.Template.Tests              # Unit and Integration tests
-└── docker-compose.yml                            # Docker configuration
-```
-
----
-
-## Design Choices
-
-### Separation of Concerns
-
-Each layer is responsible for its own task:
-- **API Layer**: This layer handles HTTP requests and serves as the gateway to the system. The controllers are lightweight and delegate the business logic to the **Application Layer**.
-- **Application Layer**: Contains all business use cases in the form of commands and queries. This layer is isolated from the infrastructure and manages operations through the use of MediatR.
-- **Domain Layer**: Implements the core business logic using **Entities**, **Value Objects**, and **Aggregates**. Business rules and policies reside here.
-- **Infrastructure Layer**: This layer contains the data persistence logic. By using repositories, it abstracts the database interactions and ensures persistence is decoupled from business logic.
-
-### Result Pattern for Error Handling
-
-The project follows a **Result<T> pattern** to handle success/failure scenarios across all operations. This pattern simplifies error handling, as every operation returns either a success or a failure result. 
-
-```csharp
-public class Result<TValue>
-{
-    public TValue Value { get; }
-    public bool IsSuccess { get; }
-    public Error Error { get; }
-
-    public static Result<TValue> Success(TValue value) => new(value, true, Error.None);
-    public static Result<TValue> Failure(Error error) => new(default, false, error);
-}
-```
-
-### FluentValidation for Request Validation
-
-To ensure clean and robust request validation, **FluentValidation** is integrated. This pattern allows for a modular and maintainable approach to validate incoming data.
-
----
-
-## Setting Up
-
-### Prerequisites
-
-- **.NET SDK 8.0+**
-- **Docker**
-- **SQL Server** (or use an in-memory database)
-
-### Running the Application
-
-1. Clone the repository:
-
+1. **Clone the repository**:
    ```bash
-   git clone https://github.com/your-repo/CleanArchitecture.Template.git
-   cd CleanArchitecture.Template
+   git clone https://github.com/YourUsername/CleanArchitecture.Template.git
    ```
 
-2. Build and run the Docker containers (ensure Docker is running):
-
+2. **Navigate to the source directory**:
    ```bash
-   docker-compose up --build
+   cd src
    ```
 
-3. Access the API:
+3. **Restore dependencies**:
+   ```bash
+   dotnet restore
+   ```
 
-   - **Swagger UI**: `http://localhost:8080/swagger`
-   - **API base URL**: `http://localhost:8080`
+4. **Build the solution**:
+   ```bash
+   dotnet build
+   ```
 
----
-
-## Environment Configuration
-
-- Use `appsettings.{Environment}.json` for environment-specific settings (e.g., Development, Production).
-- The environment is set via the **ASPNETCORE_ENVIRONMENT** variable.
-
----
-
-## Testing
-
-Unit tests are written using **xUnit**. Run tests with:
-
-```bash
-dotnet test
-```
+5. **Run the project**:
+   ```bash
+   dotnet run --project CleanArchitecture.Template.Host
+   ```
 
 ---
 
-## License
+## 🔧 Configuration
 
-This project is licensed under the MIT License.
+- **Environment Variables**: Set up necessary environment variables, like database connections and JWT keys.
+- **Docker Support**: Optionally, run the project using Docker.
 
 ---
 
-## Contributing
+## 📜 Documentation
 
-Feel free to submit issues or pull requests. Contributions are welcome to enhance the features and stability of this template.
+### 📁 `docs/` Folder
 
+Comprehensive documentation is located in the `docs/` folder, structured as follows:
+- `features/authentication` - Detailed markdown documentation for authentication, login, and token refresh flows.
+- `postman` - Pre-configured Postman collection for testing endpoints.
+- `setup` - Guide to run migrations using Entity Framework Core, ensuring seamless database setup.
+
+---
+
+## 🧪 Testing
+
+1. **Run Unit Tests**:
+   ```bash
+   dotnet test
+   ```
+
+2. **Continuous Integration**:
+   GitHub Actions are set up to automatically run tests on each push to `main` and `develop` branches, ensuring that new changes don’t break existing functionality.
+
+---
+
+## 🛠 Tooling
+
+- **Swagger**: API documentation available at `/swagger` when running the project.
+- **Postman Collection**: [Available in `docs/postman`](docs/postman) to test API endpoints for authentication, user management, and health checks.
+
+---
+
+## 💻 CI/CD Pipeline
+
+The project uses GitHub Actions for CI/CD, with the following workflow:
+- **.NET Build & Test**: Runs on each push to `main` and `develop`, performing `restore`, `build`, and `test` operations.
+
+---
+
+## 🛠 Key Features
+
+- **Modular Architecture**: Divides responsibilities across API, Application, Domain, Infrastructure, SharedKernel, and Host layers.
+- **Authentication & Authorization**: JWT-based token authentication with refresh token mechanism.
+- **Documentation**: Detailed feature documentation and Postman collection to ease testing and integration.
+- **Docker Support**: Optionally run the project in Docker for a standardized environment.
+
+---
+
+## 📜 License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE.txt) file for details.
+
+---
+
+Happy coding! 🎉
