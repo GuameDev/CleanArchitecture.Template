@@ -56,20 +56,6 @@ namespace CleanArchitecture.Template.Domain.Users
             });
         }
 
-        public static Result<User> Create(Username username, Email email, FullName fullName, string passwordHash)
-        {
-            if (string.IsNullOrWhiteSpace(passwordHash))
-                return Result.Failure<User>(UserErrors.InvalidPasswordHash);
-
-            return Result.Success(new User()
-            {
-                Id = Guid.NewGuid(),
-                Username = username,
-                Email = email,
-                FullName = fullName,
-                PasswordHash = passwordHash
-            });
-        }
         public bool HasRole(RoleName roleName) => Roles.Any(role => role.RoleName == roleName);
         public bool HasPermission(PermissionType permissionType) => Roles.Any(role => role.Permissions.Any(p => p.Type == permissionType));
 

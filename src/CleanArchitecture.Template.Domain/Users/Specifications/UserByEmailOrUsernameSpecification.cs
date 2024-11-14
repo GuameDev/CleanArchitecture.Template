@@ -9,14 +9,14 @@ namespace CleanArchitecture.Template.Domain.Users.Specifications
 
         public UserByEmailOrUsernameSpecification(string email, string username)
         {
-            Or(new UserByEmailCriteria(email));
+            AddCriteria(new UserByEmailCriteria(email));
             Or(new UserByUsernameCriteria(username));
             AddInclude(x => x.Roles);
             AddThenInclude(nameof(User.Roles), nameof(Role.Permissions));
         }
         public UserByEmailOrUsernameSpecification(string usernameOrPassword)
         {
-            Or(new UserByEmailCriteria(usernameOrPassword));
+            AddCriteria(new UserByEmailCriteria(usernameOrPassword));
             Or(new UserByUsernameCriteria(usernameOrPassword));
             AddInclude(nameof(User.Roles));
             AddThenInclude(nameof(User.Roles), nameof(Role.Permissions));
