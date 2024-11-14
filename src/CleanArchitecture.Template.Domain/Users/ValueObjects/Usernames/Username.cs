@@ -15,7 +15,7 @@ namespace CleanArchitecture.Template.Domain.Users.ValueObjects.Usernames
         public static Result<Username> Create(string username)
         {
             if (string.IsNullOrWhiteSpace(username))
-                return Result.Failure<Username>(UsernameErrors.InvalidUsername);
+                return Result.Failure<Username>(UsernameErrors.EmptyUsername);
 
             if (username.Length < 3 || username.Length > 50)
                 return Result.Failure<Username>(UsernameErrors.InvalidUsernameLength);

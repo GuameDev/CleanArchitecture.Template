@@ -4,9 +4,7 @@ using CleanArchitecture.Template.Application.Users.Services.Authentication;
 using CleanArchitecture.Template.Domain.Users;
 using CleanArchitecture.Template.Domain.Users.Aggregates.Roles;
 using CleanArchitecture.Template.Domain.Users.Specifications;
-using CleanArchitecture.Template.Domain.Users.ValueObjects.FullNames;
 using CleanArchitecture.Template.Domain.Users.ValueObjects.Passwords;
-using CleanArchitecture.Template.Domain.Users.ValueObjects.Usernames;
 using CleanArchitecture.Template.SharedKernel.Results;
 using MediatR;
 
@@ -32,18 +30,21 @@ namespace CleanArchitecture.Template.Application.Users.Commands.RegisterUser
             if (userAlreadyExist)
                 return Result.Failure<RegisterUserResponse>(UserErrors.UserAlreadyExist);
 
-            var usernameResult = Username.Create(request.Username);
-            var emailResult = Email.Create(request.Email);
-            var fullNameResult = FullName.Create(request.FirstName, request.LastName1, request.LastName2);
             var passwordResult = Password.Create(request.Password);
 
-            var valueObjectsResult = Result.Combine(usernameResult, emailResult, fullNameResult, passwordResult);
+            if (passwordResult.IsFailure)
+                return Result.Failure<RegisterUserResponse>(passwordResult.Error);
 
-            if (valueObjectsResult.IsFailure)
-                return Result.Failure<RegisterUserResponse>(valueObjectsResult.Error);
+            var password = passwordResult.Value;
+            var passwordHash = _passwordHasher.Hash(password.Value);
 
-            var passwordHash = _passwordHasher.Hash(request.Password);
-            var userResult = Domain.Users.User.Create(usernameResult.Value, emailResult.Value, fullNameResult.Value, passwordHash);
+            var userResult = User.Create(
+                request.Username,
+                request.Email,
+                passwordHash,
+                request.FirstName,
+                request.LastName1,
+                request.LastName2);
 
             if (userResult.IsFailure)
                 return Result.Failure<RegisterUserResponse>(userResult.Error);
