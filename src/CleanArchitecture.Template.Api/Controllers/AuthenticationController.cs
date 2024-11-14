@@ -44,6 +44,7 @@ namespace CleanArchitecture.Template.Api.Controllers
                 onFailure: ApiResults.Problem
             );
         }
+
         [HttpPost("login")]
         [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] LoginUserRequest request)
