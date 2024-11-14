@@ -5,7 +5,6 @@ using CleanArchitecture.Template.Application.WeatherForecasts.Queries.GetById;
 using CleanArchitecture.Template.Application.WeatherForecasts.Queries.GetById.DTOs;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Errors;
-using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects;
 using MediatR;
 using Moq;
 
@@ -35,8 +34,9 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Queries
             var query = new GetWeatherForecastByIdQuery(requestId);
 
             var entity = Domain.WeatherForecasts.WeatherForecast.Create(
-                WeatherDate.Create(DateOnly.FromDateTime(DateTime.Now)).Value,
-                Temperature.FromCelsius(25).Value,
+                DateOnly.FromDateTime(DateTime.Now),
+                25,
+                TemperatureType.Celsius,
                 Summary.Mild).Value;
 
             var mappedResponse = new GetWeatherForecastByIdResponse

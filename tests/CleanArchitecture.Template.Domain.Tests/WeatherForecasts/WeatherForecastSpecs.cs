@@ -13,18 +13,19 @@ namespace CleanArchitecture.Template.Domain.Tests.WeatherForecasts
             public void Create_ShouldReturnSuccessResult_WhenValidInputs()
             {
                 // Arrange
-                var dateResult = WeatherDate.Create(DateOnly.FromDateTime(DateTime.Now));
-                var temperatureResult = Temperature.FromCelsius(25);
+                var date = DateOnly.FromDateTime(DateTime.Now);
+                var temperatureValue = 25;
+                var temperatyreType = TemperatureType.Celsius;
                 var summary = Summary.Mild;
 
                 // Act
-                var weatherForecastResult = WeatherForecast.Create(dateResult, temperatureResult, summary);
+                var weatherForecastResult = WeatherForecast.Create(date, temperatureValue, temperatyreType, summary);
 
                 // Assert
                 Assert.True(weatherForecastResult.IsSuccess);
                 Assert.NotNull(weatherForecastResult.Value);
-                Assert.Equal(dateResult.Value, weatherForecastResult.Value.Date);
-                Assert.Equal(temperatureResult.Value, weatherForecastResult.Value.Temperature);
+                Assert.Equal(date, weatherForecastResult.Value.Date.Value);
+                Assert.Equal(temperatureValue, weatherForecastResult.Value.Temperature.ToCelsius());
                 Assert.Equal(summary, weatherForecastResult.Value.Summary);
             }
 
@@ -32,9 +33,10 @@ namespace CleanArchitecture.Template.Domain.Tests.WeatherForecasts
             public void UpdateTemperature_ShouldChangeTemperature_WhenValidTemperatureProvided()
             {
                 // Arrange
-                var dateResult = WeatherDate.Create(DateOnly.FromDateTime(DateTime.Now));
-                var initialTemperatureResult = Temperature.FromCelsius(20);
-                var weatherForecastResult = WeatherForecast.Create(dateResult, initialTemperatureResult, Summary.Mild);
+                var date = DateOnly.FromDateTime(DateTime.Now);
+                var initialTemperatureValue = 20;
+                var initialTemperatureType = TemperatureType.Celsius;
+                var weatherForecastResult = WeatherForecast.Create(date, initialTemperatureValue, initialTemperatureType, Summary.Mild);
                 var newTemperatureResult = Temperature.FromFahrenheit(68);
 
                 // Act
@@ -48,9 +50,10 @@ namespace CleanArchitecture.Template.Domain.Tests.WeatherForecasts
             public void UpdateSummary_ShouldChangeSummary_WhenNewSummaryProvided()
             {
                 // Arrange
-                var dateResult = WeatherDate.Create(DateOnly.FromDateTime(DateTime.Now));
-                var temperatureResult = Temperature.FromCelsius(20);
-                var weatherForecastResult = WeatherForecast.Create(dateResult, temperatureResult, Summary.Mild);
+                var date = DateOnly.FromDateTime(DateTime.Now);
+                var initialTemperatureValue = 20;
+                var initialTemperatureType = TemperatureType.Celsius;
+                var weatherForecastResult = WeatherForecast.Create(date, initialTemperatureValue, initialTemperatureType, Summary.Mild);
                 var newSummary = Summary.Hot;
 
                 // Act
@@ -63,12 +66,13 @@ namespace CleanArchitecture.Template.Domain.Tests.WeatherForecasts
             public void Create_ShouldReturnFailureResult_WhenDateIsInvalid()
             {
                 // Arrange
-                var dateResult = WeatherDate.Create(DateOnly.FromDateTime(DateTime.MinValue)); // Invalid date
-                var temperatureResult = Temperature.FromCelsius(25);
-                var summary = Summary.Mild;
+                var date = DateOnly.FromDateTime(DateTime.MinValue); // Invalid date
+                var initialTemperatureValue = 20;
+                var initialTemperatureType = TemperatureType.Celsius;
 
                 // Act
-                var weatherForecastResult = WeatherForecast.Create(dateResult, temperatureResult, summary);
+                var weatherForecastResult = WeatherForecast.Create(date, initialTemperatureValue, initialTemperatureType, Summary.Mild);
+
 
                 // Assert
                 Assert.False(weatherForecastResult.IsSuccess);
@@ -79,11 +83,12 @@ namespace CleanArchitecture.Template.Domain.Tests.WeatherForecasts
             public void Create_ShouldReturnFailureResult_WhenTemperatureIsInvalid()
             {
                 // Arrange
-                var dateResult = WeatherDate.Create(DateOnly.FromDateTime(DateTime.Now));
-                var temperatureResult = Temperature.FromCelsius(-300); // Below absolute zero
+                var date = DateOnly.FromDateTime(DateTime.Now);
+                var initialTemperatureValue = -300;
+                var initialTemperatureType = TemperatureType.Celsius;
 
                 // Act
-                var weatherForecastResult = WeatherForecast.Create(dateResult, temperatureResult, Summary.Mild);
+                var weatherForecastResult = WeatherForecast.Create(date, initialTemperatureValue, initialTemperatureType, Summary.Mild);
 
                 // Assert
                 Assert.False(weatherForecastResult.IsSuccess);

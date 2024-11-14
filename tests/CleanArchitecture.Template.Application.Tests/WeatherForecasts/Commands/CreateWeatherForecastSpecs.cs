@@ -3,7 +3,6 @@ using CleanArchitecture.Template.Application.WeatherForecasts.Commands.Create;
 using CleanArchitecture.Template.Application.WeatherForecasts.Commands.Create.DTOs;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Errors;
-using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects;
 using CleanArchitecture.Template.SharedKernel.CommonTypes.Enums;
 using Moq;
 
@@ -33,8 +32,8 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Commands
                 Summary.Mild);
 
             var weatherForecast = Domain.WeatherForecasts.WeatherForecast.Create(
-                WeatherDate.Create(request.Date).Value,
-                Temperature.Create(request.Temperature, request.TemperatureType).Value,
+                request.Date,
+                request.Temperature, request.TemperatureType,
                 request.Summary).Value;
 
             // Mock the unit of work to return a successful response when saving the forecast

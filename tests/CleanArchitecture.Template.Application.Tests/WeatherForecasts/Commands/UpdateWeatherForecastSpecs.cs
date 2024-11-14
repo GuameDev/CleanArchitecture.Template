@@ -4,7 +4,6 @@ using CleanArchitecture.Template.Application.WeatherForecasts.Commands.Update.DT
 using CleanArchitecture.Template.Application.WeatherForecasts.Queries.GetById.DTOs;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Errors;
-using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects;
 using Moq;
 
 namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Commands
@@ -34,8 +33,9 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Commands
                 Summary.Hot);
 
             var weatherForecast = Domain.WeatherForecasts.WeatherForecast.Create(
-                WeatherDate.Create(request.Date).Value,
-                Temperature.Create(request.Temperature, request.TemperatureType).Value,
+                request.Date,
+                request.Temperature,
+                request.TemperatureType,
                 request.Summary).Value;
 
             // Ensure the repository returns a valid entity
@@ -116,8 +116,9 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Commands
                 Summary.Mild);
 
             var validWeatherForecast = Domain.WeatherForecasts.WeatherForecast.Create(
-                WeatherDate.Create(request.Date).Value,
-                Temperature.Create(25, TemperatureType.Celsius).Value,  // Valid temperature
+                request.Date,
+                25,
+                TemperatureType.Celsius,
                 request.Summary).Value;
 
             // Ensure the repository returns a valid entity
