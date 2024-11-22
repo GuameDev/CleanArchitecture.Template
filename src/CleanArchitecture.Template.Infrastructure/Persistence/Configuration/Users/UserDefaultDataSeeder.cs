@@ -22,27 +22,27 @@ public static class UserDefaultDataSeeder
 
         // Seed roles
         modelBuilder.Entity<Role>().HasData(
-            new { Id = AdminRoleId, RoleName = RoleName.Admin, CreatedDate = now, UpdatedDate = now },
-            new { Id = UserRoleId, RoleName = RoleName.User, CreatedDate = now, UpdatedDate = now }
+            new { Id = AdminRoleId, RoleName = RoleName.Admin, CreatedDate = now, UpdatedDate = now, RowVersion = new byte[5] },
+            new { Id = UserRoleId, RoleName = RoleName.User, CreatedDate = now, UpdatedDate = now, RowVersion = new byte[5] }
         );
 
         // Seed permissions using the PermissionType enum
         modelBuilder.Entity<Permission>().HasData(
-            new { Id = ReadPermissionId, Type = PermissionType.Read, Description = "Can read data", CreatedDate = now, UpdatedDate = now },
-            new { Id = WritePermissionId, Type = PermissionType.Write, Description = "Can modify data", CreatedDate = now, UpdatedDate = now },
-            new { Id = ManageUsersPermissionId, Type = PermissionType.ManageUsers, Description = "Can manage users", CreatedDate = now, UpdatedDate = now },
-            new { Id = ManageRolesPermissionId, Type = PermissionType.ManageRoles, Description = "Can manage roles and permissions", CreatedDate = now, UpdatedDate = now },
-            new { Id = ViewDashboardPermissionId, Type = PermissionType.ViewDashboard, Description = "Can view the dashboard", CreatedDate = now, UpdatedDate = now }
+            new { Id = ReadPermissionId, Type = PermissionType.Read, Description = "Can read data", CreatedDate = now, UpdatedDate = now, RowVersion = new byte[5] },
+            new { Id = WritePermissionId, Type = PermissionType.Write, Description = "Can modify data", CreatedDate = now, UpdatedDate = now, RowVersion = new byte[5] },
+            new { Id = ManageUsersPermissionId, Type = PermissionType.ManageUsers, Description = "Can manage users", CreatedDate = now, UpdatedDate = now, RowVersion = new byte[5] },
+            new { Id = ManageRolesPermissionId, Type = PermissionType.ManageRoles, Description = "Can manage roles and permissions", CreatedDate = now, UpdatedDate = now, RowVersion = new byte[5] },
+            new { Id = ViewDashboardPermissionId, Type = PermissionType.ViewDashboard, Description = "Can view the dashboard", CreatedDate = now, UpdatedDate = now, RowVersion = new byte[5] }
         );
 
         // Seed many-to-many relationships for RolePermissions
         modelBuilder.Entity(UserConstantsEntityTypeConfiguration.RolePermissionsTableName).HasData(
-            new { Id = 1, RoleId = AdminRoleId, PermissionId = ReadPermissionId },
-            new { Id = 2, RoleId = AdminRoleId, PermissionId = WritePermissionId },
-            new { Id = 3, RoleId = AdminRoleId, PermissionId = ManageUsersPermissionId },
-            new { Id = 4, RoleId = AdminRoleId, PermissionId = ManageRolesPermissionId },
-            new { Id = 5, RoleId = AdminRoleId, PermissionId = ViewDashboardPermissionId },
-            new { Id = 6, RoleId = UserRoleId, PermissionId = ReadPermissionId }
+            new { Id = 1, RoleId = AdminRoleId, PermissionId = ReadPermissionId, RowVersion = new byte[5] },
+            new { Id = 2, RoleId = AdminRoleId, PermissionId = WritePermissionId, RowVersion = new byte[5] },
+            new { Id = 3, RoleId = AdminRoleId, PermissionId = ManageUsersPermissionId, RowVersion = new byte[5] },
+            new { Id = 4, RoleId = AdminRoleId, PermissionId = ManageRolesPermissionId, RowVersion = new byte[5] },
+            new { Id = 5, RoleId = AdminRoleId, PermissionId = ViewDashboardPermissionId, RowVersion = new byte[5] },
+            new { Id = 6, RoleId = UserRoleId, PermissionId = ReadPermissionId, RowVersion = new byte[5] }
         );
     }
 }

@@ -9,6 +9,7 @@ namespace CleanArchitecture.Template.Domain.Base
 
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedDate { get; set; } = DateTime.UtcNow;
+        public byte[] RowVersion { get; set; }
         protected void Raise(DomainEvent domainEvent)
         {
             _domainEvents.Add(domainEvent);

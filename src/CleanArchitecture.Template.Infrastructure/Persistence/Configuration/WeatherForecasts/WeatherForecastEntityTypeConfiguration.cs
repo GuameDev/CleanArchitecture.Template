@@ -57,6 +57,7 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration.We
                     Summary = summary,
                     CreatedDate = now,
                     UpdatedDate = now,
+                    RowVersion = new byte[5]
                 });
 
                 temperatures.Add(new
