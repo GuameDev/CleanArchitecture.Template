@@ -1,7 +1,7 @@
 ﻿using CleanArchitecture.Template.SharedKernel.Specification.Criterias;
 using System.Linq.Expressions;
 
-namespace CleanArchitecture.Template.Domain.Users.Specifications.Criterias
+namespace CleanArchitecture.Template.Domain.Users.Criterias
 {
     public class UserByEmailCriteria : Criteria<User>
     {

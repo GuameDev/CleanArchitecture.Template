@@ -22,7 +22,7 @@ namespace CleanArchitecture.Template.Application.WeatherForecasts.Queries.Get
 
         public async Task<Result<GetWeatherForecastListResponse>> Handle(GetWeatherForecastListQuery query, CancellationToken cancellationToken)
         {
-            var elements = await _weatherForecastRepository.GetListAsync(new WeatherForecastSpecification(query));
+            var elements = await _weatherForecastRepository.GetListAsync(new WeatherForecastListSpecification(query));
             return Result.Success(elements);
         }
     }

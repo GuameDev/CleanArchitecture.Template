@@ -1,7 +1,7 @@
 ﻿using CleanArchitecture.Template.Application.Users.Queries.GetById.DTOs;
 using CleanArchitecture.Template.Application.Users.Repositories;
+using CleanArchitecture.Template.Application.Users.Specifications.UserSpecifications;
 using CleanArchitecture.Template.Domain.Users;
-using CleanArchitecture.Template.Domain.Users.Specifications;
 using CleanArchitecture.Template.SharedKernel.Results;
 using MediatR;
 
@@ -21,7 +21,7 @@ namespace CleanArchitecture.Template.Application.Users.Queries.GetById
             var entity = await _userRepository.GetBySpecificationAsync(specification);
 
             if (entity is null)
-                return Result.Failure<GetUserByIdResponse>(UserErrors.UserAlreadyExist);
+                return Result.Failure<GetUserByIdResponse>(UserErrors.UserNotFound);
 
             return Result.Success(new GetUserByIdResponse(
                 entity.Id,

@@ -1,8 +1,9 @@
-﻿using CleanArchitecture.Template.Domain.Users.Aggregates.Roles;
-using CleanArchitecture.Template.Domain.Users.Specifications.Criterias;
+﻿using CleanArchitecture.Template.Domain.Users;
+using CleanArchitecture.Template.Domain.Users.Aggregates.Roles;
+using CleanArchitecture.Template.Domain.Users.Criterias;
 using CleanArchitecture.Template.SharedKernel.Specification;
 
-namespace CleanArchitecture.Template.Domain.Users.Specifications
+namespace CleanArchitecture.Template.Application.Users.Specifications.UserSpecifications
 {
     public class UserByEmailOrUsernameSpecification : Specification<User>
     {

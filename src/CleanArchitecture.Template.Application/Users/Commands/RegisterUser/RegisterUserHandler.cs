@@ -2,9 +2,9 @@
 using CleanArchitecture.Template.Application.Users.Commands.RegisterUser.DTOs;
 using CleanArchitecture.Template.Application.Users.Repositories;
 using CleanArchitecture.Template.Application.Users.Services.Authentication;
+using CleanArchitecture.Template.Application.Users.Specifications.UserSpecifications;
 using CleanArchitecture.Template.Domain.Users;
 using CleanArchitecture.Template.Domain.Users.Aggregates.Roles;
-using CleanArchitecture.Template.Domain.Users.Specifications;
 using CleanArchitecture.Template.Domain.Users.ValueObjects.Passwords;
 using CleanArchitecture.Template.SharedKernel.Results;
 using MediatR;

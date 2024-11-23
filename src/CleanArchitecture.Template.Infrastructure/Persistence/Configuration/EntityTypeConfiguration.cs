@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration
 {
-    public abstract class BaseEntityConfiguration<TEntity, TKey> : IEntityTypeConfiguration<TEntity>
+    public abstract class EntityTypeConfiguration<TEntity, TKey> : IEntityTypeConfiguration<TEntity>
            where TEntity : Entity
     {
         public virtual void Configure(EntityTypeBuilder<TEntity> builder)
@@ -17,9 +17,9 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration
                 .IsRequired();
 
             builder.Property(e => e.RowVersion)
-                .IsRequired()
                 .IsRowVersion()
-                .IsConcurrencyToken();
+                .IsConcurrencyToken()
+                .ValueGeneratedOnAddOrUpdate();
         }
     }
 }

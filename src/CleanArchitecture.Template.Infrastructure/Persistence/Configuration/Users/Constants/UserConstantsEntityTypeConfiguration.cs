@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration.Users
+﻿namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration.Users.Constants
 {
     public static class UserConstantsEntityTypeConfiguration
     {

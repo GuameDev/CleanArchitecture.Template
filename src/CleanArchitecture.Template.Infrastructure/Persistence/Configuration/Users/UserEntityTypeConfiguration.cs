@@ -1,12 +1,13 @@
 ﻿using CleanArchitecture.Template.Domain.Users;
 using CleanArchitecture.Template.Domain.Users.Aggregates.Roles;
 using CleanArchitecture.Template.Domain.Users.ValueObjects.FullNames;
+using CleanArchitecture.Template.Infrastructure.Persistence.Configuration.Users.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration.Users
 {
-    public class UserEntityTypeConfiguration : BaseEntityConfiguration<User, Guid>
+    public class UserEntityTypeConfiguration : EntityTypeConfiguration<User, Guid>
     {
         public override void Configure(EntityTypeBuilder<User> builder)
         {

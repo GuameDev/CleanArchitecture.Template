@@ -2,10 +2,10 @@
 using CleanArchitecture.Template.Application.Users.Commands.LoginUser.DTOs;
 using CleanArchitecture.Template.Application.Users.Repositories;
 using CleanArchitecture.Template.Application.Users.Services.Authentication;
+using CleanArchitecture.Template.Application.Users.Specifications.RefreshTokenSpecifications;
+using CleanArchitecture.Template.Application.Users.Specifications.UserSpecifications;
 using CleanArchitecture.Template.Domain.Users;
 using CleanArchitecture.Template.Domain.Users.Aggregates.RefreshTokens;
-using CleanArchitecture.Template.Domain.Users.Aggregates.RefreshTokens.Specifications;
-using CleanArchitecture.Template.Domain.Users.Specifications;
 using CleanArchitecture.Template.SharedKernel.Results;
 using MediatR;
 
@@ -70,7 +70,16 @@ namespace CleanArchitecture.Template.Application.Users.Commands.LoginUser
 
             // Save the new refresh token if creation was successful
             await _refreshTokenRepository.AddAsync(newRefreshToken.Value);
-            await _unitOfWork.CommitAsync(cancellationToken);
+            try
+            {
+                await _unitOfWork.CommitAsync(cancellationToken);
+
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
 
             return Result.Success(new LoginUserResponse(accessTokenResponse, refreshTokenResponse));
         }

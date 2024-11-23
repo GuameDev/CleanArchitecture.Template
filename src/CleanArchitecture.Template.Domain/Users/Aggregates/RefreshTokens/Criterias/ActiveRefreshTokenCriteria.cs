@@ -1,7 +1,7 @@
 ﻿using CleanArchitecture.Template.SharedKernel.Specification.Criterias;
 using System.Linq.Expressions;
 
-namespace CleanArchitecture.Template.Domain.Users.Aggregates.RefreshTokens.Specifications.Criterias
+namespace CleanArchitecture.Template.Domain.Users.Aggregates.RefreshTokens.Criterias
 {
     internal class ActiveRefreshTokenCriteria : Criteria<RefreshToken>
     {

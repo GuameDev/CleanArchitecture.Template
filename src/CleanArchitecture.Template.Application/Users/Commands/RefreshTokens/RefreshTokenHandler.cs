@@ -2,8 +2,8 @@
 using CleanArchitecture.Template.Application.Users.Commands.RefreshTokens.DTO;
 using CleanArchitecture.Template.Application.Users.Repositories;
 using CleanArchitecture.Template.Application.Users.Services.Authentication;
+using CleanArchitecture.Template.Application.Users.Specifications.RefreshTokenSpecifications;
 using CleanArchitecture.Template.Domain.Users.Aggregates.RefreshTokens;
-using CleanArchitecture.Template.Domain.Users.Aggregates.RefreshTokens.Specifications;
 using CleanArchitecture.Template.SharedKernel.Results;
 using MediatR;
 

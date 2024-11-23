@@ -1,7 +1,8 @@
-﻿using CleanArchitecture.Template.Domain.Users.Aggregates.Roles;
+﻿using CleanArchitecture.Template.Domain.Users;
+using CleanArchitecture.Template.Domain.Users.Aggregates.Roles;
 using CleanArchitecture.Template.SharedKernel.Specification;
 
-namespace CleanArchitecture.Template.Domain.Users.Specifications
+namespace CleanArchitecture.Template.Application.Users.Specifications.UserSpecifications
 {
     public class UserByIdSpecification : Specification<User>
     {

@@ -1,6 +1,7 @@
-﻿using CleanArchitecture.Template.SharedKernel.Specification;
+﻿using CleanArchitecture.Template.Domain.Users.Aggregates.RefreshTokens;
+using CleanArchitecture.Template.SharedKernel.Specification;
 
-namespace CleanArchitecture.Template.Domain.Users.Aggregates.RefreshTokens.Specifications
+namespace CleanArchitecture.Template.Application.Users.Specifications.RefreshTokenSpecifications
 {
     public class RefreshTokenByTokenSpecification : Specification<RefreshToken>
     {
