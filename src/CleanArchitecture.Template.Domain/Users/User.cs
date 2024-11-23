@@ -3,7 +3,9 @@ using CleanArchitecture.Template.Domain.Users.Aggregates.Permissions;
 using CleanArchitecture.Template.Domain.Users.Aggregates.RefreshTokens;
 using CleanArchitecture.Template.Domain.Users.Aggregates.Roles;
 using CleanArchitecture.Template.Domain.Users.ValueObjects.FullNames;
+using CleanArchitecture.Template.Domain.Users.ValueObjects.Passwords;
 using CleanArchitecture.Template.Domain.Users.ValueObjects.Usernames;
+using CleanArchitecture.Template.Domain.WeatherForecasts.Events;
 using CleanArchitecture.Template.SharedKernel.Results;
 
 namespace CleanArchitecture.Template.Domain.Users
@@ -36,40 +38,33 @@ namespace CleanArchitecture.Template.Domain.Users
 
         public static Result<User> Create(string username, string email, string passwordHash, string firstName, string lastName1, string? lastName2)
         {
+
             var usernameResult = Username.Create(username);
             var emailResult = Email.Create(email);
             var fullNameResult = FullName.Create(firstName, lastName1, lastName2);
 
-            if (usernameResult.IsFailure || emailResult.IsFailure || fullNameResult.IsFailure)
-                return Result.Failure<User>(UserErrors.InvalidUserDetails);
+            var entityResult = Result.Combine(usernameResult, emailResult, fullNameResult)
+                 .OnSuccess(() => new User()
+                 {
+                     Id = Guid.NewGuid(),
+                     Username = usernameResult.Value,
+                     Email = emailResult.Value,
+                     FullName = fullNameResult.Value,
+                     PasswordHash = passwordHash
+                 });
 
-            if (string.IsNullOrWhiteSpace(passwordHash))
-                return Result.Failure<User>(UserErrors.InvalidPasswordHash);
+            if (entityResult.IsFailure)
+                return Result.Failure<User>(entityResult.Error);
 
-            return Result.Success(new User()
-            {
-                Id = Guid.NewGuid(),
-                Username = usernameResult.Value,
-                Email = emailResult.Value,
-                FullName = fullNameResult.Value,
-                PasswordHash = passwordHash
-            });
+            if (string.IsNullOrEmpty(firstName) || string.IsNullOrWhiteSpace(passwordHash))
+                return Result.Failure<User>(PasswordErrors.EmptyPassword);
+
+            if (entityResult.IsSuccess)
+                entityResult.Value.Raise(new WeatherForecastCreatedDomainEvent(entityResult.Value.Id));
+
+            return entityResult;
         }
 
-        public static Result<User> Create(Username username, Email email, FullName fullName, string passwordHash)
-        {
-            if (string.IsNullOrWhiteSpace(passwordHash))
-                return Result.Failure<User>(UserErrors.InvalidPasswordHash);
-
-            return Result.Success(new User()
-            {
-                Id = Guid.NewGuid(),
-                Username = username,
-                Email = email,
-                FullName = fullName,
-                PasswordHash = passwordHash
-            });
-        }
         public bool HasRole(RoleName roleName) => Roles.Any(role => role.RoleName == roleName);
         public bool HasPermission(PermissionType permissionType) => Roles.Any(role => role.Permissions.Any(p => p.Type == permissionType));
 

@@ -1,4 +1,5 @@
-﻿using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
+﻿using CleanArchitecture.Template.Domain.WeatherForecasts.Constants;
+using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects.Temperatures;
 
 namespace CleanArchitecture.Template.Api.Requests.WeatherForecast
 {

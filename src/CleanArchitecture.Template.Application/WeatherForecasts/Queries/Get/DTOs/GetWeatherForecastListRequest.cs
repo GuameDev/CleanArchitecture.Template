@@ -1,4 +1,5 @@
-﻿using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
+﻿using CleanArchitecture.Template.Domain.WeatherForecasts.Constants;
+using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects.Temperatures;
 using CleanArchitecture.Template.SharedKernel.Requests;
 
 namespace CleanArchitecture.Template.Application.WeatherForecasts.Queries.Get.DTOs

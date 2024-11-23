@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Template.Domain.WeatherForecasts.Constants;
+﻿using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects.Temperatures;
 using FluentValidation;
 
 namespace CleanArchitecture.Template.Application.WeatherForecasts.Commands.Update

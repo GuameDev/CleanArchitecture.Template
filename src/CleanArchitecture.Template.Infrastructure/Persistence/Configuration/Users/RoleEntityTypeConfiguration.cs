@@ -1,10 +1,11 @@
 ﻿using CleanArchitecture.Template.Domain.Users.Aggregates.Permissions;
 using CleanArchitecture.Template.Domain.Users.Aggregates.Roles;
+using CleanArchitecture.Template.Infrastructure.Persistence.Configuration.Users.Constants;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration.Users
 {
-    public class RoleEntityTypeConfiguration : BaseEntityConfiguration<Role, Guid>
+    public class RoleEntityTypeConfiguration : EntityTypeConfiguration<Role, Guid>
     {
         public override void Configure(EntityTypeBuilder<Role> builder)
         {

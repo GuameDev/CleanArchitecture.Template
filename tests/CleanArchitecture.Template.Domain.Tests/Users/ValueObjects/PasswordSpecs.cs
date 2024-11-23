@@ -43,7 +43,7 @@ namespace CleanArchitecture.Template.Domain.Tests.Users.ValueObjects
 
             // Assert
             Assert.False(result.IsSuccess);
-            Assert.Equal(PasswordErrors.MinLengthPassword.Description, result.Error.Description);
+            Assert.Equal(PasswordErrors.MinLength.Description, result.Error.Description);
         }
 
         [Fact]

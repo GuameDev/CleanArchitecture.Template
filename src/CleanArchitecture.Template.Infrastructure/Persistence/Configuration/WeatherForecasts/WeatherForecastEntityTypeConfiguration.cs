@@ -1,11 +1,12 @@
 ﻿using CleanArchitecture.Template.Domain.WeatherForecasts;
-using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
+using CleanArchitecture.Template.Domain.WeatherForecasts.Constants;
+using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects.Temperatures;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration.WeatherForecasts
 {
-    public class WeatherForecastEntityTypeConfiguration : BaseEntityConfiguration<WeatherForecast, Guid>
+    public class WeatherForecastEntityTypeConfiguration : EntityTypeConfiguration<WeatherForecast, Guid>
     {
         public override void Configure(EntityTypeBuilder<WeatherForecast> builder)
         {
@@ -32,7 +33,13 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration.We
                 date.Property(d => d.Value).HasColumnName("Date");
             });
 
+            builder.Property(e => e.RowVersion)
+            .IsRowVersion()
+            .IsConcurrencyToken()
+            .ValueGeneratedOnAddOrUpdate();
+
             SeedDefaultData(builder);
+
         }
 
         private static void SeedDefaultData(EntityTypeBuilder<WeatherForecast> builder)
@@ -56,7 +63,7 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration.We
                     Id = id,
                     Summary = summary,
                     CreatedDate = now,
-                    UpdatedDate = now,
+                    UpdatedDate = now
                 });
 
                 temperatures.Add(new

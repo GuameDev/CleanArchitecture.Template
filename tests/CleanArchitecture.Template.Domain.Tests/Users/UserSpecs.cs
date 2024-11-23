@@ -1,6 +1,10 @@
 ﻿using CleanArchitecture.Template.Domain.Users;
 using CleanArchitecture.Template.Domain.Users.Aggregates.Permissions;
 using CleanArchitecture.Template.Domain.Users.Aggregates.Roles;
+using CleanArchitecture.Template.Domain.Users.ValueObjects.Emails;
+using CleanArchitecture.Template.Domain.Users.ValueObjects.FullNames;
+using CleanArchitecture.Template.Domain.Users.ValueObjects.Passwords;
+using CleanArchitecture.Template.Domain.Users.ValueObjects.Usernames;
 
 namespace CleanArchitecture.Template.Domain.Tests.Users
 {
@@ -42,7 +46,7 @@ namespace CleanArchitecture.Template.Domain.Tests.Users
 
             // Assert
             Assert.False(result.IsSuccess);
-            Assert.Equal(UserErrors.InvalidUserDetails, result.Error);
+            Assert.Equal(UsernameErrors.EmptyUsername, result.Error);
         }
 
         [Fact]
@@ -60,7 +64,7 @@ namespace CleanArchitecture.Template.Domain.Tests.Users
 
             // Assert
             Assert.False(result.IsSuccess);
-            Assert.Equal(UserErrors.InvalidUserDetails, result.Error);
+            Assert.Equal(EmailErrors.InvalidEmailFormat, result.Error);
         }
 
         [Fact]
@@ -78,7 +82,7 @@ namespace CleanArchitecture.Template.Domain.Tests.Users
 
             // Assert
             Assert.False(result.IsSuccess);
-            Assert.Equal(UserErrors.InvalidUserDetails, result.Error);
+            Assert.Equal(FullNameErrors.InvalidFullName, result.Error);
         }
 
         [Fact]
@@ -95,7 +99,7 @@ namespace CleanArchitecture.Template.Domain.Tests.Users
 
             // Assert
             Assert.False(result.IsSuccess);
-            Assert.Equal(UserErrors.InvalidPasswordHash, result.Error);
+            Assert.Equal(PasswordErrors.EmptyPassword, result.Error);
         }
 
         [Fact]

@@ -83,10 +83,13 @@ namespace CleanArchitecture.Template.SharedKernel.Specification
         // Apply paging
         public void ApplyPaging(int? page, int? pageSize)
         {
+            page ??= PageListConstants.DefaultPage;
+            pageSize ??= PageListConstants.DefaultPageSize;
+
             Page = page;
             PageSize = pageSize;
-            Skip = ((page ?? PageListConstants.DefaultPage) - 1) * (pageSize ?? PageListConstants.DefaultPageSize);
-            Take = pageSize ?? PageListConstants.DefaultPageSize;
+            Skip = (page.Value - 1) * pageSize.Value;
+            Take = pageSize.Value;
             IsPagingEnabled = true;
         }
 

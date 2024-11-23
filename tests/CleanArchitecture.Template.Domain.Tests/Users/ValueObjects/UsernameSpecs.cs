@@ -29,7 +29,7 @@ namespace CleanArchitecture.Template.Domain.Tests.Users.ValueObjects
 
             // Assert
             Assert.False(result.IsSuccess);
-            Assert.Equal(UsernameErrors.InvalidUsername, result.Error);
+            Assert.Equal(UsernameErrors.EmptyUsername, result.Error);
         }
 
         [Fact]

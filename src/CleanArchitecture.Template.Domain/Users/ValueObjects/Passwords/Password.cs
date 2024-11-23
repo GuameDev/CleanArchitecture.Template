@@ -28,19 +28,22 @@ namespace CleanArchitecture.Template.Domain.Users.ValueObjects.Passwords
             if (string.IsNullOrWhiteSpace(plainPassword))
                 return Result.Failure<Password>(PasswordErrors.EmptyPassword);
 
-            if (plainPassword.Length < 8)
-                return Result.Failure<Password>(PasswordErrors.MinLengthPassword);
+            if (plainPassword.Length < PasswordConstants.MinLength)
+                return Result.Failure<Password>(PasswordErrors.MinLength);
 
-            if (!Regex.IsMatch(plainPassword, @"[A-Z]"))
+            if (plainPassword.Length > PasswordConstants.MaxLength)
+                return Result.Failure<Password>(PasswordErrors.MaxLength);
+
+            if (!Regex.IsMatch(plainPassword, PasswordConstants.UppercaseRegex))
                 return Result.Failure<Password>(PasswordErrors.MissingUppercase);
 
-            if (!Regex.IsMatch(plainPassword, @"[a-z]"))
+            if (!Regex.IsMatch(plainPassword, PasswordConstants.LowercaseRegex))
                 return Result.Failure<Password>(PasswordErrors.MissingLowercase);
 
-            if (!Regex.IsMatch(plainPassword, @"[0-9]"))
+            if (!Regex.IsMatch(plainPassword, PasswordConstants.MissingDigitRegex))
                 return Result.Failure<Password>(PasswordErrors.MissingDigit);
 
-            if (!Regex.IsMatch(plainPassword, @"[\W_]")) // Non-word characters or underscores
+            if (!Regex.IsMatch(plainPassword, PasswordConstants.SpecialCharacterRegex))
                 return Result.Failure<Password>(PasswordErrors.MissingSpecialCharacter);
 
             return Result.Success(new Password(plainPassword));

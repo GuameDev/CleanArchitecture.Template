@@ -1,25 +1,21 @@
-﻿using AutoMapper;
-using CleanArchitecture.Template.Application.Base.UnitOfWork;
+﻿using CleanArchitecture.Template.Application.Base.UnitOfWork;
 using CleanArchitecture.Template.Application.Tests.Base;
 using CleanArchitecture.Template.Application.WeatherForecasts.Queries.GetAll;
 using CleanArchitecture.Template.Application.WeatherForecasts.Queries.GetAll.DTOs;
-using MediatR;
+using CleanArchitecture.Template.Application.WeatherForecasts.Repositories;
 using Moq;
 
 namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Queries
 {
     public class GetAllWeatherForecastHandlerSpecs : IClassFixture<MediatorIntegrationSetup>
     {
-        private readonly IMediator _mediator;
+        private readonly Mock<IWeatherForecastRepository> _mockWeatherForecastRepository;
         private readonly Mock<IUnitOfWork> _mockUnitOfWork;
 
         public GetAllWeatherForecastHandlerSpecs(MediatorIntegrationSetup fixture)
         {
-            // Set up the mock objects using the fixture's factory methods
+            _mockWeatherForecastRepository = new Mock<IWeatherForecastRepository>();
             _mockUnitOfWork = fixture.CreateMockUnitOfWork();
-
-            // Use the fixture to create a mediator with the mock objects
-            _mediator = fixture.CreateMediator(_mockUnitOfWork, new Mock<IMapper>());
         }
 
         [Fact]
@@ -53,17 +49,22 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Queries
                 Elements = weatherForecasts
             };
 
-            _mockUnitOfWork.Setup(unitOfWork => unitOfWork.WeatherForecastRepository.GetAllAsync())
-                           .ReturnsAsync(response);
+            _mockWeatherForecastRepository
+                .Setup(repo => repo.GetAllAsync())
+                .ReturnsAsync(response);
+
+            var handler = new GetAllWeatherForecastHandler(
+                _mockUnitOfWork.Object,
+                _mockWeatherForecastRepository.Object);
 
             // Act
-            var result = await _mediator.Send(query);
+            var result = await handler.Handle(query, CancellationToken.None);
 
             // Assert
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Value);
             Assert.Equal(2, result.Value.Elements.Count());
-            _mockUnitOfWork.Verify(uow => uow.WeatherForecastRepository.GetAllAsync(), Times.Once);
+            _mockWeatherForecastRepository.Verify(repo => repo.GetAllAsync(), Times.Once);
         }
 
         [Fact]
@@ -77,17 +78,22 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Queries
                 Elements = new List<GetAllWeatherForecastListItemResponse>()
             };
 
-            _mockUnitOfWork.Setup(unitOfWork => unitOfWork.WeatherForecastRepository.GetAllAsync())
-                           .ReturnsAsync(response);
+            _mockWeatherForecastRepository
+                .Setup(repo => repo.GetAllAsync())
+                .ReturnsAsync(response);
+
+            var handler = new GetAllWeatherForecastHandler(
+                _mockUnitOfWork.Object,
+                _mockWeatherForecastRepository.Object);
 
             // Act
-            var result = await _mediator.Send(query);
+            var result = await handler.Handle(query, CancellationToken.None);
 
             // Assert
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Value);
             Assert.Empty(result.Value.Elements);
-            _mockUnitOfWork.Verify(uow => uow.WeatherForecastRepository.GetAllAsync(), Times.Once);
+            _mockWeatherForecastRepository.Verify(repo => repo.GetAllAsync(), Times.Once);
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using CleanArchitecture.Template.Api.Results;
-using CleanArchitecture.Template.Application.Users.Query.GetById;
+using CleanArchitecture.Template.Application.Users.Queries.GetById;
 using CleanArchitecture.Template.SharedKernel.Results;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

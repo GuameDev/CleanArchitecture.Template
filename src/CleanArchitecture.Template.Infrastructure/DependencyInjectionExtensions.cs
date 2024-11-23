@@ -1,8 +1,8 @@
 ﻿using CleanArchitecture.Template.Application.Base.UnitOfWork;
-using CleanArchitecture.Template.Application.Users.Repository;
+using CleanArchitecture.Template.Application.Users.Repositories;
 using CleanArchitecture.Template.Application.Users.Services;
 using CleanArchitecture.Template.Application.Users.Services.Authentication;
-using CleanArchitecture.Template.Application.WeatherForecasts.Repository;
+using CleanArchitecture.Template.Application.WeatherForecasts.Repositories;
 using CleanArchitecture.Template.Infrastructure.Persistence;
 using CleanArchitecture.Template.Infrastructure.Persistence.Repositories.Base;
 using CleanArchitecture.Template.Infrastructure.Persistence.Repositories.Users;

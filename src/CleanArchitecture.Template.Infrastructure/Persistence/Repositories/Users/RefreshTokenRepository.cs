@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Template.Application.Users.Repository;
+﻿using CleanArchitecture.Template.Application.Users.Repositories;
 using CleanArchitecture.Template.Domain.Users.Aggregates.RefreshTokens;
 using CleanArchitecture.Template.Infrastructure.Persistence.Repositories.Base;
 using CleanArchitecture.Template.SharedKernel.Specification;

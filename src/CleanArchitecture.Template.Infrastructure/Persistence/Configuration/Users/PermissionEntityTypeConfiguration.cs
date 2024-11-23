@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration.Users
 {
-    public class PermissionEntityTypeConfiguration : BaseEntityConfiguration<Permission, Guid>
+    public class PermissionEntityTypeConfiguration : EntityTypeConfiguration<Permission, Guid>
     {
         public override void Configure(EntityTypeBuilder<Permission> builder)
         {

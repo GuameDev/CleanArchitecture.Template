@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
+﻿using CleanArchitecture.Template.Domain.WeatherForecasts.Constants;
 using CleanArchitecture.Template.SharedKernel.Specification.Criterias;
 using System.Linq.Expressions;
 
