@@ -70,16 +70,7 @@ namespace CleanArchitecture.Template.Application.Users.Commands.LoginUser
 
             // Save the new refresh token if creation was successful
             await _refreshTokenRepository.AddAsync(newRefreshToken.Value);
-            try
-            {
-                await _unitOfWork.CommitAsync(cancellationToken);
-
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
+            await _unitOfWork.CommitAsync(cancellationToken);
 
             return Result.Success(new LoginUserResponse(accessTokenResponse, refreshTokenResponse));
         }

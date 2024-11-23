@@ -7,7 +7,7 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration.Us
 {
     public class RefreshTokenEntityTypeConfiguration : EntityTypeConfiguration<RefreshToken, Guid>
     {
-        public void Configure(EntityTypeBuilder<RefreshToken> builder)
+        public override void Configure(EntityTypeBuilder<RefreshToken> builder)
         {
             builder.ToTable(UserConstantsEntityTypeConfiguration.RefreshTokenTableName);
 
