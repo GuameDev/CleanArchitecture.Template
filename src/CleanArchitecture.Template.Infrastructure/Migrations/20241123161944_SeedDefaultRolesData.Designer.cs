@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CleanArchitecture.Template.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241123143909_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20241123161944_SeedDefaultRolesData")]
+    partial class SeedDefaultRolesData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,6 +54,48 @@ namespace CleanArchitecture.Template.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Permissions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("c3c11234-56b8-4e89-91f4-21e1e69e76fa"),
+                            CreatedDate = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Can read data",
+                            Type = "Read",
+                            UpdatedDate = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("d4b732bc-0a9d-420f-8c2d-5911dbe24d6d"),
+                            CreatedDate = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Can modify data",
+                            Type = "Write",
+                            UpdatedDate = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("e5f01b6d-1b3e-4919-9b24-7c3e61f1f91b"),
+                            CreatedDate = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Can manage users",
+                            Type = "ManageUsers",
+                            UpdatedDate = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("f6027a94-318d-4d13-b78f-9277cd3f7086"),
+                            CreatedDate = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Can manage roles and permissions",
+                            Type = "ManageRoles",
+                            UpdatedDate = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("a8b61357-15f2-48a1-9114-2d2d885de8c1"),
+                            CreatedDate = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Can view the dashboard",
+                            Type = "ViewDashboard",
+                            UpdatedDate = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
+                        });
                 });
 
             modelBuilder.Entity("CleanArchitecture.Template.Domain.Users.Aggregates.RefreshTokens.RefreshToken", b =>
@@ -71,7 +113,9 @@ namespace CleanArchitecture.Template.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsRevoked")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<DateTime?>("LastUsed")
                         .HasColumnType("datetime2");
@@ -84,7 +128,8 @@ namespace CleanArchitecture.Template.Infrastructure.Migrations
 
                     b.Property<string>("Token")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -96,7 +141,7 @@ namespace CleanArchitecture.Template.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("RefreshTokens");
+                    b.ToTable("RefreshTokens", (string)null);
                 });
 
             modelBuilder.Entity("CleanArchitecture.Template.Domain.Users.Aggregates.Roles.Role", b =>
@@ -124,6 +169,22 @@ namespace CleanArchitecture.Template.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("a37f1b12-6d0c-4d52-a4e5-b84adf6d184c"),
+                            CreatedDate = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
+                            RoleName = "Admin",
+                            UpdatedDate = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("b2e8e3f6-c8f1-45db-8c7a-a7e14c680bfb"),
+                            CreatedDate = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
+                            RoleName = "User",
+                            UpdatedDate = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
+                        });
                 });
 
             modelBuilder.Entity("CleanArchitecture.Template.Domain.Users.User", b =>
@@ -206,6 +267,44 @@ namespace CleanArchitecture.Template.Infrastructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("RolePermissions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            PermissionId = new Guid("c3c11234-56b8-4e89-91f4-21e1e69e76fa"),
+                            RoleId = new Guid("a37f1b12-6d0c-4d52-a4e5-b84adf6d184c")
+                        },
+                        new
+                        {
+                            Id = 2,
+                            PermissionId = new Guid("d4b732bc-0a9d-420f-8c2d-5911dbe24d6d"),
+                            RoleId = new Guid("a37f1b12-6d0c-4d52-a4e5-b84adf6d184c")
+                        },
+                        new
+                        {
+                            Id = 3,
+                            PermissionId = new Guid("e5f01b6d-1b3e-4919-9b24-7c3e61f1f91b"),
+                            RoleId = new Guid("a37f1b12-6d0c-4d52-a4e5-b84adf6d184c")
+                        },
+                        new
+                        {
+                            Id = 4,
+                            PermissionId = new Guid("f6027a94-318d-4d13-b78f-9277cd3f7086"),
+                            RoleId = new Guid("a37f1b12-6d0c-4d52-a4e5-b84adf6d184c")
+                        },
+                        new
+                        {
+                            Id = 5,
+                            PermissionId = new Guid("a8b61357-15f2-48a1-9114-2d2d885de8c1"),
+                            RoleId = new Guid("a37f1b12-6d0c-4d52-a4e5-b84adf6d184c")
+                        },
+                        new
+                        {
+                            Id = 6,
+                            PermissionId = new Guid("c3c11234-56b8-4e89-91f4-21e1e69e76fa"),
+                            RoleId = new Guid("b2e8e3f6-c8f1-45db-8c7a-a7e14c680bfb")
+                        });
                 });
 
             modelBuilder.Entity("UserRoles", b =>
@@ -319,7 +418,7 @@ namespace CleanArchitecture.Template.Infrastructure.Migrations
 
             modelBuilder.Entity("CleanArchitecture.Template.Domain.WeatherForecasts.WeatherForecast", b =>
                 {
-                    b.OwnsOne("CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects.Temperature", "Temperature", b1 =>
+                    b.OwnsOne("CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects.Temperatures.Temperature", "Temperature", b1 =>
                         {
                             b1.Property<Guid>("WeatherForecastId")
                                 .HasColumnType("uniqueidentifier");
@@ -341,7 +440,7 @@ namespace CleanArchitecture.Template.Infrastructure.Migrations
                                 .HasForeignKey("WeatherForecastId");
                         });
 
-                    b.OwnsOne("CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects.WeatherDate", "Date", b1 =>
+                    b.OwnsOne("CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects.WeatherDates.WeatherDate", "Date", b1 =>
                         {
                             b1.Property<Guid>("WeatherForecastId")
                                 .HasColumnType("uniqueidentifier");

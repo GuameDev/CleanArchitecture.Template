@@ -3,9 +3,9 @@ using CleanArchitecture.Template.Domain.Users.Aggregates.Roles;
 using CleanArchitecture.Template.Infrastructure.Persistence.Configuration.Users.Constants;
 using Microsoft.EntityFrameworkCore;
 
-public static class UserDefaultDataSeeder
+public static class RolesDefaultDataSeeder
 {
-    // Pre-generated random GUIDs, hard-coded to avoid migration changes
+    // Pre-generated GUIDs for Roles and Permissions
     public static readonly Guid AdminRoleId = Guid.Parse("a37f1b12-6d0c-4d52-a4e5-b84adf6d184c");
     public static readonly Guid UserRoleId = Guid.Parse("b2e8e3f6-c8f1-45db-8c7a-a7e14c680bfb");
 
@@ -15,27 +15,28 @@ public static class UserDefaultDataSeeder
     public static readonly Guid ManageRolesPermissionId = Guid.Parse("f6027a94-318d-4d13-b78f-9277cd3f7086");
     public static readonly Guid ViewDashboardPermissionId = Guid.Parse("a8b61357-15f2-48a1-9114-2d2d885de8c1");
 
+    // Fixed DateTime values to avoid regeneration
+    private static readonly DateTime FixedCreatedDate = new DateTime(2024, 1, 1, 12, 0, 0, DateTimeKind.Utc);
+    private static readonly DateTime FixedUpdatedDate = new DateTime(2024, 1, 1, 12, 0, 0, DateTimeKind.Utc);
 
     public static void Seed(ModelBuilder modelBuilder)
     {
-        var now = DateTime.UtcNow;
-
-        // Seed roles
+        // Seed Roles
         modelBuilder.Entity<Role>().HasData(
-            new { Id = AdminRoleId, RoleName = RoleName.Admin, CreatedDate = now, UpdatedDate = now },
-            new { Id = UserRoleId, RoleName = RoleName.User, CreatedDate = now, UpdatedDate = now }
+            new { Id = AdminRoleId, RoleName = RoleName.Admin, CreatedDate = FixedCreatedDate, UpdatedDate = FixedUpdatedDate },
+            new { Id = UserRoleId, RoleName = RoleName.User, CreatedDate = FixedCreatedDate, UpdatedDate = FixedUpdatedDate }
         );
 
-        // Seed permissions using the PermissionType enum
+        // Seed Permissions
         modelBuilder.Entity<Permission>().HasData(
-            new { Id = ReadPermissionId, Type = PermissionType.Read, Description = "Can read data", CreatedDate = now, UpdatedDate = now },
-            new { Id = WritePermissionId, Type = PermissionType.Write, Description = "Can modify data", CreatedDate = now, UpdatedDate = now },
-            new { Id = ManageUsersPermissionId, Type = PermissionType.ManageUsers, Description = "Can manage users", CreatedDate = now, UpdatedDate = now },
-            new { Id = ManageRolesPermissionId, Type = PermissionType.ManageRoles, Description = "Can manage roles and permissions", CreatedDate = now, UpdatedDate = now },
-            new { Id = ViewDashboardPermissionId, Type = PermissionType.ViewDashboard, Description = "Can view the dashboard", CreatedDate = now, UpdatedDate = now }
+            new { Id = ReadPermissionId, Type = PermissionType.Read, Description = "Can read data", CreatedDate = FixedCreatedDate, UpdatedDate = FixedUpdatedDate },
+            new { Id = WritePermissionId, Type = PermissionType.Write, Description = "Can modify data", CreatedDate = FixedCreatedDate, UpdatedDate = FixedUpdatedDate },
+            new { Id = ManageUsersPermissionId, Type = PermissionType.ManageUsers, Description = "Can manage users", CreatedDate = FixedCreatedDate, UpdatedDate = FixedUpdatedDate },
+            new { Id = ManageRolesPermissionId, Type = PermissionType.ManageRoles, Description = "Can manage roles and permissions", CreatedDate = FixedCreatedDate, UpdatedDate = FixedUpdatedDate },
+            new { Id = ViewDashboardPermissionId, Type = PermissionType.ViewDashboard, Description = "Can view the dashboard", CreatedDate = FixedCreatedDate, UpdatedDate = FixedUpdatedDate }
         );
 
-        // Seed many-to-many relationships for RolePermissions
+        // Seed RolePermissions (Many-to-Many relationships)
         modelBuilder.Entity(UserConstantsEntityTypeConfiguration.RolePermissionsTableName).HasData(
             new { Id = 1, RoleId = AdminRoleId, PermissionId = ReadPermissionId },
             new { Id = 2, RoleId = AdminRoleId, PermissionId = WritePermissionId },

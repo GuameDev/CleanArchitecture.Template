@@ -9,6 +9,8 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration.Us
     {
         public override void Configure(EntityTypeBuilder<RefreshToken> builder)
         {
+            base.Configure(builder);
+
             builder.ToTable(UserConstantsEntityTypeConfiguration.RefreshTokenTableName);
 
             builder.HasKey(rt => rt.Id);

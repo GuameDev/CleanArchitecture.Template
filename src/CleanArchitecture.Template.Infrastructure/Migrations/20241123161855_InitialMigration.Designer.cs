@@ -4,6 +4,7 @@ using CleanArchitecture.Template.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CleanArchitecture.Template.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241123161855_InitialMigration")]
+    partial class InitialMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,48 +54,6 @@ namespace CleanArchitecture.Template.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Permissions");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("c3c11234-56b8-4e89-91f4-21e1e69e76fa"),
-                            CreatedDate = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Can read data",
-                            Type = "Read",
-                            UpdatedDate = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("d4b732bc-0a9d-420f-8c2d-5911dbe24d6d"),
-                            CreatedDate = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Can modify data",
-                            Type = "Write",
-                            UpdatedDate = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("e5f01b6d-1b3e-4919-9b24-7c3e61f1f91b"),
-                            CreatedDate = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Can manage users",
-                            Type = "ManageUsers",
-                            UpdatedDate = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("f6027a94-318d-4d13-b78f-9277cd3f7086"),
-                            CreatedDate = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Can manage roles and permissions",
-                            Type = "ManageRoles",
-                            UpdatedDate = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("a8b61357-15f2-48a1-9114-2d2d885de8c1"),
-                            CreatedDate = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Can view the dashboard",
-                            Type = "ViewDashboard",
-                            UpdatedDate = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
-                        });
                 });
 
             modelBuilder.Entity("CleanArchitecture.Template.Domain.Users.Aggregates.RefreshTokens.RefreshToken", b =>
@@ -166,22 +127,6 @@ namespace CleanArchitecture.Template.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("a37f1b12-6d0c-4d52-a4e5-b84adf6d184c"),
-                            CreatedDate = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            RoleName = "Admin",
-                            UpdatedDate = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("b2e8e3f6-c8f1-45db-8c7a-a7e14c680bfb"),
-                            CreatedDate = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            RoleName = "User",
-                            UpdatedDate = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
-                        });
                 });
 
             modelBuilder.Entity("CleanArchitecture.Template.Domain.Users.User", b =>
@@ -241,43 +186,6 @@ namespace CleanArchitecture.Template.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("WeatherForecasts");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("a37f1b12-6d0c-4d52-a4e5-b84adf6d184c"),
-                            CreatedDate = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Summary = "Scorching",
-                            UpdatedDate = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("b2e8e3f6-c8f1-45db-8c7a-a7e14c680bfb"),
-                            CreatedDate = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Summary = "Freezing",
-                            UpdatedDate = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("c3c11234-56b8-4e89-91f4-21e1e69e76fa"),
-                            CreatedDate = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Summary = "Chilly",
-                            UpdatedDate = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("d4b732bc-0a9d-420f-8c2d-5911dbe24d6d"),
-                            CreatedDate = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Summary = "Mild",
-                            UpdatedDate = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("e5f01b6d-1b3e-4919-9b24-7c3e61f1f91b"),
-                            CreatedDate = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Summary = "Sweltering",
-                            UpdatedDate = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
-                        });
                 });
 
             modelBuilder.Entity("RolePermissions", b =>
@@ -301,44 +209,6 @@ namespace CleanArchitecture.Template.Infrastructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("RolePermissions");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            PermissionId = new Guid("c3c11234-56b8-4e89-91f4-21e1e69e76fa"),
-                            RoleId = new Guid("a37f1b12-6d0c-4d52-a4e5-b84adf6d184c")
-                        },
-                        new
-                        {
-                            Id = 2,
-                            PermissionId = new Guid("d4b732bc-0a9d-420f-8c2d-5911dbe24d6d"),
-                            RoleId = new Guid("a37f1b12-6d0c-4d52-a4e5-b84adf6d184c")
-                        },
-                        new
-                        {
-                            Id = 3,
-                            PermissionId = new Guid("e5f01b6d-1b3e-4919-9b24-7c3e61f1f91b"),
-                            RoleId = new Guid("a37f1b12-6d0c-4d52-a4e5-b84adf6d184c")
-                        },
-                        new
-                        {
-                            Id = 4,
-                            PermissionId = new Guid("f6027a94-318d-4d13-b78f-9277cd3f7086"),
-                            RoleId = new Guid("a37f1b12-6d0c-4d52-a4e5-b84adf6d184c")
-                        },
-                        new
-                        {
-                            Id = 5,
-                            PermissionId = new Guid("a8b61357-15f2-48a1-9114-2d2d885de8c1"),
-                            RoleId = new Guid("a37f1b12-6d0c-4d52-a4e5-b84adf6d184c")
-                        },
-                        new
-                        {
-                            Id = 6,
-                            PermissionId = new Guid("c3c11234-56b8-4e89-91f4-21e1e69e76fa"),
-                            RoleId = new Guid("b2e8e3f6-c8f1-45db-8c7a-a7e14c680bfb")
-                        });
                 });
 
             modelBuilder.Entity("UserRoles", b =>
@@ -472,38 +342,6 @@ namespace CleanArchitecture.Template.Infrastructure.Migrations
 
                             b1.WithOwner()
                                 .HasForeignKey("WeatherForecastId");
-
-                            b1.HasData(
-                                new
-                                {
-                                    WeatherForecastId = new Guid("a37f1b12-6d0c-4d52-a4e5-b84adf6d184c"),
-                                    Type = "Celsius",
-                                    Value = -5.0
-                                },
-                                new
-                                {
-                                    WeatherForecastId = new Guid("b2e8e3f6-c8f1-45db-8c7a-a7e14c680bfb"),
-                                    Type = "Celsius",
-                                    Value = 0.0
-                                },
-                                new
-                                {
-                                    WeatherForecastId = new Guid("c3c11234-56b8-4e89-91f4-21e1e69e76fa"),
-                                    Type = "Celsius",
-                                    Value = 5.0
-                                },
-                                new
-                                {
-                                    WeatherForecastId = new Guid("d4b732bc-0a9d-420f-8c2d-5911dbe24d6d"),
-                                    Type = "Celsius",
-                                    Value = 10.0
-                                },
-                                new
-                                {
-                                    WeatherForecastId = new Guid("e5f01b6d-1b3e-4919-9b24-7c3e61f1f91b"),
-                                    Type = "Celsius",
-                                    Value = 15.0
-                                });
                         });
 
                     b.OwnsOne("CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects.WeatherDates.WeatherDate", "Date", b1 =>
@@ -521,33 +359,6 @@ namespace CleanArchitecture.Template.Infrastructure.Migrations
 
                             b1.WithOwner()
                                 .HasForeignKey("WeatherForecastId");
-
-                            b1.HasData(
-                                new
-                                {
-                                    WeatherForecastId = new Guid("a37f1b12-6d0c-4d52-a4e5-b84adf6d184c"),
-                                    Value = new DateOnly(2024, 1, 1)
-                                },
-                                new
-                                {
-                                    WeatherForecastId = new Guid("b2e8e3f6-c8f1-45db-8c7a-a7e14c680bfb"),
-                                    Value = new DateOnly(2024, 1, 2)
-                                },
-                                new
-                                {
-                                    WeatherForecastId = new Guid("c3c11234-56b8-4e89-91f4-21e1e69e76fa"),
-                                    Value = new DateOnly(2024, 1, 3)
-                                },
-                                new
-                                {
-                                    WeatherForecastId = new Guid("d4b732bc-0a9d-420f-8c2d-5911dbe24d6d"),
-                                    Value = new DateOnly(2024, 1, 4)
-                                },
-                                new
-                                {
-                                    WeatherForecastId = new Guid("e5f01b6d-1b3e-4919-9b24-7c3e61f1f91b"),
-                                    Value = new DateOnly(2024, 1, 5)
-                                });
                         });
 
                     b.Navigation("Date")

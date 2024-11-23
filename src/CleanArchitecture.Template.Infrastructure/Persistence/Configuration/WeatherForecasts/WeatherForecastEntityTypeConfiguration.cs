@@ -10,6 +10,8 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration.We
     {
         public override void Configure(EntityTypeBuilder<WeatherForecast> builder)
         {
+            base.Configure(builder);
+
             builder.HasKey(weatherForecast => weatherForecast.Id);
 
             // Convert Summary to string for storing in the database
@@ -32,57 +34,6 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration.We
             {
                 date.Property(d => d.Value).HasColumnName("Date");
             });
-
-            builder.Property(e => e.RowVersion)
-            .IsRowVersion()
-            .IsConcurrencyToken()
-            .ValueGeneratedOnAddOrUpdate();
-
-            SeedDefaultData(builder);
-
-        }
-
-        private static void SeedDefaultData(EntityTypeBuilder<WeatherForecast> builder)
-        {
-            var random = new Random();
-            var weatherForecasts = new List<object>();
-            var temperatures = new List<object>();
-            var dates = new List<object>();
-
-            for (var i = 0; i < 20; i++)
-            {
-                var id = Guid.NewGuid();
-                var summary = (Summary)random.Next(0, Enum.GetValues<Summary>().Length);
-                var temperatureValue = (double)random.Next(-5, 35);
-                var temperatureType = (TemperatureType)random.Next(0, 2);
-                var dateValue = DateOnly.FromDateTime(DateTime.Now.AddDays(random.Next(-1000, 1000)));
-                var now = DateTime.Now;
-
-                weatherForecasts.Add(new
-                {
-                    Id = id,
-                    Summary = summary,
-                    CreatedDate = now,
-                    UpdatedDate = now
-                });
-
-                temperatures.Add(new
-                {
-                    WeatherForecastId = id,
-                    Value = temperatureValue,
-                    Type = temperatureType
-                });
-
-                dates.Add(new
-                {
-                    WeatherForecastId = id,
-                    Value = dateValue
-                });
-            }
-
-            builder.HasData(weatherForecasts);
-            builder.OwnsOne(weatherForecast => weatherForecast.Temperature).HasData(temperatures);
-            builder.OwnsOne(weatherForecast => weatherForecast.Date).HasData(dates);
         }
     }
 }
