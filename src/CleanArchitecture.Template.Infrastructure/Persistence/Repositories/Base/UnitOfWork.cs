@@ -1,45 +1,58 @@
 ﻿using CleanArchitecture.Template.Application.Base.UnitOfWork;
-using CleanArchitecture.Template.Application.Users.Repository;
-using CleanArchitecture.Template.Application.WeatherForecasts.Repository;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories.Base
 {
-    public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork : IUnitOfWork, IDisposable
     {
         private readonly ApplicationDbContext _context;
-        private bool _disposed = false;
+        private IDbContextTransaction? _transaction;
+        private bool _disposed;
 
-        public IWeatherForecastRepository WeatherForecastRepository { get; }
-        public IUserRepository UserRepository { get; }
-        public IRoleRepository RoleRepository { get; }
-        public IRefreshTokenRepository RefreshTokenRepository { get; }
-
-        public UnitOfWork(
-            ApplicationDbContext context,
-            IWeatherForecastRepository weatherForecastRepository,
-            IUserRepository userRepository,
-            IRoleRepository roleRepository,
-            IRefreshTokenRepository refreshTokenRepository)
+        public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
-            WeatherForecastRepository = weatherForecastRepository;
-            UserRepository = userRepository;
-            RoleRepository = roleRepository;
-            RefreshTokenRepository = refreshTokenRepository;
         }
-
-
 
         public async Task<int> CommitAsync(CancellationToken cancellationToken = default)
         {
-            return await _context.SaveChangesAsync(cancellationToken);
+            try
+            {
+                return await _context.SaveChangesAsync(cancellationToken);
+            }
+            catch
+            {
+                Rollback();
+                throw;
+            }
         }
 
-        public Task RollbackAsync(CancellationToken cancellationToken = default)
+        public void Rollback()
         {
-            // In EF Core, there's no direct rollback mechanism.
-            // Just don't call CommitAsync, and the transaction will not be saved.
-            return Task.CompletedTask;
+            if (_transaction != null)
+            {
+                _transaction.Rollback();
+                _transaction.Dispose();
+                _transaction = null;
+            }
+        }
+
+        public async Task BeginTransactionAsync(CancellationToken cancellationToken = default)
+        {
+            if (_transaction == null)
+            {
+                _transaction = await _context.Database.BeginTransactionAsync(cancellationToken);
+            }
+        }
+
+        public async Task CommitTransactionAsync(CancellationToken cancellationToken = default)
+        {
+            if (_transaction != null)
+            {
+                await _transaction.CommitAsync(cancellationToken);
+                _transaction.Dispose();
+                _transaction = null;
+            }
         }
 
         protected virtual void Dispose(bool disposing)
@@ -48,10 +61,13 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories.Bas
             {
                 if (disposing)
                 {
+                    // Dispose managed resources
+                    _transaction?.Dispose();
                     _context.Dispose();
                 }
+
+                _disposed = true;
             }
-            _disposed = true;
         }
 
         public void Dispose()
@@ -60,5 +76,4 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Repositories.Bas
             GC.SuppressFinalize(this);
         }
     }
-
 }

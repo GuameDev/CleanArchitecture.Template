@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CleanArchitecture.Template.Application.Base.UnitOfWork;
 using CleanArchitecture.Template.Application.WeatherForecasts.Commands.Create.DTOs;
+using CleanArchitecture.Template.Application.WeatherForecasts.Repository;
 using CleanArchitecture.Template.SharedKernel.Results;
 using MediatR;
 
@@ -10,13 +11,16 @@ namespace CleanArchitecture.Template.Application.WeatherForecasts.Commands.Creat
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IWeatherForecastRepository _weatherForecastRepository;
 
         public CreateWeatherForecastHandler(
             IUnitOfWork unitOfWork,
-            IMapper mapper)
+            IMapper mapper,
+            IWeatherForecastRepository weatherForecastRepository)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _weatherForecastRepository = weatherForecastRepository;
         }
 
         public async Task<Result<CreateWeatherForecastResponse>> Handle(CreateWeatherForecastCommand request, CancellationToken cancellationToken)
@@ -33,7 +37,7 @@ namespace CleanArchitecture.Template.Application.WeatherForecasts.Commands.Creat
 
             // Persist the valid entity in the repository
             var entity = weatherForecastResult.Value;
-            await _unitOfWork.WeatherForecastRepository.AddAsync(entity);
+            await _weatherForecastRepository.AddAsync(entity);
 
             // Commit the transaction
             await _unitOfWork.CommitAsync(cancellationToken);

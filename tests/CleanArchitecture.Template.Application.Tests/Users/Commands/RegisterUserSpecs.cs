@@ -1,5 +1,6 @@
 ﻿using CleanArchitecture.Template.Application.Tests.Base;
 using CleanArchitecture.Template.Application.Users.Commands.RegisterUser;
+using CleanArchitecture.Template.Application.Users.Repository;
 using CleanArchitecture.Template.Application.Users.Services.Authentication;
 using CleanArchitecture.Template.Domain.Users;
 using CleanArchitecture.Template.Domain.Users.Aggregates.Roles;
@@ -23,8 +24,15 @@ namespace CleanArchitecture.Template.Application.Tests.Users.Commands
         {
             // Arrange
             var mockUnitOfWork = _fixture.CreateMockUnitOfWork();
+            var mockUserRepository = new Mock<IUserRepository>();
+            var mockRoleRepository = new Mock<IRoleRepository>();
             var mockPasswordHasher = new Mock<IUserPasswordHasher>();
-            var handler = new RegisterUserHandler(mockUnitOfWork.Object, mockPasswordHasher.Object);
+            var handler = new RegisterUserHandler(
+                mockUnitOfWork.Object,
+                mockUserRepository.Object,
+                mockRoleRepository.Object,
+                mockPasswordHasher.Object
+            );
 
             var request = new RegisterUserCommand(
                 "johndoe",
@@ -35,20 +43,20 @@ namespace CleanArchitecture.Template.Application.Tests.Users.Commands
                 "StrongPass123!"
             );
 
-            mockUnitOfWork
-                .Setup(uow => uow.UserRepository.ExistAsync(It.IsAny<ISpecification<User>>()))
+            mockUserRepository
+                .Setup(repo => repo.ExistAsync(It.IsAny<ISpecification<User>>()))
                 .ReturnsAsync(false);
 
             mockPasswordHasher
                 .Setup(ph => ph.Hash(It.IsAny<string>()))
                 .Returns("hashedpassword");
 
-            mockUnitOfWork
-                .Setup(uow => uow.RoleRepository.GetByNameAsync(RoleName.User))
+            mockRoleRepository
+                .Setup(repo => repo.GetByNameAsync(RoleName.User))
                 .ReturnsAsync(Role.Create(Guid.NewGuid(), RoleName.User).Value);
 
-            mockUnitOfWork
-                .Setup(uow => uow.UserRepository.AddAsync(It.IsAny<User>()))
+            mockUserRepository
+                .Setup(repo => repo.AddAsync(It.IsAny<User>()))
                 .Returns(Task.CompletedTask);
 
             mockUnitOfWork
@@ -61,7 +69,7 @@ namespace CleanArchitecture.Template.Application.Tests.Users.Commands
             // Assert
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Value);
-            mockUnitOfWork.Verify(uow => uow.UserRepository.AddAsync(It.IsAny<User>()), Times.Once);
+            mockUserRepository.Verify(repo => repo.AddAsync(It.IsAny<User>()), Times.Once);
             mockUnitOfWork.Verify(uow => uow.CommitAsync(It.IsAny<CancellationToken>()), Times.Once);
         }
 
@@ -70,8 +78,15 @@ namespace CleanArchitecture.Template.Application.Tests.Users.Commands
         {
             // Arrange
             var mockUnitOfWork = _fixture.CreateMockUnitOfWork();
+            var mockUserRepository = new Mock<IUserRepository>();
+            var mockRoleRepository = new Mock<IRoleRepository>();
             var mockPasswordHasher = new Mock<IUserPasswordHasher>();
-            var handler = new RegisterUserHandler(mockUnitOfWork.Object, mockPasswordHasher.Object);
+            var handler = new RegisterUserHandler(
+                mockUnitOfWork.Object,
+                mockUserRepository.Object,
+                mockRoleRepository.Object,
+                mockPasswordHasher.Object
+            );
 
             var request = new RegisterUserCommand(
                 "johndoe",
@@ -82,8 +97,8 @@ namespace CleanArchitecture.Template.Application.Tests.Users.Commands
                 "StrongPass123!"
             );
 
-            mockUnitOfWork
-                .Setup(uow => uow.UserRepository.ExistAsync(It.IsAny<ISpecification<User>>()))
+            mockUserRepository
+                .Setup(repo => repo.ExistAsync(It.IsAny<ISpecification<User>>()))
                 .ReturnsAsync(true);
 
             // Act
@@ -92,7 +107,7 @@ namespace CleanArchitecture.Template.Application.Tests.Users.Commands
             // Assert
             Assert.False(result.IsSuccess);
             Assert.Equal(UserErrors.UserAlreadyExist, result.Error);
-            mockUnitOfWork.Verify(uow => uow.UserRepository.AddAsync(It.IsAny<User>()), Times.Never);
+            mockUserRepository.Verify(repo => repo.AddAsync(It.IsAny<User>()), Times.Never);
             mockUnitOfWork.Verify(uow => uow.CommitAsync(It.IsAny<CancellationToken>()), Times.Never);
         }
 
@@ -101,8 +116,15 @@ namespace CleanArchitecture.Template.Application.Tests.Users.Commands
         {
             // Arrange
             var mockUnitOfWork = _fixture.CreateMockUnitOfWork();
+            var mockUserRepository = new Mock<IUserRepository>();
+            var mockRoleRepository = new Mock<IRoleRepository>();
             var mockPasswordHasher = new Mock<IUserPasswordHasher>();
-            var handler = new RegisterUserHandler(mockUnitOfWork.Object, mockPasswordHasher.Object);
+            var handler = new RegisterUserHandler(
+                mockUnitOfWork.Object,
+                mockUserRepository.Object,
+                mockRoleRepository.Object,
+                mockPasswordHasher.Object
+            );
 
             var request = new RegisterUserCommand(
                 "johndoe",
@@ -113,8 +135,8 @@ namespace CleanArchitecture.Template.Application.Tests.Users.Commands
                 "weak" // Invalid password
             );
 
-            mockUnitOfWork
-                .Setup(uow => uow.UserRepository.ExistAsync(It.IsAny<ISpecification<User>>()))
+            mockUserRepository
+                .Setup(repo => repo.ExistAsync(It.IsAny<ISpecification<User>>()))
                 .ReturnsAsync(false);
 
             // Act
@@ -123,7 +145,7 @@ namespace CleanArchitecture.Template.Application.Tests.Users.Commands
             // Assert
             Assert.False(result.IsSuccess);
             Assert.Equal(PasswordErrors.MinLengthPassword, result.Error);
-            mockUnitOfWork.Verify(uow => uow.UserRepository.AddAsync(It.IsAny<User>()), Times.Never);
+            mockUserRepository.Verify(repo => repo.AddAsync(It.IsAny<User>()), Times.Never);
             mockUnitOfWork.Verify(uow => uow.CommitAsync(It.IsAny<CancellationToken>()), Times.Never);
         }
 
@@ -132,8 +154,15 @@ namespace CleanArchitecture.Template.Application.Tests.Users.Commands
         {
             // Arrange
             var mockUnitOfWork = _fixture.CreateMockUnitOfWork();
+            var mockUserRepository = new Mock<IUserRepository>();
+            var mockRoleRepository = new Mock<IRoleRepository>();
             var mockPasswordHasher = new Mock<IUserPasswordHasher>();
-            var handler = new RegisterUserHandler(mockUnitOfWork.Object, mockPasswordHasher.Object);
+            var handler = new RegisterUserHandler(
+                mockUnitOfWork.Object,
+                mockUserRepository.Object,
+                mockRoleRepository.Object,
+                mockPasswordHasher.Object
+            );
 
             var request = new RegisterUserCommand(
                 "johndoe",
@@ -144,16 +173,16 @@ namespace CleanArchitecture.Template.Application.Tests.Users.Commands
                 "StrongPass123!"
             );
 
-            mockUnitOfWork
-                .Setup(uow => uow.UserRepository.ExistAsync(It.IsAny<ISpecification<User>>()))
+            mockUserRepository
+                .Setup(repo => repo.ExistAsync(It.IsAny<ISpecification<User>>()))
                 .ReturnsAsync(false);
 
             mockPasswordHasher
                 .Setup(ph => ph.Hash(It.IsAny<string>()))
                 .Returns("hashedpassword");
 
-            mockUnitOfWork
-                .Setup(uow => uow.RoleRepository.GetByNameAsync(RoleName.User))
+            mockRoleRepository
+                .Setup(repo => repo.GetByNameAsync(RoleName.User))
                 .ReturnsAsync((Role?)null);
 
             // Act
@@ -162,7 +191,7 @@ namespace CleanArchitecture.Template.Application.Tests.Users.Commands
             // Assert
             Assert.False(result.IsSuccess);
             Assert.Equal(UserErrors.DefaultRoleNotFound, result.Error);
-            mockUnitOfWork.Verify(uow => uow.UserRepository.AddAsync(It.IsAny<User>()), Times.Never);
+            mockUserRepository.Verify(repo => repo.AddAsync(It.IsAny<User>()), Times.Never);
             mockUnitOfWork.Verify(uow => uow.CommitAsync(It.IsAny<CancellationToken>()), Times.Never);
         }
     }

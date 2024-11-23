@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CleanArchitecture.Template.Application.Base.UnitOfWork;
 using CleanArchitecture.Template.Application.WeatherForecasts.Commands.Update.DTOs;
+using CleanArchitecture.Template.Application.WeatherForecasts.Repository;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Errors;
 using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects;
 using CleanArchitecture.Template.SharedKernel.Results;
@@ -12,16 +13,21 @@ namespace CleanArchitecture.Template.Application.WeatherForecasts.Commands.Updat
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IWeatherForecastRepository _weatherForecastRepository;
 
-        public UpdateWeatherForecastHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public UpdateWeatherForecastHandler(
+            IUnitOfWork unitOfWork,
+            IMapper mapper,
+            IWeatherForecastRepository weatherForecastRepository)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _weatherForecastRepository = weatherForecastRepository;
         }
 
         public async Task<Result<UpdateWeatherForecastResponse>> Handle(UpdateWeatherForecastCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _unitOfWork.WeatherForecastRepository.GetByIdAsync(new(request.Id));
+            var entity = await _weatherForecastRepository.GetByIdAsync(new(request.Id));
 
             if (entity is null)
                 return Result.Failure<UpdateWeatherForecastResponse>(WeatherForecastErrors.NotFound);
@@ -38,7 +44,7 @@ namespace CleanArchitecture.Template.Application.WeatherForecasts.Commands.Updat
             entity.UpdateTemperature(temperatureResult.Value);
             entity.UpdateDate(dateResult.Value);
 
-            _unitOfWork.WeatherForecastRepository.Update(entity);
+            _weatherForecastRepository.Update(entity);
             await _unitOfWork.CommitAsync();
 
             return Result.Success(_mapper.Map<UpdateWeatherForecastResponse>(entity));

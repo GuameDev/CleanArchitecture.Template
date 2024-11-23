@@ -3,27 +3,24 @@ using CleanArchitecture.Template.Application.Base.UnitOfWork;
 using CleanArchitecture.Template.Application.Tests.Base;
 using CleanArchitecture.Template.Application.WeatherForecasts.Queries.GetById;
 using CleanArchitecture.Template.Application.WeatherForecasts.Queries.GetById.DTOs;
+using CleanArchitecture.Template.Application.WeatherForecasts.Repository;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Errors;
-using MediatR;
 using Moq;
 
 namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Queries
 {
     public class GetByIdWeatherForecastSpecs : IClassFixture<MediatorIntegrationSetup>
     {
-        private readonly IMediator _mediator;
+        private readonly Mock<IWeatherForecastRepository> _mockWeatherForecastRepository;
         private readonly Mock<IUnitOfWork> _mockUnitOfWork;
         private readonly Mock<IMapper> _mockMapper;
 
         public GetByIdWeatherForecastSpecs(MediatorIntegrationSetup fixture)
         {
-            // Use the factory methods from the fixture to create fresh mocks for each test
+            _mockWeatherForecastRepository = new Mock<IWeatherForecastRepository>();
             _mockUnitOfWork = fixture.CreateMockUnitOfWork();
             _mockMapper = fixture.CreateMockMapper();
-
-            // Create a fresh mediator for each test using the mocks
-            _mediator = fixture.CreateMediator(_mockUnitOfWork, _mockMapper);
         }
 
         [Fact]
@@ -49,21 +46,28 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Queries
             };
 
             // Mock repository and mapper
-            _mockUnitOfWork.Setup(unitOfWork => unitOfWork.WeatherForecastRepository.GetByIdAsync(It.IsAny<GetWeatherForecastByIdRequest>()))
-                           .ReturnsAsync(entity);
+            _mockWeatherForecastRepository
+                .Setup(repo => repo.GetByIdAsync(It.IsAny<GetWeatherForecastByIdRequest>()))
+                .ReturnsAsync(entity);
 
-            _mockMapper.Setup(m => m.Map<GetWeatherForecastByIdResponse>(It.IsAny<Domain.WeatherForecasts.WeatherForecast>()))
-                       .Returns(mappedResponse);
+            _mockMapper
+                .Setup(m => m.Map<GetWeatherForecastByIdResponse>(It.IsAny<Domain.WeatherForecasts.WeatherForecast>()))
+                .Returns(mappedResponse);
+
+            var handler = new GetWeatherForecastByIdHandler(
+                _mockUnitOfWork.Object,
+                _mockMapper.Object,
+                _mockWeatherForecastRepository.Object);
 
             // Act
-            var result = await _mediator.Send(query);
+            var result = await handler.Handle(query, CancellationToken.None);
 
             // Assert
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Value);
             Assert.Equal(entity.Id, result.Value.Id);
             Assert.Equal(mappedResponse.TemperatureCelsius, result.Value.TemperatureCelsius);
-            _mockUnitOfWork.Verify(unitOfWork => unitOfWork.WeatherForecastRepository.GetByIdAsync(It.IsAny<GetWeatherForecastByIdRequest>()), Times.Once);
+            _mockWeatherForecastRepository.Verify(repo => repo.GetByIdAsync(It.IsAny<GetWeatherForecastByIdRequest>()), Times.Once);
         }
 
         [Fact]
@@ -72,11 +76,17 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Queries
             // Arrange
             var request = new GetWeatherForecastByIdQuery(Guid.NewGuid());
 
-            _mockUnitOfWork.Setup(unitOfWork => unitOfWork.WeatherForecastRepository.GetByIdAsync(It.IsAny<GetWeatherForecastByIdRequest>()))
-                           .ReturnsAsync((Domain.WeatherForecasts.WeatherForecast)null!);
+            _mockWeatherForecastRepository
+                .Setup(repo => repo.GetByIdAsync(It.IsAny<GetWeatherForecastByIdRequest>()))
+                .ReturnsAsync((Domain.WeatherForecasts.WeatherForecast?)null);
+
+            var handler = new GetWeatherForecastByIdHandler(
+                _mockUnitOfWork.Object,
+                _mockMapper.Object,
+                _mockWeatherForecastRepository.Object);
 
             // Act
-            var result = await _mediator.Send(request);
+            var result = await handler.Handle(request, CancellationToken.None);
 
             // Assert
             Assert.False(result.IsSuccess);
