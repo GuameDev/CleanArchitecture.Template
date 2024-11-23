@@ -1,5 +1,4 @@
-﻿using CleanArchitecture.Template.Domain.WeatherForecasts.Errors;
-using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects;
+﻿using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects.WeatherDates;
 
 namespace CleanArchitecture.Template.SharedKernel.Tests.ValueObjects
 {

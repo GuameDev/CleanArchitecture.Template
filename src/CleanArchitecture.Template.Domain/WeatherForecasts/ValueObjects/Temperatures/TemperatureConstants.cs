@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.Template.Domain.WeatherForecasts.Constants
+﻿namespace CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects.Temperatures
 {
     public static class TemperatureConstants
     {

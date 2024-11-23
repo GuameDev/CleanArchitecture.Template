@@ -1,7 +1,8 @@
 ﻿using CleanArchitecture.Template.Domain.Base;
-using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
+using CleanArchitecture.Template.Domain.WeatherForecasts.Constants;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Events;
-using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects;
+using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects.Temperatures;
+using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects.WeatherDates;
 using CleanArchitecture.Template.SharedKernel.Results;
 
 namespace CleanArchitecture.Template.Domain.WeatherForecasts

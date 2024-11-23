@@ -1,10 +1,7 @@
-﻿using CleanArchitecture.Template.Domain.WeatherForecasts.Constants;
-using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
-using CleanArchitecture.Template.Domain.WeatherForecasts.Errors;
-using CleanArchitecture.Template.SharedKernel.Results;
+﻿using CleanArchitecture.Template.SharedKernel.Results;
 
 
-namespace CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects
+namespace CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects.Temperatures
 {
     public class Temperature : ValueObject
     {

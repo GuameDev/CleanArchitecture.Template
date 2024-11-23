@@ -3,8 +3,9 @@ using CleanArchitecture.Template.Application.Tests.Base;
 using CleanArchitecture.Template.Application.WeatherForecasts.Commands.Delete;
 using CleanArchitecture.Template.Application.WeatherForecasts.Queries.GetById.DTOs;
 using CleanArchitecture.Template.Application.WeatherForecasts.Repositories;
-using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
-using CleanArchitecture.Template.Domain.WeatherForecasts.Errors;
+using CleanArchitecture.Template.Domain.WeatherForecasts;
+using CleanArchitecture.Template.Domain.WeatherForecasts.Constants;
+using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects.Temperatures;
 using Moq;
 
 namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Commands

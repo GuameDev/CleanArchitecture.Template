@@ -2,8 +2,9 @@
 using CleanArchitecture.Template.Application.Base.UnitOfWork;
 using CleanArchitecture.Template.Application.WeatherForecasts.Commands.Update.DTOs;
 using CleanArchitecture.Template.Application.WeatherForecasts.Repositories;
-using CleanArchitecture.Template.Domain.WeatherForecasts.Errors;
-using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects;
+using CleanArchitecture.Template.Domain.WeatherForecasts;
+using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects.Temperatures;
+using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects.WeatherDates;
 using CleanArchitecture.Template.SharedKernel.Results;
 using MediatR;
 

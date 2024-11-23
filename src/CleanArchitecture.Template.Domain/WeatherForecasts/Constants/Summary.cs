@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.Template.Domain.WeatherForecasts.Enums
+﻿namespace CleanArchitecture.Template.Domain.WeatherForecasts.Constants
 {
     public enum Summary
     {

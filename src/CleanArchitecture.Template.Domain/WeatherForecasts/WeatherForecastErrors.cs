@@ -1,6 +1,6 @@
 ﻿using CleanArchitecture.Template.SharedKernel.CommonTypes;
 
-namespace CleanArchitecture.Template.Domain.WeatherForecasts.Errors
+namespace CleanArchitecture.Template.Domain.WeatherForecasts
 {
     public static class WeatherForecastErrors
     {

@@ -1,7 +1,7 @@
 using CleanArchitecture.Template.Domain.WeatherForecasts;
-using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
-using CleanArchitecture.Template.Domain.WeatherForecasts.Errors;
-using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects;
+using CleanArchitecture.Template.Domain.WeatherForecasts.Constants;
+using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects.Temperatures;
+using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects.WeatherDates;
 
 namespace CleanArchitecture.Template.Domain.Tests.WeatherForecasts
 {

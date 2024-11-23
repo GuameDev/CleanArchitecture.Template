@@ -2,8 +2,8 @@
 using CleanArchitecture.Template.Application.WeatherForecasts.Commands.Create;
 using CleanArchitecture.Template.Application.WeatherForecasts.Commands.Create.DTOs;
 using CleanArchitecture.Template.Application.WeatherForecasts.Repositories;
-using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
-using CleanArchitecture.Template.Domain.WeatherForecasts.Errors;
+using CleanArchitecture.Template.Domain.WeatherForecasts.Constants;
+using CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects.Temperatures;
 using CleanArchitecture.Template.SharedKernel.CommonTypes.Enums;
 using Moq;
 

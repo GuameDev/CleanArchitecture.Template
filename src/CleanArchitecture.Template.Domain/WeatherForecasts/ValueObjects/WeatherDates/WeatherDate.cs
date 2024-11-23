@@ -1,7 +1,6 @@
-﻿using CleanArchitecture.Template.Domain.WeatherForecasts.Errors;
-using CleanArchitecture.Template.SharedKernel.Results;
+﻿using CleanArchitecture.Template.SharedKernel.Results;
 
-namespace CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects
+namespace CleanArchitecture.Template.Domain.WeatherForecasts.ValueObjects.WeatherDates
 {
     public class WeatherDate : ValueObject
     {
