@@ -18,8 +18,8 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration
 
             builder.Property(e => e.RowVersion)
                 .IsRowVersion()
-                .IsConcurrencyToken()
-                .ValueGeneratedOnAddOrUpdate();
+                .IsConcurrencyToken();
+
         }
     }
 }

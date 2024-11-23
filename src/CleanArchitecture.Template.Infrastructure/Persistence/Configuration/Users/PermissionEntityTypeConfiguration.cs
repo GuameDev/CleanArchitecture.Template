@@ -15,9 +15,8 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration.Us
                   v => (PermissionType)Enum.Parse(typeof(PermissionType), v))
               .IsRequired();
 
-            builder.Property(p => p.Description).IsRequired();
-
-
+            builder.Property(p => p.Description)
+                .IsRequired();
         }
     }
 }

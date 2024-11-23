@@ -4,6 +4,7 @@ using CleanArchitecture.Template.Domain.Users.Aggregates.Permissions;
 using CleanArchitecture.Template.Domain.Users.Aggregates.RefreshTokens;
 using CleanArchitecture.Template.Domain.Users.Aggregates.Roles;
 using CleanArchitecture.Template.Domain.WeatherForecasts;
+using CleanArchitecture.Template.Infrastructure.Persistence.Configuration.WeatherForecasts;
 using CleanArchitecture.Template.Infrastructure.Persistence.Interceptors;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,10 +26,13 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
 
             //Seed default data for users
-            UserDefaultDataSeeder.Seed(modelBuilder);
+            RolesDefaultDataSeeder.Seed(modelBuilder);
+            WeatherForecastDefaultDataSeeder.Seed(modelBuilder);
 
             modelBuilder.Ignore<DomainEvent>();
         }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.AddInterceptors(new UpdateAuditableInterceptor());
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
+            optionsBuilder.AddInterceptors(new UpdateAuditableInterceptor());
     }
 }
