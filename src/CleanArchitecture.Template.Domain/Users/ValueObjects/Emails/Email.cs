@@ -16,13 +16,16 @@ public class Email : ValueObject
         if (string.IsNullOrWhiteSpace(email))
             return Result.Failure<Email>(EmailErrors.InvalidEmail);
 
+        if (email.Length > EmailConstants.MaxLength)
+            return Result.Failure<Email>(EmailErrors.MaxLength);
+
         // Regex pattern for email validation
-        var emailRegex = new Regex(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$");
+        var emailRegex = new Regex(EmailConstants.ValidEmailRegex);
         if (!emailRegex.IsMatch(email))
             return Result.Failure<Email>(EmailErrors.InvalidEmailFormat);
 
         // Additional check for consecutive dots (..)
-        if (email.Contains(".."))
+        if (email.Contains(EmailConstants.InvalidFormat))
             return Result.Failure<Email>(EmailErrors.InvalidEmailFormat);
 
         return Result.Success(new Email(email));

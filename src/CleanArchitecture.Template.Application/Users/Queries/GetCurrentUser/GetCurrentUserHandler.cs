@@ -1,10 +1,10 @@
-﻿using CleanArchitecture.Template.Application.Users.Query.GetCurrentUser.DTOs;
+﻿using CleanArchitecture.Template.Application.Users.Queries.GetCurrentUser.DTOs;
 using CleanArchitecture.Template.Application.Users.Services;
 using CleanArchitecture.Template.Domain.Users;
 using CleanArchitecture.Template.SharedKernel.Results;
 using MediatR;
 
-namespace CleanArchitecture.Template.Application.Users.Query.GetCurrentUser
+namespace CleanArchitecture.Template.Application.Users.Queries.GetCurrentUser
 {
     public class GetCurrentUserHandler : IRequestHandler<GetCurrentUserQuery, Result<GetCurrentUserResponse>>
     {

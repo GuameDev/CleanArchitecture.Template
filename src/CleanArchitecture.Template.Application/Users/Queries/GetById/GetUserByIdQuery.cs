@@ -1,7 +1,7 @@
 ﻿using CleanArchitecture.Template.Application.Base.Messaging;
-using CleanArchitecture.Template.Application.Users.Query.GetById.DTOs;
+using CleanArchitecture.Template.Application.Users.Queries.GetById.DTOs;
 
-namespace CleanArchitecture.Template.Application.Users.Query.GetById
+namespace CleanArchitecture.Template.Application.Users.Queries.GetById
 {
     public record GetUserByIdQuery(Guid Id) : IQuery<GetUserByIdResponse> { }
 }

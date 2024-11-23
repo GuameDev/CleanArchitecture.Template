@@ -1,7 +1,7 @@
 ﻿using CleanArchitecture.Template.Application.Tests.Base;
 using CleanArchitecture.Template.Application.WeatherForecasts.Commands.Create;
 using CleanArchitecture.Template.Application.WeatherForecasts.Commands.Create.DTOs;
-using CleanArchitecture.Template.Application.WeatherForecasts.Repository;
+using CleanArchitecture.Template.Application.WeatherForecasts.Repositories;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Errors;
 using CleanArchitecture.Template.SharedKernel.CommonTypes.Enums;

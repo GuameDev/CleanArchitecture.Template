@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Template.Application.Users.Repository;
+﻿using CleanArchitecture.Template.Application.Users.Repositories;
 using CleanArchitecture.Template.Application.Users.Services;
 using CleanArchitecture.Template.Domain.Users;
 using CleanArchitecture.Template.Domain.Users.Specifications;

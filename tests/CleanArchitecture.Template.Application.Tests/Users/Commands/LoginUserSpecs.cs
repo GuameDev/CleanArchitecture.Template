@@ -1,7 +1,7 @@
 ﻿using CleanArchitecture.Template.Application.Tests.Base;
 using CleanArchitecture.Template.Application.Users.Commands.LoginUser;
 using CleanArchitecture.Template.Application.Users.Commands.LoginUser.DTOs;
-using CleanArchitecture.Template.Application.Users.Repository;
+using CleanArchitecture.Template.Application.Users.Repositories;
 using CleanArchitecture.Template.Application.Users.Services.Authentication;
 using CleanArchitecture.Template.Domain.Users;
 using CleanArchitecture.Template.Domain.Users.Aggregates.RefreshTokens;

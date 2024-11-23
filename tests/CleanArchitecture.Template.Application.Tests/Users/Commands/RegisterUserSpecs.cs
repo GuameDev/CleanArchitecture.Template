@@ -1,6 +1,6 @@
 ﻿using CleanArchitecture.Template.Application.Tests.Base;
 using CleanArchitecture.Template.Application.Users.Commands.RegisterUser;
-using CleanArchitecture.Template.Application.Users.Repository;
+using CleanArchitecture.Template.Application.Users.Repositories;
 using CleanArchitecture.Template.Application.Users.Services.Authentication;
 using CleanArchitecture.Template.Domain.Users;
 using CleanArchitecture.Template.Domain.Users.Aggregates.Roles;
@@ -144,7 +144,7 @@ namespace CleanArchitecture.Template.Application.Tests.Users.Commands
 
             // Assert
             Assert.False(result.IsSuccess);
-            Assert.Equal(PasswordErrors.MinLengthPassword, result.Error);
+            Assert.Equal(PasswordErrors.MinLength, result.Error);
             mockUserRepository.Verify(repo => repo.AddAsync(It.IsAny<User>()), Times.Never);
             mockUnitOfWork.Verify(uow => uow.CommitAsync(It.IsAny<CancellationToken>()), Times.Never);
         }

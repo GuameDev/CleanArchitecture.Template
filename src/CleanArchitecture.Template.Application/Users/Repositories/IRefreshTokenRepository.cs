@@ -1,7 +1,7 @@
 ﻿using CleanArchitecture.Template.Domain.Users.Aggregates.RefreshTokens;
 using CleanArchitecture.Template.SharedKernel.Specification;
 
-namespace CleanArchitecture.Template.Application.Users.Repository
+namespace CleanArchitecture.Template.Application.Users.Repositories
 {
     public interface IRefreshTokenRepository
     {

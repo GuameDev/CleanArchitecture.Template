@@ -33,13 +33,52 @@ namespace CleanArchitecture.Template.Domain.Tests.Users.ValueObjects
         }
 
         [Fact]
-        public void Create_ShouldReturnFailure_WhenEmailFormatIsInvalid()
+        public void Create_ShouldReturnFailure_WhenEmailExceedsMaxLength()
+        {
+            // Arrange valid email at max length
+            var maxLengthEmail = new string('a', EmailConstants.MaxLength - "@example.com".Length) + "@example.com";
+
+            // Act
+            var validResult = Email.Create(maxLengthEmail);
+
+            // Assert
+            Assert.True(validResult.IsSuccess); // Should pass for max length
+
+            // Arrange email exceeding max length
+            var tooLongEmail = new string('a', EmailConstants.MaxLength - "@example.com".Length + 1) + "@example.com";
+
+            // Act
+            var invalidResult = Email.Create(tooLongEmail);
+
+            // Assert
+            Assert.False(invalidResult.IsSuccess); // Should fail for exceeding max length
+            Assert.Equal(EmailErrors.MaxLength, invalidResult.Error);
+        }
+
+
+        [Fact]
+        public void Create_ShouldReturnFailure_WhenEmailHasConsecutiveDots()
         {
             // Arrange
-            var email = "invalidemail@com";
+            var email = "test..email@example.com";
 
             // Act
             var result = Email.Create(email);
+
+            // Assert
+            Assert.False(result.IsSuccess);
+            Assert.Equal(EmailErrors.InvalidEmailFormat, result.Error);
+        }
+
+        [Theory]
+        [InlineData("plainaddress")]
+        [InlineData("@missingusername.com")]
+        [InlineData("username@.com")]
+        [InlineData("username@domain..com")]
+        public void Create_ShouldReturnFailure_ForVariousInvalidEmails(string invalidEmail)
+        {
+            // Act
+            var result = Email.Create(invalidEmail);
 
             // Assert
             Assert.False(result.IsSuccess);
@@ -60,21 +99,6 @@ namespace CleanArchitecture.Template.Domain.Tests.Users.ValueObjects
             // Assert
             Assert.True(result.IsSuccess);
             Assert.Equal(validEmail, result.Value.Value);
-        }
-
-        [Theory]
-        [InlineData("plainaddress")]
-        [InlineData("@missingusername.com")]
-        [InlineData("username@.com")]
-        [InlineData("username@domain..com")]
-        public void Create_ShouldReturnFailure_ForVariousInvalidEmails(string invalidEmail)
-        {
-            // Act
-            var result = Email.Create(invalidEmail);
-
-            // Assert
-            Assert.False(result.IsSuccess);
-            Assert.Equal(EmailErrors.InvalidEmailFormat, result.Error);
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿namespace CleanArchitecture.Template.Application.Users.Query.GetById.DTOs
+﻿namespace CleanArchitecture.Template.Application.Users.Queries.GetCurrentUser.DTOs
 {
-    public record GetUserByIdResponse(
+    public record GetCurrentUserResponse(
         Guid Id,
         string Username,
         string Email,
@@ -12,4 +12,5 @@
         public IEnumerable<string> Roles { get; set; } = [];
         public IEnumerable<string> Permissions { get; set; } = [];
     }
+
 }

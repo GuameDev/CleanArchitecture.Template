@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace CleanArchitecture.Template.Application.Users.Query.GetById
+namespace CleanArchitecture.Template.Application.Users.Queries.GetById
 {
     public class GetUserByIdQueryValidator : AbstractValidator<GetUserByIdQuery>
     {

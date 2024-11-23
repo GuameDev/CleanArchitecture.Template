@@ -2,7 +2,7 @@
 using CleanArchitecture.Template.Application.Tests.Base;
 using CleanArchitecture.Template.Application.WeatherForecasts.Queries.GetAll;
 using CleanArchitecture.Template.Application.WeatherForecasts.Queries.GetAll.DTOs;
-using CleanArchitecture.Template.Application.WeatherForecasts.Repository;
+using CleanArchitecture.Template.Application.WeatherForecasts.Repositories;
 using Moq;
 
 namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Queries

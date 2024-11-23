@@ -2,7 +2,7 @@
 using CleanArchitecture.Template.Application.Tests.Base;
 using CleanArchitecture.Template.Application.WeatherForecasts.Queries.Get;
 using CleanArchitecture.Template.Application.WeatherForecasts.Queries.Get.DTOs;
-using CleanArchitecture.Template.Application.WeatherForecasts.Repository;
+using CleanArchitecture.Template.Application.WeatherForecasts.Repositories;
 using CleanArchitecture.Template.Application.WeatherForecasts.Specifications;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Enums;
 using Moq;

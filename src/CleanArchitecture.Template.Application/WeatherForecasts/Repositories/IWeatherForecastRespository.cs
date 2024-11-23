@@ -3,7 +3,7 @@ using CleanArchitecture.Template.Application.WeatherForecasts.Queries.GetAll.DTO
 using CleanArchitecture.Template.Application.WeatherForecasts.Queries.GetById.DTOs;
 using CleanArchitecture.Template.SharedKernel.Specification;
 
-namespace CleanArchitecture.Template.Application.WeatherForecasts.Repository
+namespace CleanArchitecture.Template.Application.WeatherForecasts.Repositories
 {
     public interface IWeatherForecastRepository
     {

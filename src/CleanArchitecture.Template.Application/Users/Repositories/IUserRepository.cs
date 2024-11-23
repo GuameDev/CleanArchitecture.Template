@@ -1,7 +1,7 @@
 ﻿using CleanArchitecture.Template.Domain.Users;
 using CleanArchitecture.Template.SharedKernel.Specification;
 
-namespace CleanArchitecture.Template.Application.Users.Repository
+namespace CleanArchitecture.Template.Application.Users.Repositories
 {
     //TODO: implement criteria/specification pattern like:
     //- GetUser(Criteria criteria)

@@ -1,6 +1,6 @@
 ﻿using CleanArchitecture.Template.Application.Base.UnitOfWork;
 using CleanArchitecture.Template.Application.Users.Commands.RegisterUser.DTOs;
-using CleanArchitecture.Template.Application.Users.Repository;
+using CleanArchitecture.Template.Application.Users.Repositories;
 using CleanArchitecture.Template.Application.Users.Services.Authentication;
 using CleanArchitecture.Template.Domain.Users;
 using CleanArchitecture.Template.Domain.Users.Aggregates.Roles;

@@ -1,6 +1,6 @@
 ﻿using CleanArchitecture.Template.Application.Base.UnitOfWork;
 using CleanArchitecture.Template.Application.Users.Commands.RefreshTokens.DTO;
-using CleanArchitecture.Template.Application.Users.Repository;
+using CleanArchitecture.Template.Application.Users.Repositories;
 using CleanArchitecture.Template.Application.Users.Services.Authentication;
 using CleanArchitecture.Template.Domain.Users.Aggregates.RefreshTokens;
 using CleanArchitecture.Template.Domain.Users.Aggregates.RefreshTokens.Specifications;
