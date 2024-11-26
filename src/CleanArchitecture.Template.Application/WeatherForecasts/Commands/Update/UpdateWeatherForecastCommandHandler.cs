@@ -28,7 +28,7 @@ namespace CleanArchitecture.Template.Application.WeatherForecasts.Commands.Updat
 
         public async Task<Result<UpdateWeatherForecastResponse>> Handle(UpdateWeatherForecastCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _weatherForecastRepository.GetByIdAsync(new(request.Id));
+            var entity = await _weatherForecastRepository.GetByIdAsync(request.Id);
 
             if (entity is null)
                 return Result.Failure<UpdateWeatherForecastResponse>(WeatherForecastErrors.NotFound);

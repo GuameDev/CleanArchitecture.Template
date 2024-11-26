@@ -5,9 +5,11 @@ using CleanArchitecture.Template.SharedKernel.Results;
 namespace CleanArchitecture.Template.Domain.Users.Aggregates.Roles;
 public class Role : Entity
 {
+    //Relational Properties
     private readonly List<Permission> _permissions = new List<Permission>();
     public IReadOnlyCollection<Permission> Permissions => _permissions.AsReadOnly();
-    public Guid Id { get; private set; }
+
+    //Properties
     public RoleName RoleName { get; private set; }
 
     private Role() { }

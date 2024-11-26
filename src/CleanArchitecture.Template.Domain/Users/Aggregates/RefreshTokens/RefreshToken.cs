@@ -5,7 +5,6 @@ namespace CleanArchitecture.Template.Domain.Users.Aggregates.RefreshTokens
 {
     public class RefreshToken : Entity
     {
-        public int Id { get; set; }
         public required string Token { get; set; }
         public required DateTime ExpirationDate { get; set; }
         public DateTime? LastUsed { get; set; }

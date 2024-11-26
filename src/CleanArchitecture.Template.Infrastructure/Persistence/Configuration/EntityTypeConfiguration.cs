@@ -10,13 +10,16 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration
         public virtual void Configure(EntityTypeBuilder<TEntity> builder)
         {
             // Base configuration for all entities inheriting from BaseEntity
-            builder.Property(e => e.CreatedDate)
+            builder
+                .HasKey(entity => entity.Id);
+
+            builder.Property(entity => entity.CreatedDate)
                 .IsRequired();
 
-            builder.Property(e => e.UpdatedDate)
+            builder.Property(entity => entity.UpdatedDate)
                 .IsRequired();
 
-            builder.Property(e => e.RowVersion)
+            builder.Property(entity => entity.RowVersion)
                 .IsRowVersion()
                 .IsConcurrencyToken();
 

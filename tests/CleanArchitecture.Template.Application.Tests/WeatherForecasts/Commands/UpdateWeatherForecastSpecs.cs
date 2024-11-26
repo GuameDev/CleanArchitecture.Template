@@ -3,7 +3,6 @@ using CleanArchitecture.Template.Application.Base.UnitOfWork;
 using CleanArchitecture.Template.Application.Tests.Base;
 using CleanArchitecture.Template.Application.WeatherForecasts.Commands.Update;
 using CleanArchitecture.Template.Application.WeatherForecasts.Commands.Update.DTOs;
-using CleanArchitecture.Template.Application.WeatherForecasts.Queries.GetById.DTOs;
 using CleanArchitecture.Template.Application.WeatherForecasts.Repositories;
 using CleanArchitecture.Template.Domain.WeatherForecasts;
 using CleanArchitecture.Template.Domain.WeatherForecasts.Constants;
@@ -43,7 +42,7 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Commands
                 request.Summary).Value;
 
             _mockWeatherForecastRepository
-                .Setup(repo => repo.GetByIdAsync(It.IsAny<GetWeatherForecastByIdRequest>()))
+                .Setup(repo => repo.GetByIdAsync(It.IsAny<Guid>()))
                 .ReturnsAsync(weatherForecast);
 
             _mockWeatherForecastRepository
@@ -93,7 +92,7 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Commands
                 Summary.Mild);
 
             _mockWeatherForecastRepository
-                .Setup(repo => repo.GetByIdAsync(It.IsAny<GetWeatherForecastByIdRequest>()))
+                .Setup(repo => repo.GetByIdAsync(It.IsAny<Guid>()))
                 .ReturnsAsync((Domain.WeatherForecasts.WeatherForecast?)null);
 
             var handler = new UpdateWeatherForecastHandler(
@@ -130,7 +129,7 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Commands
                 request.Summary).Value;
 
             _mockWeatherForecastRepository
-                .Setup(repo => repo.GetByIdAsync(It.IsAny<GetWeatherForecastByIdRequest>()))
+                .Setup(repo => repo.GetByIdAsync(It.IsAny<Guid>()))
                 .ReturnsAsync(validWeatherForecast);
 
             var handler = new UpdateWeatherForecastHandler(

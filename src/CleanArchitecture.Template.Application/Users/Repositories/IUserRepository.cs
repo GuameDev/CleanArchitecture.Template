@@ -1,5 +1,5 @@
 ﻿using CleanArchitecture.Template.Domain.Users;
-using CleanArchitecture.Template.SharedKernel.Specification;
+using CleanArchitecture.Template.SharedKernel.Repository;
 
 namespace CleanArchitecture.Template.Application.Users.Repositories
 {
@@ -7,11 +7,7 @@ namespace CleanArchitecture.Template.Application.Users.Repositories
     //- GetUser(Criteria criteria)
     //- GetUserList(Criteria criteria)
 
-    public interface IUserRepository
+    public interface IUserRepository : IRepository<User>
     {
-        Task AddAsync(User user);
-        Task<bool> ExistAsync(ISpecification<User> specification);
-        Task<User?> GetBySpecificationAsync(ISpecification<User> specification);
-        Task<IEnumerable<User>> GetListBySpecificationAsync(ISpecification<User> specification);
     }
 }

@@ -1,5 +1,4 @@
 ﻿using CleanArchitecture.Template.Application.Base.UnitOfWork;
-using CleanArchitecture.Template.Application.WeatherForecasts.Queries.GetById.DTOs;
 using CleanArchitecture.Template.Application.WeatherForecasts.Repositories;
 using CleanArchitecture.Template.Domain.WeatherForecasts;
 using CleanArchitecture.Template.SharedKernel.Results;
@@ -22,7 +21,7 @@ namespace CleanArchitecture.Template.Application.WeatherForecasts.Commands.Delet
 
         public async Task<Result> Handle(DeleteWeatherForecastCommand command, CancellationToken cancellationToken)
         {
-            var entity = await _weatherForecastRepository.GetByIdAsync(new GetWeatherForecastByIdRequest(command.Id));
+            var entity = await _weatherForecastRepository.GetByIdAsync(command.Id);
 
             if (entity is null)
                 return Result.Failure(WeatherForecastErrors.NotFound);

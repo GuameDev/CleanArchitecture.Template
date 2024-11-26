@@ -7,6 +7,8 @@ namespace CleanArchitecture.Template.Domain.Base
         private List<DomainEvent> _domainEvents { get; set; } = new List<DomainEvent>();
         public ICollection<DomainEvent> DomainEvents => _domainEvents;
 
+        //All the entities will have a GUID as Id, this could be configurable with making Entity<TId>
+        public Guid Id { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedDate { get; set; } = DateTime.UtcNow;
         public byte[] RowVersion { get; set; }
@@ -14,6 +16,5 @@ namespace CleanArchitecture.Template.Domain.Base
         {
             _domainEvents.Add(domainEvent);
         }
-
     }
 }

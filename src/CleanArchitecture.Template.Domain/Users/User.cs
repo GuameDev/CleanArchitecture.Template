@@ -17,7 +17,6 @@ namespace CleanArchitecture.Template.Domain.Users
 
         private readonly List<RefreshToken> _refreshTokens = new List<RefreshToken>();
         public IReadOnlyCollection<RefreshToken> RefreshTokens => _refreshTokens.AsReadOnly();
-        public required Guid Id { get; init; }
         public required Username Username { get; init; }
         public required Email Email { get; init; }
         public required FullName FullName { get; init; }

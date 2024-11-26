@@ -48,7 +48,7 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Queries
 
             // Mock repository and mapper
             _mockWeatherForecastRepository
-                .Setup(repo => repo.GetByIdAsync(It.IsAny<GetWeatherForecastByIdRequest>()))
+                .Setup(repo => repo.GetByIdAsync(It.IsAny<Guid>()))
                 .ReturnsAsync(entity);
 
             _mockMapper
@@ -68,7 +68,7 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Queries
             Assert.NotNull(result.Value);
             Assert.Equal(entity.Id, result.Value.Id);
             Assert.Equal(mappedResponse.TemperatureCelsius, result.Value.TemperatureCelsius);
-            _mockWeatherForecastRepository.Verify(repo => repo.GetByIdAsync(It.IsAny<GetWeatherForecastByIdRequest>()), Times.Once);
+            _mockWeatherForecastRepository.Verify(repo => repo.GetByIdAsync(It.IsAny<Guid>()), Times.Once);
         }
 
         [Fact]
@@ -78,7 +78,7 @@ namespace CleanArchitecture.Template.Application.Tests.WeatherForecasts.Queries
             var request = new GetWeatherForecastByIdQuery(Guid.NewGuid());
 
             _mockWeatherForecastRepository
-                .Setup(repo => repo.GetByIdAsync(It.IsAny<GetWeatherForecastByIdRequest>()))
+                .Setup(repo => repo.GetByIdAsync(It.IsAny<Guid>()))
                 .ReturnsAsync((Domain.WeatherForecasts.WeatherForecast?)null);
 
             var handler = new GetWeatherForecastByIdHandler(

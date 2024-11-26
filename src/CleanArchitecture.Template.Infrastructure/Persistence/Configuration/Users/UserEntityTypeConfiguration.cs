@@ -68,7 +68,6 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration.Us
                 .HasForeignKey(refreshToken => refreshToken.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-
         }
     }
 }

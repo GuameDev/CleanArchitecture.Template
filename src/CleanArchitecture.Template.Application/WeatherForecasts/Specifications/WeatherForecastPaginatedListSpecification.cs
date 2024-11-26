@@ -6,9 +6,9 @@ using System.Linq.Expressions;
 
 namespace CleanArchitecture.Template.Application.WeatherForecasts.Specifications
 {
-    public class WeatherForecastListSpecification : Specification<Domain.WeatherForecasts.WeatherForecast>
+    public class WeatherForecastPaginatedListSpecification : Specification<Domain.WeatherForecasts.WeatherForecast>
     {
-        public WeatherForecastListSpecification(GetWeatherForecastListQuery query)
+        public WeatherForecastPaginatedListSpecification(GetWeatherForecastListQuery query)
         {
             BuildCriteria(query);
             ApplySorting(GetOrderByExpression(query.OrderBy), query.SortDirection);

@@ -11,7 +11,6 @@ namespace CleanArchitecture.Template.Domain.WeatherForecasts
     public class WeatherForecast : Entity
     {
         //Properties
-        public Guid Id { get; set; }
         public WeatherDate Date { get; private set; }
         public Temperature Temperature { get; private set; }
         public Summary Summary { get; private set; }

@@ -22,8 +22,19 @@ namespace CleanArchitecture.Template.Application.WeatherForecasts.Queries.Get
 
         public async Task<Result<GetWeatherForecastListResponse>> Handle(GetWeatherForecastListQuery query, CancellationToken cancellationToken)
         {
-            var elements = await _weatherForecastRepository.GetListAsync(new WeatherForecastListSpecification(query));
-            return Result.Success(elements);
+            var pagedList = await _weatherForecastRepository
+                .GetPaginatedListBySpecificationAsync(
+                new WeatherForecastPaginatedListSpecification(query),
+                wf => new GetWeatherForecastListItemResponse()
+                {
+                    Id = wf.Id,
+                    Date = wf.Date.Value,
+                    Summary = wf.Summary.ToString(),
+                    TemperatureCelsius = wf.Temperature.ToCelsius(),
+                    TemperatureFahrenheit = wf.Temperature.ToFahrenheit(),
+                });
+
+            return Result.Success(new GetWeatherForecastListResponse() { PagedList = pagedList });
         }
     }
 }

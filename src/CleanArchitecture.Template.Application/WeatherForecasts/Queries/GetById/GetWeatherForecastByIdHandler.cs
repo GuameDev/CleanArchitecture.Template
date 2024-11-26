@@ -26,7 +26,7 @@ namespace CleanArchitecture.Template.Application.WeatherForecasts.Queries.GetByI
 
         public async Task<Result<GetWeatherForecastByIdResponse>> Handle(GetWeatherForecastByIdQuery query, CancellationToken cancellationToken)
         {
-            var entity = await _weatherForecastRepository.GetByIdAsync(new GetWeatherForecastByIdRequest(query.Id));
+            var entity = await _weatherForecastRepository.GetByIdAsync(query.Id);
 
             if (entity == null)
                 return Result.Failure<GetWeatherForecastByIdResponse>(WeatherForecastErrors.NotFound);

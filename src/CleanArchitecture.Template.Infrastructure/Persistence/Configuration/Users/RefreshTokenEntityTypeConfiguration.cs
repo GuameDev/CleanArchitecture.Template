@@ -13,7 +13,6 @@ namespace CleanArchitecture.Template.Infrastructure.Persistence.Configuration.Us
 
             builder.ToTable(UserConstantsEntityTypeConfiguration.RefreshTokenTableName);
 
-            builder.HasKey(rt => rt.Id);
             builder.Property(rt => rt.Id)
                 .ValueGeneratedOnAdd();
 
